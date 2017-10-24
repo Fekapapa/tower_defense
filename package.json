@@ -1,0 +1,22 @@
+{
+  "name": "tower_defense",
+  "version": "1.0.0",
+  "description": "This is an Experimental HTML5 tower defense game clone.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fekapapa/tower_defense.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fekapapa/tower_defense/issues"
+  },
+  "homepage": "https://github.com/Fekapapa/tower_defense#readme",
+  "dependencies": {
+    "redux": "^3.7.2"
+  }
+}
