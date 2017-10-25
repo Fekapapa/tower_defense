@@ -13,14 +13,76 @@ a {
   background-repeat: no-repeat;
   background-size: cover;
   height: 600px;
-  margin: 100px auto 0 auto;
+  margin: auto;
   width: 800px;
 }
 
 .menu-play-button {
   height: 65px;
-  margin-left: calc(400px - 65px);
+  margin-left: 335px;
   position: absolute;
   margin-top: 465px;
   width: 130px;
+}
+
+.menu-play-button:hover {
+  background-image: url(../assets/image/menu/main_menu_play_hover.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 65px;
+  margin-left: 335px;
+  position: absolute;
+  margin-top: 463px;
+  width: 130px;
+}
+
+.main-menu-background {
+  background-image: url(../assets/image/menu/main_menu_background.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 600px;
+  margin: auto;
+  width: 800px;
+}
+
+.main-menu-start-button {
+  height: 89px;
+  margin-left: 298px;
+  position: absolute;
+  margin-top: 382px;
+  width: 195px;
+}
+
+.main-menu-start-button:hover {
+  background-image: url(../assets/image/menu/main_menu_start_hover.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 89px;
+  margin-left: 298px;
+  position: absolute;
+  margin-top: 382px;
+  width: 195px;
+}
+
+.main-menu-credits-button {
+  height: 65px;
+  margin-left: 315px;
+  position: absolute;
+  margin-top: 487px;
+  width: 164px;
+}
+
+.main-menu-credits-button:hover {
+  background-image: url(../assets/image/menu/main_menu_credits_hover.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 65px;
+  margin-left: 315px;
+  position: absolute;
+  margin-top: 487px;
+  width: 164px;
 }
