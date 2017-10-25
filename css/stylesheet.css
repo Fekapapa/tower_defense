@@ -1,5 +1,24 @@
-body {
-  font: 100% Helvetica, sans-serif;
-  color: blue; }
+* {
+  margin: 0;
+  padding: 0; }
+
+a {
+  text-decoration: none; }
+
+.menu-landing-background {
+  background-image: url(../assets/image/menu/landing_background.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 600px;
+  margin: 100px auto 0 auto;
+  width: 800px; }
+
+.menu-play-button {
+  height: 65px;
+  margin-left: calc(400px - 65px);
+  position: absolute;
+  margin-top: 465px;
+  width: 130px; }
 
 /*# sourceMappingURL=stylesheet.css.map */
