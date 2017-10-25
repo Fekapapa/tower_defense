@@ -5,8 +5,8 @@
 a {
   text-decoration: none; }
 
-.menu-landing-background {
-  background-image: url(../assets/image/menu/landing_background.png);
+.pre-menu-background {
+  background-image: url(../assets/image/menu/pre_menu_background.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -14,23 +14,40 @@ a {
   margin: auto;
   width: 800px; }
 
-.menu-play-button {
-  height: 65px;
-  margin-left: 335px;
+.pre-menu-ironhide-button {
+  cursor: pointer;
+  height: 150px;
+  margin-left: 81px;
   position: absolute;
-  margin-top: 465px;
-  width: 130px; }
+  margin-top: 225px;
+  width: 133px; }
 
-.menu-play-button:hover {
-  background-image: url(../assets/image/menu/main_menu_play_hover.png);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+.pre-menu-armorgames-button {
+  cursor: pointer;
+  height: 150px;
+  margin-left: 592px;
+  position: absolute;
+  margin-top: 220px;
+  width: 147px; }
+
+.pre-menu-playonmobile-button {
+  height: 252px;
+  margin-left: 250px;
+  position: absolute;
+  margin-top: 204px;
+  width: 301px; }
+
+.pre-menu-play-button {
   height: 65px;
   margin-left: 335px;
   position: absolute;
   margin-top: 463px;
   width: 130px; }
+  .pre-menu-play-button:hover {
+    background-image: url(../assets/image/menu/main_menu_play_hover.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; }
 
 .main-menu-background {
   background-image: url(../assets/image/menu/main_menu_background.png);
@@ -47,17 +64,11 @@ a {
   position: absolute;
   margin-top: 382px;
   width: 195px; }
-
-.main-menu-start-button:hover {
-  background-image: url(../assets/image/menu/main_menu_start_hover.png);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 89px;
-  margin-left: 298px;
-  position: absolute;
-  margin-top: 382px;
-  width: 195px; }
+  .main-menu-start-button:hover {
+    background-image: url(../assets/image/menu/main_menu_start_hover.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; }
 
 .main-menu-credits-button {
   height: 65px;
@@ -65,16 +76,112 @@ a {
   position: absolute;
   margin-top: 487px;
   width: 164px; }
+  .main-menu-credits-button:hover {
+    background-image: url(../assets/image/menu/main_menu_credits_hover.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; }
 
-.main-menu-credits-button:hover {
-  background-image: url(../assets/image/menu/main_menu_credits_hover.png);
+.main-menu-playonmobile-button {
+  height: 156px;
+  margin-left: 598px;
+  position: absolute;
+  margin-top: 4px;
+  width: 192px; }
+  .main-menu-playonmobile-button:hover {
+    background-image: url(../assets/image/menu/main_menu_playonmobile_hover.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; }
+
+.main-menu-twitter-button {
+  height: 44px;
+  margin-left: 8px;
+  position: absolute;
+  margin-top: 89px;
+  width: 45px; }
+  .main-menu-twitter-button:hover {
+    background-image: url(../assets/image/menu/main_menu_twitter_hover.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; }
+
+.main-menu-facebook-button {
+  height: 46px;
+  margin-left: 8px;
+  position: absolute;
+  margin-top: 43px;
+  width: 46px; }
+  .main-menu-facebook-button:hover {
+    background-image: url(../assets/image/menu/main_menu_facebook_hover.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; }
+
+.main-menu-music-button {
+  cursor: pointer;
+  height: 29px;
+  margin-left: 44px;
+  position: absolute;
+  margin-top: 8px;
+  width: 28px; }
+  .main-menu-music-button:hover {
+    background-image: url(../assets/image/menu/main_menu_music_hover.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; }
+
+.main-menu-sound-button {
+  cursor: pointer;
+  height: 29px;
+  margin-left: 8px;
+  position: absolute;
+  margin-top: 8px;
+  width: 31px; }
+  .main-menu-sound-button:hover {
+    background-image: url(../assets/image/menu/main_menu_sound_hover.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; }
+
+.main-menu-music-button-disabled {
+  background-image: url(../assets/image/menu/main_menu_disabled_icon.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 65px;
-  margin-left: 315px;
+  cursor: pointer;
+  height: 12px;
+  margin-left: 17px;
   position: absolute;
-  margin-top: 487px;
-  width: 164px; }
+  margin-top: 13px;
+  width: 13px; }
+
+.main-menu-sound-button-disabled {
+  background-image: url(../assets/image/menu/main_menu_disabled_icon.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+  height: 12px;
+  margin-left: 17px;
+  position: absolute;
+  margin-top: 13px;
+  width: 13px; }
+
+.main-menu-ironhide-button {
+  cursor: pointer;
+  height: 85px;
+  margin-left: 41px;
+  position: absolute;
+  margin-top: 481px;
+  width: 125px; }
+
+.main-menu-armorgames-button {
+  cursor: pointer;
+  height: 95px;
+  margin-left: 631px;
+  position: absolute;
+  margin-top: 479px;
+  width: 120px; }
 
 /*# sourceMappingURL=stylesheet.css.map */
