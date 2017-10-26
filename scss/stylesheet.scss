@@ -68,6 +68,7 @@ body {
 .main-menu-container {
   height: 600px;
   margin: auto;
+  overflow: hidden;
   width: 800px;
 }
 
@@ -210,7 +211,6 @@ body {
   cursor: pointer;
   height: 12px;
   margin-left: 17px;
-  position: absolute;
   margin-top: 13px;
   width: 13px;
 }
@@ -223,7 +223,6 @@ body {
   cursor: pointer;
   height: 12px;
   margin-left: 17px;
-  position: absolute;
   margin-top: 13px;
   width: 13px;
 }
@@ -249,7 +248,7 @@ body {
 // <--- Credits style starts here --->
 
 .credits-preloader-background {
-  background-image: url(../assets/image/menu/main_menu_background.png);
+  animation: credits-preloader-background 0.6s forwards;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -259,8 +258,15 @@ body {
   width: 800px;
 }
 
+@keyframes credits-preloader-background {
+  0% {background-image: url(../assets/image/menu/main_menu_background.png);}
+  84% {background-image: url(../assets/image/menu/main_menu_background.png);}
+  85% {background-image: url(../assets/image/menu/credits.png);}
+  100% {background-image: url(../assets/image/menu/credits.png);}
+}
+
 .credits-preloader-leftside {
-  animation: Preloader-left 1s forwards;
+  animation: credits-preloader-leftside 1s forwards;
   background-image: url(../assets/image/menu/preloader-left.png);
   background-position: center;
   background-repeat: no-repeat;
@@ -271,7 +277,7 @@ body {
   width: 400px;
 }
 
-@keyframes Preloader-left {
+@keyframes credits-preloader-leftside {
   0% {margin-left: -400px;}
   30% {margin-left: 0;}
   35% {margin-left: -10px;}
@@ -283,7 +289,7 @@ body {
 }
 
 .credits-preloader-rightside {
-  animation: Preloader-right 1s forwards;
+  animation: credits-preloader-rightside 1s forwards;
   background-image: url(../assets/image/menu/preloader-right.png);
   background-position: center;
   background-repeat: no-repeat;
@@ -295,7 +301,7 @@ body {
   width: 400px;
 }
 
-@keyframes Preloader-right {
+@keyframes credits-preloader-rightside {
   0% {margin-left: 796px;}
   30% {margin-left: -4px;}
   35% {margin-left: 16px;}
@@ -306,7 +312,7 @@ body {
   100% {margin-left: 796px;}
 }
 
-.credits-container {
+.credits-main-container {
   height: 600px;
   margin: auto;
   overflow: hidden;
@@ -316,4 +322,38 @@ body {
 .credits-preloader-container {
   margin-top: -604px;
   width: 1700px;
+}
+
+.credits-back-button {
+  cursor: pointer;
+  height: 123px;
+  margin-left: 5px;
+  position: absolute;
+  margin-top: 477px;
+  width: 135px;
+  &:hover {
+    background-image: url(../assets/image/menu/credits_back_hover.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}
+
+// <---Main-menu-from-credits style starts here --->
+
+.main-menu-from-credits-background {
+  animation: main-menu-from-credits-preloader-background 0.6s forwards;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 600px;
+  margin: auto;
+  width: 800px;
+}
+
+@keyframes main-menu-from-credits-preloader-background {
+  0% {background-image: url(../assets/image/menu/credits.png);}
+  84% {background-image: url(../assets/image/menu/credits.png);}
+  85% {background-image: url(../assets/image/menu/main_menu_background.png);}
+  100% {background-image: url(../assets/image/menu/main_menu_background.png);}
 }
