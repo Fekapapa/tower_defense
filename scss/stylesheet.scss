@@ -7,6 +7,8 @@ a {
     text-decoration: none;
 }
 
+// <--- Pre-menu style starts here --->
+
 .pre-menu-background {
   background-image: url(../assets/image/menu/pre_menu_background.png);
   background-position: center;
@@ -57,14 +59,43 @@ a {
   }
 }
 
+// <--- Main menu style starts here --->
+
+.main-menu-container {
+  height: 600px;
+  margin: auto;
+  width: 800px;
+}
+
+.main-menu-opening {
+  background-image: url(../assets/image/gif/main_menu_loaded_animation.gif);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 598px;
+  margin-left: 2px;
+  margin-top: -600px;
+  position: absolute;
+  width: 794px;
+  z-index: -1;
+}
+
 .main-menu-background {
+  animation: Fadein 1.8s forwards;
   background-image: url(../assets/image/menu/main_menu_background.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   height: 600px;
   margin: auto;
+  opacity: 0;
   width: 800px;
+}
+
+@keyframes Fadein {
+    0%   {opacity: 0;}
+    90%  {opacity: 0;}
+    100% {opacity: 1;}
 }
 
 .main-menu-start-button {
@@ -209,14 +240,4 @@ a {
   position: absolute;
   margin-top: 479px;
   width: 120px;
-}
-
-.test {
-  background-image: url(../assets/image/gif/main_menu_loaded_animation3.gif);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 598px;
-  margin: auto;
-  width: 794px;
 }
