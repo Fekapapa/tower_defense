@@ -5,6 +5,10 @@
 a {
   text-decoration: none; }
 
+body {
+  max-width: 100vw;
+  overflow: hidden; }
+
 .pre-menu-background {
   background-image: url(../assets/image/menu/pre_menu_background.png);
   background-position: center;
@@ -67,7 +71,7 @@ a {
   z-index: -1; }
 
 .main-menu-background {
-  animation: Fadein 1.8s forwards;
+  animation: Fadein 1.9s forwards;
   background-image: url(../assets/image/menu/main_menu_background.png);
   background-position: center;
   background-repeat: no-repeat;
@@ -209,5 +213,82 @@ a {
   position: absolute;
   margin-top: 479px;
   width: 120px; }
+
+.credits-preloader-background {
+  background-image: url(../assets/image/menu/main_menu_background.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: inline-block;
+  height: 600px;
+  margin: auto;
+  width: 800px; }
+
+.credits-preloader-leftside {
+  animation: Preloader-left 1s forwards;
+  background-image: url(../assets/image/menu/preloader-left.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: inline-block;
+  height: 600px;
+  margin-left: -400px;
+  width: 400px; }
+
+@keyframes Preloader-left {
+  0% {
+    margin-left: -400px; }
+  30% {
+    margin-left: 0; }
+  35% {
+    margin-left: -10px; }
+  40% {
+    margin-left: 0; }
+  45% {
+    margin-left: -5px; }
+  50% {
+    margin-left: 0; }
+  70% {
+    margin-left: 0; }
+  100% {
+    margin-left: -400px; } }
+.credits-preloader-rightside {
+  animation: Preloader-right 1s forwards;
+  background-image: url(../assets/image/menu/preloader-right.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: inline-block;
+  height: 600px;
+  margin-left: 796px;
+  top: 0;
+  width: 400px; }
+
+@keyframes Preloader-right {
+  0% {
+    margin-left: 796px; }
+  30% {
+    margin-left: -4px; }
+  35% {
+    margin-left: 16px; }
+  40% {
+    margin-left: -4px; }
+  45% {
+    margin-left: 6px; }
+  50% {
+    margin-left: -4px; }
+  70% {
+    margin-left: -4px; }
+  100% {
+    margin-left: 796px; } }
+.credits-container {
+  height: 600px;
+  margin: auto;
+  overflow: hidden;
+  width: 800px; }
+
+.credits-preloader-container {
+  margin-top: -604px;
+  width: 1700px; }
 
 /*# sourceMappingURL=stylesheet.css.map */
