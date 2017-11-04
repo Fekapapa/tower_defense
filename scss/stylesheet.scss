@@ -11,6 +11,18 @@ body {
   max-width: 100vw;
   overflow: hidden;
 }
+
+.landing_page_body {
+  max-width: 100vw;
+  overflow: hidden;
+  text-align: center;
+}
+
+#gameFrame {
+  border: none;
+  position: relative;
+}
+
 // <--- Pre-menu style starts here --->
 
 .pre-menu-background {
