@@ -14,9 +14,12 @@ body {
   overflow: hidden;
   text-align: center; }
 
-#gameFrame {
+#game-frame {
   border: none;
   position: relative; }
+
+.hidden {
+  visibility: hidden; }
 
 .pre-menu-background {
   background-image: url(../assets/image/menu/pre_menu_background.png);
@@ -208,7 +211,6 @@ body {
     background-size: cover; }
 
 .main-menu-music-button-disabled {
-  animation: main-menu-music-button-disabled 0.6s forwards;
   background-image: url(../assets/image/menu/main_menu_disabled_icon.png);
   background-position: center;
   background-repeat: no-repeat;
@@ -220,15 +222,7 @@ body {
   width: 13px;
   z-index: 1; }
 
-@keyframes main-menu-music-button-disabled {
-  0% {
-    opacity: 0; }
-  99% {
-    opacity: 0; }
-  100% {
-    opacity: 1; } }
 .main-menu-sound-button-disabled {
-  animation: main-menu-music-button-disabled 0.6s forwards;
   background-image: url(../assets/image/menu/main_menu_disabled_icon.png);
   background-position: center;
   background-repeat: no-repeat;
