@@ -26,6 +26,7 @@ body {
 .hidden {
   visibility: hidden;
 }
+
 // <--- Pre-menu style starts here --->
 
 .pre-menu-background {
@@ -479,4 +480,17 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
   }
+}
+
+.main-menu-from-loadsaved-preloader-background {
+  background-image: url(../assets/image/menu/main_menu_background.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: inline-block;
+  height: 600px;
+  margin: auto;
+  position: relative;
+  width: 800px;
+  z-index: 1;
 }
