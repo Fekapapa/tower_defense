@@ -8,9 +8,16 @@
   </head>
   <body class="landing_page_body">
     <audio id="main-audio-music" loop src="../assets/sound/KRO_main_menu.mp3" type="audio/mpeg"></audio>
-    <iframe id="game-frame" src="html/pre_menu.html" title="gameFrame" width="800" height="600" scrolling="no">
-      <p>Your browser does not support iframes.</p>
-    </iframe>
+    <div class="main-container">
+      <iframe id="game-frame" src="html/pre_menu.html" title="gameFrame" width="800" height="600" scrolling="no">
+        <p>Your browser does not support iframes.</p>
+      </iframe>
+      <div id="preloader-fake-backgroundid" class="preloader-fake-background hidden"></div>
+      <div id="preloader-containerid" class="preloader-container hidden">
+        <div id="preloader-leftsideid" class="preloader-leftside"></div>
+        <div id="preloader-rightsideid" class="preloader-rightside"></div>
+      </div>
+    </div>
   </body>
   <script src="javascript/action_types.js"></script>
   <script src="javascript/menu_controller.js"></script>

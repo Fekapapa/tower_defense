@@ -9,23 +9,125 @@ body {
   max-width: 100vw;
   overflow: hidden; }
 
+.preloader-fake-background {
+  height: 600px;
+  margin: auto;
+  overflow: hidden;
+  position: absolute;
+  top: 0px;
+  width: 800px;
+  z-index: -1; }
+
+.preloader-fake-background-premenu {
+  background-image: url(../assets/image/menu/pre_menu_background.png);
+  background: no-repeat cover center; }
+
+.preloader-fake-background-mainmenu {
+  background-image: url(../assets/image/menu/main_menu_background.png);
+  background: no-repeat cover center; }
+
+.preloader-fake-background-creditsmenu {
+  background-image: url(../assets/image/menu/credits_background.png);
+  background: no-repeat cover center; }
+
+.preloader-leftside {
+  animation: preloader-leftside 1s forwards;
+  background-image: url(../assets/image/menu/preloader-left.png);
+  background: no-repeat cover center;
+  display: inline-block;
+  height: 600px;
+  transform: translateX(-668px);
+  width: 400px;
+  z-index: 20; }
+
+@keyframes preloader-leftside {
+  0% {
+    transform: translateX(-668px); }
+  30% {
+    transform: translateX(-268px); }
+  35% {
+    transform: translateX(-288px); }
+  40% {
+    transform: translateX(-268px); }
+  45% {
+    transform: translateX(-278px); }
+  50% {
+    transform: translateX(-268px); }
+  70% {
+    transform: translateX(-268px); }
+  100% {
+    transform: translateX(-668px); } }
+.preloader-rightside {
+  animation: preloader-rightside 1s forwards;
+  background-image: url(../assets/image/menu/preloader-right.png);
+  background: no-repeat cover center;
+  display: inline-block;
+  height: 600px;
+  top: 0;
+  transform: translateX(128px);
+  width: 400px;
+  z-index: 20; }
+
+@keyframes preloader-rightside {
+  0% {
+    transform: translateX(128px); }
+  30% {
+    transform: translateX(-272px); }
+  35% {
+    transform: translateX(-252px); }
+  40% {
+    transform: translateX(-272px); }
+  45% {
+    transform: translateX(-262px); }
+  50% {
+    transform: translateX(-272px); }
+  70% {
+    transform: translateX(-272px); }
+  100% {
+    transform: translateX(128px); } }
+.credits-main-container {
+  height: 600px;
+  margin: auto;
+  overflow: hidden;
+  width: 800px; }
+
+.preloader-container {
+  animation: preloader-container 1s forwards;
+  margin: auto;
+  margin-left: -180px;
+  margin-top: -604px;
+  width: 1700px;
+  z-index: 20; }
+
+@keyframes preloader-container {
+  0% {
+    z-index: 20; }
+  99% {
+    z-index: 20; }
+  100% {
+    z-index: -1; } }
 .landing_page_body {
   max-width: 100vw;
   overflow: hidden;
   text-align: center; }
 
+.main-container {
+  margin: auto;
+  overflow: hidden;
+  width: 800px; }
+
 #game-frame {
   border: none;
-  position: relative; }
+  position: relative;
+  z-index: 0; }
 
 .hidden {
-  visibility: hidden; }
+  visibility: hidden;
+  z-index: -1; }
 
 .pre-menu-background {
   background-image: url(../assets/image/menu/pre_menu_background.png);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: no-repeat cover center;
   height: 600px;
   margin: auto;
   width: 800px; }
@@ -61,63 +163,11 @@ body {
   width: 130px; }
   .pre-menu-play-button:hover {
     background-image: url(../assets/image/menu/main_menu_play_hover.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover; }
+    background: no-repeat cover center; }
 
-.main-menu-preloader-background {
-  animation: main-menu-preloader-background 0.6s forwards;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  display: inline-block;
-  height: 600px;
-  margin: auto;
-  position: relative;
-  width: 800px;
-  z-index: 10; }
-
-@keyframes main-menu-preloader-background {
-  0% {
-    background-image: url(../assets/image/menu/pre_menu_background.png); }
-  84% {
-    background-image: url(../assets/image/menu/pre_menu_background.png); }
-  85% {
-    background-image: url(../assets/image/menu/main_menu_background.png); }
-  100% {
-    background-image: url(../assets/image/menu/main_menu_background.png); } }
-.main-menu-from-credits-preloader-background {
-  animation: main-menu-from-credits-preloader-background 0.6s forwards;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  display: inline-block;
-  height: 600px;
-  margin: auto;
-  position: relative;
-  width: 800px;
-  z-index: 1; }
-
-@keyframes main-menu-from-credits-preloader-background {
-  0% {
-    background-image: url(../assets/image/menu/credits.png); }
-  84% {
-    background-image: url(../assets/image/menu/credits.png); }
-  85% {
-    background-image: url(../assets/image/menu/main_menu_background.png); }
-  100% {
-    background-image: url(../assets/image/menu/main_menu_background.png); } }
 .main-menu-container {
-  height: 600px;
-  margin: auto;
-  overflow: hidden;
-  width: 800px; }
-
-.main-menu-background {
   background-image: url(../assets/image/menu/main_menu_background.png);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: no-repeat cover center;
   height: 600px;
   margin: auto;
   width: 800px; }
@@ -130,9 +180,7 @@ body {
   width: 195px; }
   .main-menu-start-button:hover {
     background-image: url(../assets/image/menu/main_menu_start_hover.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover; }
+    background: no-repeat cover center; }
 
 .main-menu-credits-button {
   height: 65px;
@@ -142,9 +190,7 @@ body {
   width: 164px; }
   .main-menu-credits-button:hover {
     background-image: url(../assets/image/menu/main_menu_credits_hover.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover; }
+    background: no-repeat cover center; }
 
 .main-menu-playonmobile-button {
   height: 156px;
@@ -154,9 +200,7 @@ body {
   width: 192px; }
   .main-menu-playonmobile-button:hover {
     background-image: url(../assets/image/menu/main_menu_playonmobile_hover.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover; }
+    background: no-repeat cover center; }
 
 .main-menu-twitter-button {
   height: 44px;
@@ -166,9 +210,7 @@ body {
   width: 45px; }
   .main-menu-twitter-button:hover {
     background-image: url(../assets/image/menu/main_menu_twitter_hover.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover; }
+    background: no-repeat cover center; }
 
 .main-menu-facebook-button {
   height: 46px;
@@ -178,9 +220,7 @@ body {
   width: 46px; }
   .main-menu-facebook-button:hover {
     background-image: url(../assets/image/menu/main_menu_facebook_hover.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover; }
+    background: no-repeat cover center; }
 
 .main-menu-music-button {
   cursor: pointer;
@@ -192,9 +232,7 @@ body {
   z-index: 1; }
   .main-menu-music-button:hover {
     background-image: url(../assets/image/menu/main_menu_music_hover.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover; }
+    background: no-repeat cover center; }
 
 .main-menu-sound-button {
   cursor: pointer;
@@ -206,15 +244,11 @@ body {
   z-index: 1; }
   .main-menu-sound-button:hover {
     background-image: url(../assets/image/menu/main_menu_sound_hover.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover; }
+    background: no-repeat cover center; }
 
-.main-menu-music-button-disabled {
+.main-menu-music-button-disabled, .load-saved-menu-music-button-disabled {
   background-image: url(../assets/image/menu/main_menu_disabled_icon.png);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: no-repeat cover center;
   cursor: pointer;
   height: 12px;
   margin-left: 17px;
@@ -222,11 +256,9 @@ body {
   width: 13px;
   z-index: 1; }
 
-.main-menu-sound-button-disabled {
+.main-menu-sound-button-disabled, .load-saved-menu-sound-button-disabled {
   background-image: url(../assets/image/menu/main_menu_disabled_icon.png);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: no-repeat cover center;
   cursor: pointer;
   height: 12px;
   margin-left: 17px;
@@ -250,103 +282,13 @@ body {
   margin-top: 479px;
   width: 120px; }
 
-.credits-preloader-background {
-  animation: credits-preloader-background 0.6s forwards;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  display: inline-block;
-  height: 600px;
-  margin: auto;
-  width: 800px; }
-
-@keyframes credits-preloader-background {
-  0% {
-    background-image: url(../assets/image/menu/main_menu_background.png); }
-  84% {
-    background-image: url(../assets/image/menu/main_menu_background.png); }
-  85% {
-    background-image: url(../assets/image/menu/credits.png); }
-  100% {
-    background-image: url(../assets/image/menu/credits.png); } }
-.credits-preloader-leftside {
-  animation: credits-preloader-leftside 1s forwards;
-  background-image: url(../assets/image/menu/preloader-left.png);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  display: inline-block;
-  height: 600px;
-  margin-left: -400px;
-  width: 400px;
-  z-index: 10; }
-
-@keyframes credits-preloader-leftside {
-  0% {
-    margin-left: -400px; }
-  30% {
-    margin-left: 0; }
-  35% {
-    margin-left: -10px; }
-  40% {
-    margin-left: 0; }
-  45% {
-    margin-left: -5px; }
-  50% {
-    margin-left: 0; }
-  70% {
-    margin-left: 0; }
-  100% {
-    margin-left: -400px; } }
-.credits-preloader-rightside {
-  animation: credits-preloader-rightside 1s forwards;
-  background-image: url(../assets/image/menu/preloader-right.png);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  display: inline-block;
-  height: 600px;
-  margin-left: 796px;
-  top: 0;
-  width: 400px;
-  z-index: 10; }
-
-@keyframes credits-preloader-rightside {
-  0% {
-    margin-left: 796px; }
-  30% {
-    margin-left: -4px; }
-  35% {
-    margin-left: 16px; }
-  40% {
-    margin-left: -4px; }
-  45% {
-    margin-left: 6px; }
-  50% {
-    margin-left: -4px; }
-  70% {
-    margin-left: -4px; }
-  100% {
-    margin-left: 796px; } }
 .credits-main-container {
+  background-image: url(../assets/image/menu/credits_background.png);
+  background: no-repeat cover center;
   height: 600px;
   margin: auto;
-  overflow: hidden;
   width: 800px; }
 
-.credits-preloader-container {
-  animation: credits-preloader-container 1s forwards;
-  margin-top: -604px;
-  position: relative;
-  width: 1700px; }
-
-@keyframes credits-preloader-container {
-  0% {
-    z-index: 10; }
-  99% {
-    z-index: 10; }
-  100% {
-    z-index: -1; } }
 .credits-back-button {
   cursor: pointer;
   height: 123px;
@@ -356,33 +298,11 @@ body {
   width: 135px; }
   .credits-back-button:hover {
     background-image: url(../assets/image/menu/credits_back_hover.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover; }
+    background: no-repeat cover center; }
 
-.main-menu-from-credits-background {
-  animation: main-menu-from-credits-preloader-background 0.6s forwards;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 600px;
-  margin: auto;
-  width: 800px; }
-
-@keyframes main-menu-from-credits-preloader-background {
-  0% {
-    background-image: url(../assets/image/menu/credits.png); }
-  84% {
-    background-image: url(../assets/image/menu/credits.png); }
-  85% {
-    background-image: url(../assets/image/menu/main_menu_background.png); }
-  100% {
-    background-image: url(../assets/image/menu/main_menu_background.png); } }
-.load-saved-background {
+.load-saved-container {
   background-image: url(../assets/image/menu/load_saved_background.png);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: no-repeat cover center;
   display: inline-block;
   height: 600px;
   margin: auto;
@@ -393,9 +313,7 @@ body {
   animation: load-saved-menu 0.5s forwards;
   animation-timing-function: ease-in-out;
   background-image: url(../assets/image/menu/load_saved.png);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: no-repeat cover center;
   height: 287px;
   margin-left: 289px;
   position: absolute;
@@ -407,30 +325,6 @@ body {
     margin-top: 600px; }
   100% {
     margin-top: 306px; } }
-.load-saved-menu-music-button-disabled {
-  background-image: url(../assets/image/menu/main_menu_disabled_icon.png);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  cursor: pointer;
-  height: 12px;
-  margin-left: 17px;
-  margin-top: 13px;
-  width: 13px;
-  z-index: 1; }
-
-.load-saved-menu-sound-button-disabled {
-  background-image: url(../assets/image/menu/main_menu_disabled_icon.png);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  cursor: pointer;
-  height: 12px;
-  margin-left: 17px;
-  margin-top: 13px;
-  width: 13px;
-  z-index: 1; }
-
 .load-saved-menu-close-button {
   cursor: pointer;
   height: 23px;
@@ -440,20 +334,6 @@ body {
   width: 160px; }
   .load-saved-menu-close-button:hover {
     background-image: url(../assets/image/menu/load_saved_close_hover.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover; }
-
-.main-menu-from-loadsaved-preloader-background {
-  background-image: url(../assets/image/menu/main_menu_background.png);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  display: inline-block;
-  height: 600px;
-  margin: auto;
-  position: relative;
-  width: 800px;
-  z-index: 1; }
+    background: no-repeat cover center; }
 
 /*# sourceMappingURL=stylesheet.css.map */

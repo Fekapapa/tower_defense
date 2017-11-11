@@ -6,11 +6,16 @@ const MenuLogic = (function() {
   let store = Redux.createStore(reducer);
   let gameFrame;
   let mainMenuMusicButtonDisabledid = false;
+  let iframeid = document.getElementById('game-frame');
+  let preloaderContainerid = document.getElementById('preloader-containerid');
+  let preloaderLeftsideid = document.getElementById('preloader-leftsideid');
+  let preloaderRightsideid = document.getElementById('preloader-rightsideid');
+  let preloaderFakeBackgroundid = document.getElementById('preloader-fake-backgroundid');
 
   store.subscribe(stateExecutor);
 
   function stateExecutor() {
-    renderOnLoad();
+    console.log(store.getState().lastAction)
     renderOnAction();
     mainMusicController();
   }
@@ -19,6 +24,7 @@ const MenuLogic = (function() {
 
     if (typeof state === 'undefined') {
       state = {
+        previousPage: false,
         currentPage: 'PRE_MENU',
         musicStatus: 'OFF',
         currentMusicSource: false,
@@ -222,33 +228,65 @@ const MenuLogic = (function() {
     if (store.getState().musicStatus == 'ON' && mainMenuMusicButtonDisabledid !== false) {
       mainMenuMusicButtonDisabledid.classList.remove('main-menu-music-button-disabled');
     }
-  }
 
-  function renderOnLoad() {
-    if(store.getState().isFrameLoaded) {
+    if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage) {
+
+      // Reload the preloader animation
+      preloaderContainerid.classList.remove('hidden');
+      preloaderLeftsideid.classList.remove('preloader-leftside');
+      preloaderRightsideid.classList.remove('preloader-rightside');
+      preloaderLeftsideid.getBoundingClientRect();
+      preloaderRightsideid.getBoundingClientRect();
+      preloaderLeftsideid.classList.add('preloader-leftside');
+      preloaderRightsideid.classList.add('preloader-rightside');
+
+      // hide the iframe element and display the fake background
+      iframeid.classList.add('hidden');
+      preloaderFakeBackgroundid.classList.remove('hidden');
+
+      if (store.getState().previousPage == 'PRE_MENU' && store.getState().currentPage == 'MAIN_MENU') {
+        preloaderFakeBackgroundid.classList.add('preloader-fake-background-premenu');
+        setTimeout(function(){
+            preloaderFakeBackgroundid.classList.remove('preloader-fake-background-premenu');
+            preloaderFakeBackgroundid.classList.add('preloader-fake-background-mainmenu');
+        }, 600);
+        setTimeout(function(){
+            iframeid.classList.remove('hidden');
+            preloaderFakeBackgroundid.classList.remove('preloader-fake-background-mainmenu');
+            preloaderFakeBackgroundid.classList.add('hidden');
+        }, 1000);
+      }
+
+      if (store.getState().previousPage == 'MAIN_MENU' && store.getState().currentPage == 'CREDITS') {
+        preloaderFakeBackgroundid.classList.add('preloader-fake-background-mainmenu');
+        setTimeout(function(){
+            preloaderFakeBackgroundid.classList.remove('preloader-fake-background-mainmenu');
+            preloaderFakeBackgroundid.classList.add('preloader-fake-background-creditsmenu');
+        }, 600);
+        setTimeout(function(){
+            iframeid.classList.remove('hidden');
+            preloaderFakeBackgroundid.classList.remove('preloader-fake-background-creditsmenu');
+            preloaderFakeBackgroundid.classList.add('hidden');
+        }, 1000);
+      }
+
       if (store.getState().previousPage == 'CREDITS' && store.getState().currentPage == 'MAIN_MENU') {
-        let creditsPreloaderPontainerid = gameFrame.document.getElementById('credits-preloader-containerid');
-        creditsPreloaderPontainerid.classList.remove('hidden');
-
-        let mainMenuPreloaderBackgroundid = gameFrame.document.getElementById('main-menu-preloader-backgroundid');
-        mainMenuPreloaderBackgroundid.classList.remove('main-menu-preloader-background');
-        mainMenuPreloaderBackgroundid.classList.add('main-menu-from-credits-preloader-background');
+        preloaderFakeBackgroundid.classList.add('preloader-fake-background-creditsmenu');
+        setTimeout(function(){
+            preloaderFakeBackgroundid.classList.remove('preloader-fake-background-creditsmenu');
+            preloaderFakeBackgroundid.classList.add('preloader-fake-background-mainmenu');
+        }, 600);
+        setTimeout(function(){
+            iframeid.classList.remove('hidden');
+            preloaderFakeBackgroundid.classList.remove('preloader-fake-background-mainmenu');
+            preloaderFakeBackgroundid.classList.add('hidden');
+        }, 1000);
       }
 
-      if (store.getState().previousPage == 'LOAD_SAVED' && store.getState().currentPage == 'MAIN_MENU') {
-        let mainMenuPreloaderBackgroundid = gameFrame.document.getElementById('main-menu-preloader-backgroundid');
-        mainMenuPreloaderBackgroundid.classList.remove('main-menu-preloader-background');
-        mainMenuPreloaderBackgroundid.classList.add('main-menu-from-loadsaved-preloader-background');
-      }
     }
   }
 
   function mainMusicController() {
-    console.log(store.getState().lastAction)
-    // if (store.getState().currentMusicSource && store.getState().musicStatus == 'ON' && store.getState().previousPage == 'PRE_MENU') {
-    //   mainAudioMusic.setAttribute('src', store.getState().currentMusicSource);
-    //   mainAudioMusic.play();
-    // }
     if (store.getState().currentMusicSource && store.getState().lastAction == MUSIC_ON) {
       mainAudioMusic.setAttribute('src', store.getState().currentMusicSource);
       mainAudioMusic.play();
