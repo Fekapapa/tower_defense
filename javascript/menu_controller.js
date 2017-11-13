@@ -229,7 +229,7 @@ const MenuLogic = (function() {
       mainMenuMusicButtonDisabledid.classList.remove('main-menu-music-button-disabled');
     }
 
-    if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage) {
+    if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage && store.getState().currentPage !== 'LOAD_SAVED') {
 
       // Reload the preloader animation
       preloaderContainerid.classList.remove('hidden');
@@ -248,11 +248,11 @@ const MenuLogic = (function() {
         preloaderFakeBackgroundid.classList.add('preloader-fake-background-premenu');
         setTimeout(function(){
             preloaderFakeBackgroundid.classList.remove('preloader-fake-background-premenu');
-            preloaderFakeBackgroundid.classList.add('preloader-fake-background-mainmenu');
+            preloaderFakeBackgroundid.classList.add('preloader-fake-background-mainmenu-stripped');
         }, 600);
         setTimeout(function(){
             iframeid.classList.remove('hidden');
-            preloaderFakeBackgroundid.classList.remove('preloader-fake-background-mainmenu');
+            preloaderFakeBackgroundid.classList.remove('preloader-fake-background-mainmenu-stripped');
             preloaderFakeBackgroundid.classList.add('hidden');
         }, 1000);
       }
@@ -274,13 +274,21 @@ const MenuLogic = (function() {
         preloaderFakeBackgroundid.classList.add('preloader-fake-background-creditsmenu');
         setTimeout(function(){
             preloaderFakeBackgroundid.classList.remove('preloader-fake-background-creditsmenu');
-            preloaderFakeBackgroundid.classList.add('preloader-fake-background-mainmenu');
+            preloaderFakeBackgroundid.classList.add('preloader-fake-background-mainmenu-stripped');
         }, 600);
         setTimeout(function(){
             iframeid.classList.remove('hidden');
-            preloaderFakeBackgroundid.classList.remove('preloader-fake-background-mainmenu');
+            preloaderFakeBackgroundid.classList.remove('preloader-fake-background-mainmenu-stripped');
             preloaderFakeBackgroundid.classList.add('hidden');
         }, 1000);
+      }
+
+      if (store.getState().previousPage == 'MAIN_MENU' && store.getState().currentPage == 'LOAD_SAVED') {
+        let mainMenuArmorgamesImageid = document.getElementById('main-menu-armorgames-imageid');
+        let mainMenuIronhideImageid = document.getElementById('main-menu-ironhide-imageid');
+        let mainMenuStartImageid = document.getElementById('main-menu-start-imageid');
+        let mainMenuCreditsImageid = document.getElementById('main-menu-credits-imageid');
+
       }
 
     }

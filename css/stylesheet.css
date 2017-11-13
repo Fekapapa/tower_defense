@@ -7,7 +7,10 @@ a {
 
 body {
   max-width: 100vw;
-  overflow: hidden; }
+  overflow-x: hidden; }
+
+.main-title {
+  margin: 20px 0; }
 
 .preloader-fake-background {
   height: 600px;
@@ -23,6 +26,10 @@ body {
   background: no-repeat cover center; }
 
 .preloader-fake-background-mainmenu {
+  background-image: url(../assets/image/menu/main_menu_preloader_background.png);
+  background: no-repeat cover center; }
+
+.preloader-fake-background-mainmenu-stripped {
   background-image: url(../assets/image/menu/main_menu_background.png);
   background: no-repeat cover center; }
 
@@ -108,7 +115,7 @@ body {
     z-index: -1; } }
 .landing_page_body {
   max-width: 100vw;
-  overflow: hidden;
+  overflow-x: hidden;
   text-align: center; }
 
 .main-container {
@@ -173,11 +180,13 @@ body {
   width: 800px; }
 
 .main-menu-start-button {
+  cursor: pointer;
   height: 89px;
   margin-left: 298px;
   position: absolute;
   margin-top: 382px;
-  width: 195px; }
+  width: 195px;
+  z-index: 2; }
   .main-menu-start-button:hover {
     background-image: url(../assets/image/menu/main_menu_start_hover.png);
     background: no-repeat cover center; }
@@ -187,7 +196,8 @@ body {
   margin-left: 315px;
   position: absolute;
   margin-top: 487px;
-  width: 164px; }
+  width: 164px;
+  z-index: 2; }
   .main-menu-credits-button:hover {
     background-image: url(../assets/image/menu/main_menu_credits_hover.png);
     background: no-repeat cover center; }
@@ -272,7 +282,8 @@ body {
   margin-left: 41px;
   position: absolute;
   margin-top: 481px;
-  width: 125px; }
+  width: 125px;
+  z-index: 2; }
 
 .main-menu-armorgames-button {
   cursor: pointer;
@@ -280,7 +291,84 @@ body {
   margin-left: 631px;
   position: absolute;
   margin-top: 479px;
-  width: 120px; }
+  width: 120px;
+  z-index: 2; }
+
+.main-menu-armorgames-image {
+  animation: main-menu-armorgames-image 0.2s forwards;
+  animation-delay: 1s;
+  animation-timing-function: ease-out;
+  background-image: url(../assets/image/menu/main_menu_armor_games.png);
+  background: no-repeat cover center;
+  height: 143px;
+  margin-left: 620px;
+  position: absolute;
+  margin-top: 600px;
+  width: 154px; }
+
+@keyframes main-menu-armorgames-image {
+  0% {
+    transform: translateY(0); }
+  100% {
+    transform: translateY(-143px); } }
+.main-menu-ironhide-image {
+  animation: main-menu-ironhide-image 0.2s forwards;
+  animation-delay: 1s;
+  animation-timing-function: ease-out;
+  background-image: url(../assets/image/menu/main_menu_iron_hide.png);
+  background: no-repeat cover center;
+  height: 147px;
+  margin-left: 18px;
+  position: absolute;
+  margin-top: 600px;
+  width: 155px; }
+
+@keyframes main-menu-ironhide-image {
+  0% {
+    transform: translateY(0); }
+  100% {
+    transform: translateY(-147px); } }
+.main-menu-start-image {
+  animation: main-menu-start-image 0.2s forwards;
+  animation-delay: 1s;
+  background-image: url(../assets/image/menu/main_menu_start.png);
+  background: no-repeat cover center;
+  height: 176px;
+  margin-left: 298px;
+  position: relative;
+  top: -181px;
+  width: 195px; }
+
+@keyframes main-menu-start-image {
+  0% {
+    transform: translateY(0);
+    z-index: 2; }
+  100% {
+    transform: translateY(176px);
+    z-index: 1; } }
+.main-menu-credits-image {
+  animation: main-menu-credits-image 0.4s forwards;
+  animation-delay: 1s;
+  background-image: url(../assets/image/menu/main_menu_credits.png);
+  background: no-repeat cover center;
+  height: 80px;
+  margin-left: 298px;
+  margin-top: 96px;
+  position: relative;
+  top: -357px;
+  width: 195px; }
+
+@keyframes main-menu-credits-image {
+  0% {
+    transform: translateY(0); }
+  50% {
+    transform: translateY(176px); }
+  100% {
+    transform: translateY(256px); } }
+.main-menu-chained-container {
+  margin-top: 300px;
+  overflow: hidden;
+  position: absolute; }
 
 .credits-main-container {
   background-image: url(../assets/image/menu/credits_background.png);
