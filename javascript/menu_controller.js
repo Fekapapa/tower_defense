@@ -11,11 +11,19 @@ const MenuLogic = (function() {
   let preloaderLeftsideid = document.getElementById('preloader-leftsideid');
   let preloaderRightsideid = document.getElementById('preloader-rightsideid');
   let preloaderFakeBackgroundid = document.getElementById('preloader-fake-backgroundid');
+  let mainMenuArmorgamesImageid;
+  let mainMenuIronhideImageid;
+  let mainMenuStartImageid;
+  let mainMenuCreditsImageid;
+  let mainMenuCreditsButtonid;
+  let mainMenuStartButtonid;
+  let mainMenuArmorgamesButtonid;
+  let mainMenuIronhideButtonid;
+  let loadSavedMenuid;
 
   store.subscribe(stateExecutor);
 
   function stateExecutor() {
-    console.log(store.getState().lastAction)
     renderOnAction();
     mainMusicController();
   }
@@ -167,7 +175,7 @@ const MenuLogic = (function() {
          store.dispatch({
            type: FRAME_LOAD,
            payload: {
-             isFrameLoaded: false
+             isFrameLoaded: true
            }
          });
           store.dispatch({
@@ -178,6 +186,23 @@ const MenuLogic = (function() {
             }
           });
         })
+
+        gameFrame.document.getElementById('load-saved-menu-close-buttonid')
+        .addEventListener('click', function () {
+          store.dispatch({
+            type: FRAME_LOAD,
+            payload: {
+              isFrameLoaded: true
+            }
+          });
+           store.dispatch({
+             type: MENU_CHANGE,
+             payload: {
+               currentPage: 'MAIN_MENU',
+               previousPage: 'LOAD_SAVED'
+             }
+           });
+         })
       }
 
       if(store.getState().currentPage == 'CREDITS') {
@@ -198,25 +223,6 @@ const MenuLogic = (function() {
            });
          })
       }
-
-      if(store.getState().currentPage == 'LOAD_SAVED') {
-        gameFrame.document.getElementById('load-saved-menu-close-buttonid')
-        .addEventListener('click', function () {
-          store.dispatch({
-            type: FRAME_LOAD,
-            payload: {
-              isFrameLoaded: false
-            }
-          });
-           store.dispatch({
-             type: MENU_CHANGE,
-             payload: {
-               currentPage: 'MAIN_MENU',
-               previousPage: 'LOAD_SAVED'
-             }
-           });
-         })
-      }
     }
   }
 
@@ -229,7 +235,7 @@ const MenuLogic = (function() {
       mainMenuMusicButtonDisabledid.classList.remove('main-menu-music-button-disabled');
     }
 
-    if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage && store.getState().currentPage !== 'LOAD_SAVED') {
+    if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage && store.getState().currentPage !== 'LOAD_SAVED' && store.getState().previousPage !== 'LOAD_SAVED') {
 
       // Reload the preloader animation
       preloaderContainerid.classList.remove('hidden');
@@ -283,15 +289,64 @@ const MenuLogic = (function() {
         }, 1000);
       }
 
-      if (store.getState().previousPage == 'MAIN_MENU' && store.getState().currentPage == 'LOAD_SAVED') {
-        let mainMenuArmorgamesImageid = document.getElementById('main-menu-armorgames-imageid');
-        let mainMenuIronhideImageid = document.getElementById('main-menu-ironhide-imageid');
-        let mainMenuStartImageid = document.getElementById('main-menu-start-imageid');
-        let mainMenuCreditsImageid = document.getElementById('main-menu-credits-imageid');
-
-      }
-
     }
+
+    if (store.getState().previousPage == 'MAIN_MENU') {
+      mainMenuArmorgamesImageid = gameFrame.document.getElementById('main-menu-armorgames-imageid');
+      mainMenuIronhideImageid = gameFrame.document.getElementById('main-menu-ironhide-imageid');
+      mainMenuStartImageid = gameFrame.document.getElementById('main-menu-start-imageid');
+      mainMenuCreditsImageid = gameFrame.document.getElementById('main-menu-credits-imageid');
+      mainMenuCreditsButtonid = gameFrame.document.getElementById('main-menu-credits-buttonid');
+      mainMenuStartButtonid = gameFrame.document.getElementById('main-menu-start-buttonid');
+      mainMenuArmorgamesButtonid = gameFrame.document.getElementById('main-menu-armorgames-buttonid');
+      mainMenuIronhideButtonid = gameFrame.document.getElementById('main-menu-ironhide-buttonid');
+      loadSavedMenuid = gameFrame.document.getElementById('load-saved-menuid');
+    }
+
+    if (store.getState().previousPage == 'MAIN_MENU' && store.getState().currentPage == 'LOAD_SAVED') {
+      mainMenuCreditsButtonid.classList.add('hidden');
+      mainMenuStartButtonid.classList.add('hidden');
+      mainMenuArmorgamesButtonid.classList.add('hidden');
+      mainMenuIronhideButtonid.classList.add('hidden');
+
+      mainMenuArmorgamesImageid.classList.remove('main-menu-armorgames-image');
+      mainMenuIronhideImageid.classList.remove('main-menu-ironhide-image');
+      mainMenuStartImageid.classList.remove('main-menu-start-image');
+      mainMenuCreditsImageid.classList.remove('main-menu-credits-image');
+      mainMenuArmorgamesImageid.classList.remove('main-menu-armorgames-image-ls');
+      mainMenuIronhideImageid.classList.remove('main-menu-ironhide-image-ls');
+      mainMenuStartImageid.classList.remove('main-menu-start-image-ls');
+      mainMenuCreditsImageid.classList.remove('main-menu-credits-image-ls');
+
+      mainMenuArmorgamesImageid.classList.add('main-menu-armorgames-image-reverse');
+      mainMenuIronhideImageid.classList.add('main-menu-ironhide-image-reverse');
+      mainMenuStartImageid.classList.add('main-menu-start-image-reverse');
+      mainMenuCreditsImageid.classList.add('main-menu-credits-image-reverse');
+
+      loadSavedMenuid.classList.remove('load-saved-menu-reverse');
+      loadSavedMenuid.classList.add('load-saved-menu');
+    }
+
+    if (store.getState().previousPage == 'LOAD_SAVED' && store.getState().currentPage == 'MAIN_MENU') {
+      mainMenuCreditsImageid.classList.remove('main-menu-credits-image-reverse');
+      mainMenuStartImageid.classList.remove('main-menu-start-image-reverse');
+      mainMenuArmorgamesImageid.classList.remove('main-menu-armorgames-image-reverse');
+      mainMenuIronhideImageid.classList.remove('main-menu-ironhide-image-reverse');
+
+      mainMenuCreditsButtonid.classList.remove('hidden');
+      mainMenuStartButtonid.classList.remove('hidden');
+      mainMenuArmorgamesButtonid.classList.remove('hidden');
+      mainMenuIronhideButtonid.classList.remove('hidden');
+
+      mainMenuArmorgamesImageid.classList.add('main-menu-armorgames-image-ls');
+      mainMenuIronhideImageid.classList.add('main-menu-ironhide-image-ls');
+      mainMenuStartImageid.classList.add('main-menu-start-image-ls');
+      mainMenuCreditsImageid.classList.add('main-menu-credits-image-ls');
+
+      loadSavedMenuid.classList.remove('load-saved-menu');
+      loadSavedMenuid.classList.add('load-saved-menu-reverse');
+    }
+
   }
 
   function mainMusicController() {
