@@ -3,9 +3,14 @@
 const MenuLogic = (function() {
 
   const mainAudioMusic = document.getElementById('main-audio-music');
+  const mainAudioSfxPrimary = document.getElementById('main-audio-sfx-primary');
+  const mainAudioSfxSecondary = document.getElementById('main-audio-sfx-secondary');
+  const menuHoverSfxSource = '../assets/sound/sfx/button_hover.mp3';
+  const menuClickSfxSource = '../assets/sound/sfx/button_click.mp3';
   let store = Redux.createStore(reducer);
   let gameFrame;
   let mainMenuMusicButtonDisabledid = false;
+  let mainMenuSoundButtonDisabledid = false;
   let iframeid = document.getElementById('game-frame');
   let preloaderContainerid = document.getElementById('preloader-containerid');
   let preloaderLeftsideid = document.getElementById('preloader-leftsideid');
@@ -20,6 +25,12 @@ const MenuLogic = (function() {
   let mainMenuArmorgamesButtonid;
   let mainMenuIronhideButtonid;
   let loadSavedMenuid;
+  let mainMenuPlayonmobileButtonid;
+  let mainMenuTwitterButtonid;
+  let mainMenuFacebookButtonid;
+  let mainMenuMusicButtonid;
+  let mainMenuSoundButtonid;
+  let loadSavedMenuCloseButtonid;
 
   store.subscribe(stateExecutor);
 
@@ -36,7 +47,7 @@ const MenuLogic = (function() {
         currentPage: 'PRE_MENU',
         musicStatus: 'OFF',
         currentMusicSource: false,
-        SfxStatus: 'OFF',
+        sfxStatus: 'OFF',
         currentSfxSource: false
       };
       return state
@@ -68,14 +79,12 @@ const MenuLogic = (function() {
               })
       case 'SFX_ON':
         return Object.assign({}, state, {
-                SfxStatus: action.payload.status,
-                currentSfxSource: action.payload.src,
+                sfxStatus: action.payload.status,
                 lastAction: SFX_ON
               })
       case 'SFX_OFF':
         return Object.assign({}, state, {
-                SfxStatus: action.payload.status,
-                currentSfxSource: action.payload.src,
+                sfxStatus: action.payload.status,
                 lastAction: SFX_OFF
               })
       default:
@@ -120,11 +129,18 @@ const MenuLogic = (function() {
                 src: "../assets/sound/KRO_main_menu.mp3"
               }
             });
+            store.dispatch({
+              type: SFX_ON,
+              payload: {
+                status: 'ON',
+              }
+            });
         })
       }
 
       if(store.getState().currentPage == 'MAIN_MENU') {
         mainMenuMusicButtonDisabledid = gameFrame.document.getElementById('main-menu-music-button-disabledid');
+        mainMenuSoundButtonDisabledid = gameFrame.document.getElementById('main-menu-sound-button-disabledid');
 
         gameFrame.document.getElementById('main-menu-music-buttonid')
           .addEventListener('click', function () {
@@ -150,6 +166,29 @@ const MenuLogic = (function() {
               return
             }
           })
+
+      gameFrame.document.getElementById('main-menu-sound-buttonid')
+        .addEventListener('click', function () {
+
+          if (store.getState().sfxStatus == 'OFF') {
+            store.dispatch(
+              { type: SFX_ON,
+                payload: {
+                  status: 'ON',
+              }
+            });
+            return
+          }
+          if (store.getState().sfxStatus == 'ON') {
+            store.dispatch(
+              { type: SFX_OFF,
+                payload: {
+                  status: 'OFF',
+              }
+            });
+            return
+          }
+        })
       }
 
       if(store.getState().currentPage == 'MAIN_MENU') {
@@ -172,12 +211,6 @@ const MenuLogic = (function() {
          })
        gameFrame.document.getElementById('main-menu-start-buttonid')
        .addEventListener('click', function () {
-         store.dispatch({
-           type: FRAME_LOAD,
-           payload: {
-             isFrameLoaded: true
-           }
-         });
           store.dispatch({
             type: MENU_CHANGE,
             payload: {
@@ -189,12 +222,6 @@ const MenuLogic = (function() {
 
         gameFrame.document.getElementById('load-saved-menu-close-buttonid')
         .addEventListener('click', function () {
-          store.dispatch({
-            type: FRAME_LOAD,
-            payload: {
-              isFrameLoaded: true
-            }
-          });
            store.dispatch({
              type: MENU_CHANGE,
              payload: {
@@ -203,6 +230,50 @@ const MenuLogic = (function() {
              }
            });
          })
+
+        mainMenuCreditsButtonid = gameFrame.document.getElementById('main-menu-credits-buttonid');
+        mainMenuStartButtonid = gameFrame.document.getElementById('main-menu-start-buttonid');
+        mainMenuArmorgamesButtonid = gameFrame.document.getElementById('main-menu-armorgames-buttonid');
+        mainMenuIronhideButtonid = gameFrame.document.getElementById('main-menu-ironhide-buttonid');
+        mainMenuArmorgamesImageid = gameFrame.document.getElementById('main-menu-armorgames-imageid');
+        mainMenuIronhideImageid = gameFrame.document.getElementById('main-menu-ironhide-imageid');
+        mainMenuStartImageid = gameFrame.document.getElementById('main-menu-start-imageid');
+        mainMenuCreditsImageid = gameFrame.document.getElementById('main-menu-credits-imageid');
+        mainMenuPlayonmobileButtonid = gameFrame.document.getElementById('main-menu-playonmobile-buttonid');
+        mainMenuTwitterButtonid = gameFrame.document.getElementById('main-menu-twitter-buttonid');
+        mainMenuFacebookButtonid = gameFrame.document.getElementById('main-menu-facebook-buttonid');
+        mainMenuMusicButtonid = gameFrame.document.getElementById('main-menu-music-buttonid');
+        mainMenuSoundButtonid = gameFrame.document.getElementById('main-menu-sound-buttonid');
+        loadSavedMenuid = gameFrame.document.getElementById('load-saved-menuid');
+        loadSavedMenuCloseButtonid = gameFrame.document.getElementById('load-saved-menu-close-buttonid');
+
+        mainMenuStartButtonid.addEventListener("mouseover", function() {
+        mainSfxController(menuHoverSfxSource) });
+        mainMenuCreditsButtonid.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
+        mainMenuPlayonmobileButtonid.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
+        mainMenuTwitterButtonid.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
+        mainMenuFacebookButtonid.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
+        mainMenuMusicButtonid.addEventListener("mouseover", function() {
+        mainSfxController(menuHoverSfxSource) });
+        mainMenuSoundButtonid.addEventListener("mouseover", function() {
+        mainSfxController(menuHoverSfxSource) });
+        loadSavedMenuCloseButtonid.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
+
+        mainMenuStartButtonid.addEventListener("click", function() {
+        mainSfxController(menuClickSfxSource) });
+        mainMenuCreditsButtonid.addEventListener("click", function() {
+        mainSfxController(menuClickSfxSource) });
+        mainMenuPlayonmobileButtonid.addEventListener("click", function() { mainSfxController(menuClickSfxSource) });
+        mainMenuTwitterButtonid.addEventListener("click", function() {
+        mainSfxController(menuClickSfxSource) });
+        mainMenuFacebookButtonid.addEventListener("click", function() {
+        mainSfxController(menuClickSfxSource) });
+        mainMenuMusicButtonid.addEventListener("click", function() {
+        mainSfxController(menuClickSfxSource) });
+        mainMenuSoundButtonid.addEventListener("click", function() {
+        mainSfxController(menuClickSfxSource) });
+        loadSavedMenuCloseButtonid.addEventListener("click", function() { mainSfxController(menuClickSfxSource) });
+
       }
 
       if(store.getState().currentPage == 'CREDITS') {
@@ -223,16 +294,33 @@ const MenuLogic = (function() {
            });
          })
       }
+
+      if(store.getState().currentPage == 'MAIN_MENU') {
+        if(store.getState().musicStatus == 'OFF') {
+          mainMenuMusicButtonDisabledid.classList.remove('hidden');
+        }
+        if(store.getState().sfxStatus == 'OFF') {
+          mainMenuSoundButtonDisabledid.classList.remove('hidden');
+        }
+      }
     }
   }
 
   function renderOnAction() {
     if (store.getState().musicStatus == 'OFF' && mainMenuMusicButtonDisabledid !== false) {
-      mainMenuMusicButtonDisabledid.classList.add('main-menu-music-button-disabled');
+      mainMenuMusicButtonDisabledid.classList.remove('hidden');
     }
 
     if (store.getState().musicStatus == 'ON' && mainMenuMusicButtonDisabledid !== false) {
-      mainMenuMusicButtonDisabledid.classList.remove('main-menu-music-button-disabled');
+      mainMenuMusicButtonDisabledid.classList.add('hidden');
+    }
+
+    if (store.getState().sfxStatus == 'OFF' && mainMenuSoundButtonDisabledid !== false) {
+      mainMenuSoundButtonDisabledid.classList.remove('hidden');
+    }
+
+    if (store.getState().sfxStatus == 'ON' && mainMenuSoundButtonDisabledid !== false) {
+      mainMenuSoundButtonDisabledid.classList.add('hidden');
     }
 
     if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage && store.getState().currentPage !== 'LOAD_SAVED' && store.getState().previousPage !== 'LOAD_SAVED') {
@@ -291,24 +379,14 @@ const MenuLogic = (function() {
 
     }
 
-    if (store.getState().previousPage == 'MAIN_MENU') {
-      mainMenuArmorgamesImageid = gameFrame.document.getElementById('main-menu-armorgames-imageid');
-      mainMenuIronhideImageid = gameFrame.document.getElementById('main-menu-ironhide-imageid');
-      mainMenuStartImageid = gameFrame.document.getElementById('main-menu-start-imageid');
-      mainMenuCreditsImageid = gameFrame.document.getElementById('main-menu-credits-imageid');
-      mainMenuCreditsButtonid = gameFrame.document.getElementById('main-menu-credits-buttonid');
-      mainMenuStartButtonid = gameFrame.document.getElementById('main-menu-start-buttonid');
-      mainMenuArmorgamesButtonid = gameFrame.document.getElementById('main-menu-armorgames-buttonid');
-      mainMenuIronhideButtonid = gameFrame.document.getElementById('main-menu-ironhide-buttonid');
-      loadSavedMenuid = gameFrame.document.getElementById('load-saved-menuid');
-    }
-
     if (store.getState().previousPage == 'MAIN_MENU' && store.getState().currentPage == 'LOAD_SAVED') {
       mainMenuCreditsButtonid.classList.add('hidden');
       mainMenuStartButtonid.classList.add('hidden');
       mainMenuArmorgamesButtonid.classList.add('hidden');
       mainMenuIronhideButtonid.classList.add('hidden');
 
+      mainMenuCreditsButtonid.classList.remove('main-menu-credits-button');
+      mainMenuStartButtonid.classList.remove('main-menu-start-button');
       mainMenuArmorgamesImageid.classList.remove('main-menu-armorgames-image');
       mainMenuIronhideImageid.classList.remove('main-menu-ironhide-image');
       mainMenuStartImageid.classList.remove('main-menu-start-image');
@@ -323,6 +401,7 @@ const MenuLogic = (function() {
       mainMenuStartImageid.classList.add('main-menu-start-image-reverse');
       mainMenuCreditsImageid.classList.add('main-menu-credits-image-reverse');
 
+      loadSavedMenuid.classList.remove('load-saved-menu-start');
       loadSavedMenuid.classList.remove('load-saved-menu-reverse');
       loadSavedMenuid.classList.add('load-saved-menu');
     }
@@ -347,6 +426,31 @@ const MenuLogic = (function() {
       loadSavedMenuid.classList.add('load-saved-menu-reverse');
     }
 
+    if (store.getState().currentPage == 'MAIN_MENU' && store.getState().previousPage !== 'LOAD_SAVED') {
+      mainMenuCreditsButtonid = gameFrame.document.getElementById('main-menu-credits-buttonid');
+      mainMenuStartButtonid = gameFrame.document.getElementById('main-menu-start-buttonid');
+
+      setTimeout(function(){
+        try {
+          mainMenuCreditsButtonid.classList.add('main-menu-credits-button');
+          mainMenuStartButtonid.classList.add('main-menu-start-button');
+        }
+        catch(err) {}
+      }, 1400);
+    }
+
+    if (store.getState().currentPage == 'MAIN_MENU' && store.getState().previousPage == 'LOAD_SAVED') {
+      mainMenuCreditsButtonid = gameFrame.document.getElementById('main-menu-credits-buttonid');
+      mainMenuStartButtonid = gameFrame.document.getElementById('main-menu-start-buttonid');
+
+      setTimeout(function(){
+        try {
+          mainMenuCreditsButtonid.classList.add('main-menu-credits-button');
+          mainMenuStartButtonid.classList.add('main-menu-start-button');
+        }
+        catch(err) {}
+      }, 800);
+    }
   }
 
   function mainMusicController() {
@@ -358,6 +462,18 @@ const MenuLogic = (function() {
       mainAudioMusic.pause();
       mainAudioMusic.setAttribute('src', '');
       mainAudioMusic.currentTime = 0;
+    }
+  }
+
+  function mainSfxController(source) {
+    if (store.getState().sfxStatus == 'ON') {
+      if (mainAudioSfxPrimary.paused == true) {
+        mainAudioSfxPrimary.setAttribute('src', source);
+        mainAudioSfxPrimary.play();
+      } else {
+        mainAudioSfxSecondary.setAttribute('src', source);
+        mainAudioSfxSecondary.play();
+      }
     }
   }
 

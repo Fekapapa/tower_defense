@@ -259,23 +259,25 @@ body {
     background-image: url(../assets/image/menu/main_menu_sound_hover.png);
     background: no-repeat cover center; }
 
-.main-menu-music-button-disabled, .load-saved-menu-music-button-disabled {
+.main-menu-music-button-disabled {
   background-image: url(../assets/image/menu/main_menu_disabled_icon.png);
   background: no-repeat cover center;
   cursor: pointer;
   height: 12px;
-  margin-left: 17px;
-  margin-top: 13px;
+  margin-left: 61px;
+  position: relative;
+  top: 10px;
   width: 13px;
   z-index: 1; }
 
-.main-menu-sound-button-disabled, .load-saved-menu-sound-button-disabled {
+.main-menu-sound-button-disabled {
   background-image: url(../assets/image/menu/main_menu_disabled_icon.png);
   background: no-repeat cover center;
   cursor: pointer;
   height: 12px;
-  margin-left: 17px;
-  margin-top: 13px;
+  margin-left: 26px;
+  position: relative;
+  top: 22px;
   width: 13px;
   z-index: 1; }
 
@@ -514,6 +516,16 @@ body {
   margin: auto;
   position: relative;
   width: 800px; }
+
+.load-saved-menu-start {
+  animation-timing-function: ease-in-out;
+  background-image: url(../assets/image/menu/load_saved.png);
+  background: no-repeat cover center;
+  height: 287px;
+  margin-left: 289px;
+  position: absolute;
+  margin-top: 1600px;
+  width: 223px; }
 
 .load-saved-menu {
   animation: load-saved-menu 0.4s forwards;
