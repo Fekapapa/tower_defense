@@ -5,8 +5,10 @@ const MenuLogic = (function() {
   const mainAudioMusic = document.getElementById('main-audio-music');
   const mainAudioSfxPrimary = document.getElementById('main-audio-sfx-primary');
   const mainAudioSfxSecondary = document.getElementById('main-audio-sfx-secondary');
-  const menuHoverSfxSource = '../assets/sound/sfx/button_hover.mp3';
+  const mainAudioSfxTertiary = document.getElementById('main-audio-sfx-tertiary');
+  const menuHoverSfxSource = '../assets/sound/sfx/button_hover2.mp3';
   const menuClickSfxSource = '../assets/sound/sfx/button_click.mp3';
+  const preloaderSfxSource = '../assets/sound/sfx/preloader.mp3';
   let store = Redux.createStore(reducer);
   let gameFrame;
   let mainMenuMusicButtonDisabledid = false;
@@ -31,6 +33,8 @@ const MenuLogic = (function() {
   let mainMenuMusicButtonid;
   let mainMenuSoundButtonid;
   let loadSavedMenuCloseButtonid;
+  let creditsBackButtonid;
+  let sfxHelper = 0;
 
   store.subscribe(stateExecutor);
 
@@ -126,7 +130,7 @@ const MenuLogic = (function() {
               type: MUSIC_ON,
               payload: {
                 status: 'ON',
-                src: "../assets/sound/KRO_main_menu.mp3"
+                src: "../assets/sound/KRO_main_menu2.mp3"
               }
             });
             store.dispatch({
@@ -150,7 +154,7 @@ const MenuLogic = (function() {
                 { type: MUSIC_ON,
                   payload: {
                     status: 'ON',
-                    src: "../assets/sound/KRO_main_menu.mp3"
+                    src: "../assets/sound/KRO_main_menu2.mp3"
                 }
               });
               return
@@ -274,11 +278,19 @@ const MenuLogic = (function() {
         mainSfxController(menuClickSfxSource) });
         loadSavedMenuCloseButtonid.addEventListener("click", function() { mainSfxController(menuClickSfxSource) });
 
+        if(store.getState().musicStatus == 'OFF') {
+          mainMenuMusicButtonDisabledid.classList.remove('hidden');
+        }
+        if(store.getState().sfxStatus == 'OFF') {
+          mainMenuSoundButtonDisabledid.classList.remove('hidden');
+        }
+
       }
 
       if(store.getState().currentPage == 'CREDITS') {
-        gameFrame.document.getElementById('credits-back-buttonid')
-        .addEventListener('click', function () {
+        creditsBackButtonid = gameFrame.document.getElementById('credits-back-buttonid');
+
+        creditsBackButtonid.addEventListener('click', function () {
           store.dispatch({
             type: FRAME_LOAD,
             payload: {
@@ -293,16 +305,18 @@ const MenuLogic = (function() {
              }
            });
          })
+
+         creditsBackButtonid.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
+         creditsBackButtonid.addEventListener("click", function() {
+         mainSfxController(menuClickSfxSource) });
+
       }
 
-      if(store.getState().currentPage == 'MAIN_MENU') {
-        if(store.getState().musicStatus == 'OFF') {
-          mainMenuMusicButtonDisabledid.classList.remove('hidden');
-        }
-        if(store.getState().sfxStatus == 'OFF') {
-          mainMenuSoundButtonDisabledid.classList.remove('hidden');
-        }
+// Add sound to the preloader from pre-menu to main-menu
+      if(store.getState().currentPage == 'MAIN_MENU' && store.getState().previousPage == 'PRE_MENU') {
+        mainSfxController(preloaderSfxSource);
       }
+
     }
   }
 
@@ -324,6 +338,8 @@ const MenuLogic = (function() {
     }
 
     if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage && store.getState().currentPage !== 'LOAD_SAVED' && store.getState().previousPage !== 'LOAD_SAVED') {
+
+      mainSfxController(preloaderSfxSource);
 
       // Reload the preloader animation
       preloaderContainerid.classList.remove('hidden');
@@ -376,7 +392,6 @@ const MenuLogic = (function() {
             preloaderFakeBackgroundid.classList.add('hidden');
         }, 1000);
       }
-
     }
 
     if (store.getState().previousPage == 'MAIN_MENU' && store.getState().currentPage == 'LOAD_SAVED') {
@@ -467,12 +482,18 @@ const MenuLogic = (function() {
 
   function mainSfxController(source) {
     if (store.getState().sfxStatus == 'ON') {
-      if (mainAudioSfxPrimary.paused == true) {
+      sfxHelper += 1;
+      if ((sfxHelper % 3) == 0) {
         mainAudioSfxPrimary.setAttribute('src', source);
         mainAudioSfxPrimary.play();
-      } else {
+      }
+      if ((sfxHelper % 3) == 1) {
         mainAudioSfxSecondary.setAttribute('src', source);
         mainAudioSfxSecondary.play();
+      }
+      if ((sfxHelper % 3) == 2) {
+        mainAudioSfxTertiary.setAttribute('src', source);
+        mainAudioSfxTertiary.play();
       }
     }
   }

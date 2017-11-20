@@ -206,15 +206,30 @@ body {
     background: no-repeat cover center; }
 
 .main-menu-playonmobile-button {
-  height: 156px;
-  margin-left: 598px;
+  animation: main-menu-playonmobile-button 0.2s forwards;
+  animation-delay: 1s;
+  animation-timing-function: ease-out;
+  background-image: url(../assets/image/menu/main_menu_playonmobile.png);
+  background: no-repeat cover center;
+  height: 143px;
+  margin-left: 605px;
+  margin-top: -143px;
   position: absolute;
-  margin-top: 4px;
-  width: 192px; }
+  width: 178px; }
   .main-menu-playonmobile-button:hover {
     background-image: url(../assets/image/menu/main_menu_playonmobile_hover.png);
-    background: no-repeat cover center; }
+    background: no-repeat cover center;
+    height: 148px;
+    margin-left: 600px;
+    position: absolute;
+    margin-top: -144px;
+    width: 186px; }
 
+@keyframes main-menu-playonmobile-button {
+  0% {
+    transform: translateY(0); }
+  100% {
+    transform: translateY(143px); } }
 .main-menu-twitter-button {
   height: 44px;
   margin-left: 8px;

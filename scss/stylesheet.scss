@@ -226,16 +226,63 @@ body {
   }
 }
 
+// .main-menu-armorgames-image {
+//   animation: main-menu-armorgames-image 0.2s forwards;
+//   animation-delay: 1s;
+//   animation-timing-function: ease-out;
+//   background-image: url(../assets/image/menu/main_menu_armor_games.png);
+//   background: no-repeat cover center;
+//   height: 143px;
+//   margin-left: 620px;
+//   position: absolute;
+//   margin-top: 600px;
+//   width: 154px;
+// }
+//
+// .main-menu-armorgames-image-ls {
+//   animation: main-menu-armorgames-image 0.2s forwards;
+//   animation-delay: 0.4s;
+//   animation-timing-function: ease-out;
+//   background-image: url(../assets/image/menu/main_menu_armor_games.png);
+//   background: no-repeat cover center;
+//   height: 143px;
+//   margin-left: 620px;
+//   position: absolute;
+//   margin-top: 600px;
+//   width: 154px;
+// }
+//
+// @keyframes main-menu-armorgames-image {
+//   0% { transform: translateY(0); }
+//   100% { transform: translateY(-143px); }
+// }
+
 .main-menu-playonmobile-button {
-  height: 156px;
-  margin-left: 598px;
+  animation: main-menu-playonmobile-button 0.2s forwards;
+  animation-delay: 1s;
+  animation-timing-function: ease-out;
+  background-image: url(../assets/image/menu/main_menu_playonmobile.png);
+  background: no-repeat cover center;
+  height: 143px;
+  margin-left: 605px;
+  margin-top: -143px;
   position: absolute;
-  margin-top: 4px;
-  width: 192px;
+  width: 178px;
+
   &:hover {
     background-image: url(../assets/image/menu/main_menu_playonmobile_hover.png);
     background: no-repeat cover center;
+    height: 148px;
+    margin-left: 600px;
+    position: absolute;
+    margin-top: -144px;
+    width: 186px;
   }
+}
+
+@keyframes main-menu-playonmobile-button {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(143px); }
 }
 
 .main-menu-twitter-button {
