@@ -11,8 +11,6 @@ const MenuLogic = (function() {
   const preloaderSfxSource = '../assets/sound/sfx/preloader.mp3';
   let store = Redux.createStore(reducer);
   let gameFrame;
-  let mainMenuMusicButtonDisabledid = false;
-  let mainMenuSoundButtonDisabledid = false;
   let iframeid = document.getElementById('game-frame');
   let preloaderContainerid = document.getElementById('preloader-containerid');
   let preloaderLeftsideid = document.getElementById('preloader-leftsideid');
@@ -143,8 +141,6 @@ const MenuLogic = (function() {
       }
 
       if(store.getState().currentPage == 'MAIN_MENU') {
-        mainMenuMusicButtonDisabledid = gameFrame.document.getElementById('main-menu-music-button-disabledid');
-        mainMenuSoundButtonDisabledid = gameFrame.document.getElementById('main-menu-sound-button-disabledid');
 
         gameFrame.document.getElementById('main-menu-music-buttonid')
           .addEventListener('click', function () {
@@ -279,12 +275,13 @@ const MenuLogic = (function() {
         loadSavedMenuCloseButtonid.addEventListener("click", function() { mainSfxController(menuClickSfxSource) });
 
         if(store.getState().musicStatus == 'OFF') {
-          mainMenuMusicButtonDisabledid.classList.remove('hidden');
+          mainMenuMusicButtonid.classList.remove('main-menu-music-button');
+          mainMenuMusicButtonid.classList.add('main-menu-music-button-disabled');
         }
         if(store.getState().sfxStatus == 'OFF') {
-          mainMenuSoundButtonDisabledid.classList.remove('hidden');
+          mainMenuSoundButtonid.classList.remove('main-menu-sound-button');
+          mainMenuSoundButtonid.classList.add('main-menu-sound-button-disabled');
         }
-
       }
 
       if(store.getState().currentPage == 'CREDITS') {
@@ -313,28 +310,32 @@ const MenuLogic = (function() {
       }
 
 // Add sound to the preloader from pre-menu to main-menu
-      if(store.getState().currentPage == 'MAIN_MENU' && store.getState().previousPage == 'PRE_MENU') {
-        mainSfxController(preloaderSfxSource);
-      }
+      // if(store.getState().currentPage == 'MAIN_MENU' && store.getState().previousPage == 'PRE_MENU') {
+      //   mainSfxController(preloaderSfxSource);
+      // }
 
     }
   }
 
   function renderOnAction() {
-    if (store.getState().musicStatus == 'OFF' && mainMenuMusicButtonDisabledid !== false) {
-      mainMenuMusicButtonDisabledid.classList.remove('hidden');
+    if (store.getState().musicStatus == 'OFF' && mainMenuMusicButtonid !== undefined) {
+      mainMenuMusicButtonid.classList.remove('main-menu-music-button');
+      mainMenuMusicButtonid.classList.add('main-menu-music-button-disabled');
     }
 
-    if (store.getState().musicStatus == 'ON' && mainMenuMusicButtonDisabledid !== false) {
-      mainMenuMusicButtonDisabledid.classList.add('hidden');
+    if (store.getState().musicStatus == 'ON' && mainMenuMusicButtonid !== undefined) {
+      mainMenuMusicButtonid.classList.add('main-menu-music-button');
+      mainMenuMusicButtonid.classList.remove('main-menu-music-button-disabled');
     }
 
-    if (store.getState().sfxStatus == 'OFF' && mainMenuSoundButtonDisabledid !== false) {
-      mainMenuSoundButtonDisabledid.classList.remove('hidden');
+    if (store.getState().sfxStatus == 'OFF' && mainMenuSoundButtonid !== undefined) {
+      mainMenuSoundButtonid.classList.remove('main-menu-sound-button');
+      mainMenuSoundButtonid.classList.add('main-menu-sound-button-disabled');
     }
 
-    if (store.getState().sfxStatus == 'ON' && mainMenuSoundButtonDisabledid !== false) {
-      mainMenuSoundButtonDisabledid.classList.add('hidden');
+    if (store.getState().sfxStatus == 'ON' && mainMenuSoundButtonid !== undefined) {
+      mainMenuSoundButtonid.classList.add('main-menu-sound-button');
+      mainMenuSoundButtonid.classList.remove('main-menu-sound-button-disabled');
     }
 
     if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage && store.getState().currentPage !== 'LOAD_SAVED' && store.getState().previousPage !== 'LOAD_SAVED') {
