@@ -32,6 +32,11 @@ const MenuLogic = (function() {
   let mainMenuSoundButtonid;
   let loadSavedMenuCloseButtonid;
   let creditsBackButtonid;
+  let loadSavedMenuLocalsaveHelpid;
+  let loadSavedMenuGameslot1id;
+  let loadSavedMenuGameslot2id;
+  let loadSavedMenuGameslot3id;
+  let loadSavedMenuActionsContainerid;
   let sfxHelper = 0;
 
   store.subscribe(stateExecutor);
@@ -246,6 +251,11 @@ const MenuLogic = (function() {
         mainMenuSoundButtonid = gameFrame.document.getElementById('main-menu-sound-buttonid');
         loadSavedMenuid = gameFrame.document.getElementById('load-saved-menuid');
         loadSavedMenuCloseButtonid = gameFrame.document.getElementById('load-saved-menu-close-buttonid');
+        loadSavedMenuLocalsaveHelpid = gameFrame.document.getElementById('load-saved-menu-localsave-helpid');
+        loadSavedMenuGameslot1id = gameFrame.document.getElementById('load-saved-menu-gameslot-1id');
+        loadSavedMenuGameslot2id = gameFrame.document.getElementById('load-saved-menu-gameslot-2id');
+        loadSavedMenuGameslot3id = gameFrame.document.getElementById('load-saved-menu-gameslot-3id');
+        loadSavedMenuActionsContainerid = gameFrame.document.getElementById('load-saved-menu-actions-containerid');
 
         mainMenuStartButtonid.addEventListener("mouseover", function() {
         mainSfxController(menuHoverSfxSource) });
@@ -258,6 +268,10 @@ const MenuLogic = (function() {
         mainMenuSoundButtonid.addEventListener("mouseover", function() {
         mainSfxController(menuHoverSfxSource) });
         loadSavedMenuCloseButtonid.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
+        loadSavedMenuLocalsaveHelpid.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
+        loadSavedMenuGameslot1id.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
+        loadSavedMenuGameslot2id.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
+        loadSavedMenuGameslot3id.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
 
         mainMenuStartButtonid.addEventListener("click", function() {
         mainSfxController(menuClickSfxSource) });
@@ -273,6 +287,12 @@ const MenuLogic = (function() {
         mainMenuSoundButtonid.addEventListener("click", function() {
         mainSfxController(menuClickSfxSource) });
         loadSavedMenuCloseButtonid.addEventListener("click", function() { mainSfxController(menuClickSfxSource) });
+        loadSavedMenuGameslot1id.addEventListener("click", function() {
+        mainSfxController(menuClickSfxSource) });
+        loadSavedMenuGameslot2id.addEventListener("click", function() {
+        mainSfxController(menuClickSfxSource) });
+        loadSavedMenuGameslot3id.addEventListener("click", function() {
+        mainSfxController(menuClickSfxSource) });
 
         if(store.getState().musicStatus == 'OFF') {
           mainMenuMusicButtonid.classList.remove('main-menu-music-button');
@@ -420,6 +440,14 @@ const MenuLogic = (function() {
       loadSavedMenuid.classList.remove('load-saved-menu-start');
       loadSavedMenuid.classList.remove('load-saved-menu-reverse');
       loadSavedMenuid.classList.add('load-saved-menu');
+
+      setTimeout(function(){
+        try {
+          loadSavedMenuActionsContainerid.classList.remove('hidden');
+        }
+        catch(err) {}
+      }, 800);
+
     }
 
     if (store.getState().previousPage == 'LOAD_SAVED' && store.getState().currentPage == 'MAIN_MENU') {
@@ -440,6 +468,8 @@ const MenuLogic = (function() {
 
       loadSavedMenuid.classList.remove('load-saved-menu');
       loadSavedMenuid.classList.add('load-saved-menu-reverse');
+
+      loadSavedMenuActionsContainerid.classList.add('hidden');
     }
 
     if (store.getState().currentPage == 'MAIN_MENU' && store.getState().previousPage !== 'LOAD_SAVED') {

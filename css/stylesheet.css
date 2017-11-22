@@ -1,3 +1,6 @@
+@font-face {
+  font-family: "Gochihand-Regular";
+  src: url("../assets/fonts/gochihand/GochiHand-Regular.ttf"); }
 * {
   margin: 0;
   padding: 0; }
@@ -7,7 +10,8 @@ a {
 
 body {
   max-width: 100vw;
-  overflow-x: hidden; }
+  overflow-x: hidden;
+  font-family: 'Gochi Hand', cursive; }
 
 .main-title {
   margin: 20px 0; }
@@ -593,5 +597,77 @@ body {
   .load-saved-menu-close-button:hover {
     background-image: url(../assets/image/menu/load_saved_close_hover.png);
     background: no-repeat cover center; }
+
+.load-saved-menu-localsave-help {
+  cursor: pointer;
+  height: 22px;
+  margin-left: 479px;
+  margin-top: 308px;
+  position: absolute;
+  width: 23px; }
+  .load-saved-menu-localsave-help:hover {
+    background-image: url(../assets/image/menu/load_saved_help_hover.png);
+    height: 29px;
+    margin-left: 472px;
+    margin-top: 301px;
+    width: 30px; }
+
+.load-saved-menu-localsave-help-info {
+  display: none; }
+
+.load-saved-menu-localsave-help:hover + .load-saved-menu-localsave-help-info {
+  background-color: rgba(0, 0, 0, 0.9);
+  display: inline-block;
+  height: 161px;
+  margin-left: 255px;
+  position: relative;
+  top: 145px;
+  width: 223px;
+  font-style: italic; }
+
+.load-saved-menu-localsave-help-info-header {
+  color: white;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px; }
+
+.load-saved-menu-localsave-help-info-text {
+  color: #fee101;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px; }
+
+.load-saved-menu-gameslot-1 {
+  cursor: pointer;
+  height: 60px;
+  margin-left: 314px;
+  position: absolute;
+  margin-top: 354px;
+  width: 172px; }
+  .load-saved-menu-gameslot-1:hover {
+    background-image: url(../assets/image/menu/load_saved_newgame_hover.png); }
+
+.load-saved-menu-gameslot-2 {
+  cursor: pointer;
+  height: 60px;
+  margin-left: 314px;
+  position: absolute;
+  margin-top: 420px;
+  width: 172px; }
+  .load-saved-menu-gameslot-2:hover {
+    background-image: url(../assets/image/menu/load_saved_newgame_hover.png); }
+
+.load-saved-menu-gameslot-3 {
+  cursor: pointer;
+  height: 60px;
+  margin-left: 314px;
+  position: absolute;
+  margin-top: 487px;
+  width: 172px; }
+  .load-saved-menu-gameslot-3:hover {
+    background-image: url(../assets/image/menu/load_saved_newgame_hover.png); }
 
 /*# sourceMappingURL=stylesheet.css.map */
