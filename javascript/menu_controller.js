@@ -37,6 +37,7 @@ const MenuLogic = (function() {
   let loadSavedMenuGameslot2id;
   let loadSavedMenuGameslot3id;
   let loadSavedMenuActionsContainerid;
+  let savedData;
   let sfxHelper = 0;
 
   store.subscribe(stateExecutor);
@@ -94,6 +95,11 @@ const MenuLogic = (function() {
                 sfxStatus: action.payload.status,
                 lastAction: SFX_OFF
               })
+      case 'GAME_LOAD':
+        return Object.assign({}, state, {
+                savedData: action.payload.savedData,
+                lastAction: GAME_LOAD
+              })
       default:
         return state
     }
@@ -103,13 +109,32 @@ const MenuLogic = (function() {
     store.dispatch({
       type: FRAME_LOAD,
       payload: {
-        isFrameLoaded: true,
+        isFrameLoaded: true
       }
     });
     gameFrameOnload();
   }
 
   function gameFrameOnload() {
+    let slot1 = {
+      stars: 1,
+      shields: 2,
+      swords: 3
+    }
+    let slot2 = {
+      stars: 4,
+      shields: 5,
+      swords: 6
+    }
+    let slot3 = {
+      stars: 7,
+      shields: 8,
+      swords: 9
+    }
+    let saveData = [slot1, slot2];
+    localStorage.setItem('kr_xp_save', JSON.stringify(saveData));
+    loadGame();
+
     if(store.getState().isFrameLoaded) {
       gameFrame = document.getElementById("game-frame").contentWindow;
 
@@ -326,10 +351,27 @@ const MenuLogic = (function() {
          creditsBackButtonid.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
          creditsBackButtonid.addEventListener("click", function() {
          mainSfxController(menuClickSfxSource) });
-
       }
 
-// Add sound to the preloader from pre-menu to main-menu
+      if(store.getState().lastAction == 'GAME_LOAD' && store.getState().currentPage == 'MAIN_MENU') {
+        console.log(savedData[0]);
+        console.log(savedData[1]);
+        console.log(savedData[2]);
+        if (savedData[0]) {
+          loadSavedMenuGameslot1id.classList.remove('load-saved-menu-gameslot-1');
+          loadSavedMenuGameslot1id.classList.add('load-saved-menu-gameslot-1loaded');
+        }
+        if (savedData[1]) {
+          loadSavedMenuGameslot2id.classList.remove('load-saved-menu-gameslot-2');
+          loadSavedMenuGameslot2id.classList.add('load-saved-menu-gameslot-2loaded');
+        }
+        if (savedData[2]) {
+          loadSavedMenuGameslot3id.classList.remove('load-saved-menu-gameslot-3');
+          loadSavedMenuGameslot3id.classList.add('load-saved-menu-gameslot-3loaded');
+        }
+      }
+
+      // Add sound to the preloader from pre-menu to main-menu
       // if(store.getState().currentPage == 'MAIN_MENU' && store.getState().previousPage == 'PRE_MENU') {
       //   mainSfxController(preloaderSfxSource);
       // }
@@ -526,6 +568,19 @@ const MenuLogic = (function() {
         mainAudioSfxTertiary.setAttribute('src', source);
         mainAudioSfxTertiary.play();
       }
+    }
+  }
+
+  function loadGame() {
+    if (localStorage.getItem('kr_xp_save')) {
+      console.log('loading');
+      savedData = JSON.parse(localStorage.getItem('kr_xp_save'));
+      store.dispatch({
+        type: GAME_LOAD,
+        payload: {
+          savedData
+        }
+      });
     }
   }
 

@@ -710,13 +710,13 @@ body {
 }
 
 .load-saved-menu-localsave-help:hover + .load-saved-menu-localsave-help-info {
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 0, 0, 0.8);
   display: inline-block;
   height: 161px;
-  margin-left: 255px;
+  margin-left: 235px;
   position: relative;
   top: 145px;
-  width: 223px;
+  width: 243px;
   font-style: italic;
 }
 
@@ -740,9 +740,9 @@ body {
 .load-saved-menu-gameslot-1 {
   cursor: pointer;
   height: 60px;
-  margin-left: 314px;
+  margin-left: 25px;
   position: absolute;
-  margin-top: 354px;
+  margin-top: 48px;
   width: 172px;
   &:hover {
     background-image: url(../assets/image/menu/load_saved_newgame_hover.png);
@@ -752,9 +752,9 @@ body {
 .load-saved-menu-gameslot-2 {
   cursor: pointer;
   height: 60px;
-  margin-left: 314px;
+  margin-left: 25px;
   position: absolute;
-  margin-top: 420px;
+  margin-top: 114px;
   width: 172px;
   &:hover {
     background-image: url(../assets/image/menu/load_saved_newgame_hover.png);
@@ -764,15 +764,43 @@ body {
 .load-saved-menu-gameslot-3 {
   cursor: pointer;
   height: 60px;
-  margin-left: 314px;
+  margin-left: 25px;
   position: absolute;
-  margin-top: 487px;
+  margin-top: 181px;
   width: 172px;
   &:hover {
     background-image: url(../assets/image/menu/load_saved_newgame_hover.png);
   }
 }
 
-.load-saved-menu-actions-containerid {
-  
+.load-saved-menu-gameslot-1loaded {
+  background-image: url(../assets/image/menu/load_saved_newgame_hover.png);
+  cursor: pointer;
+  height: 60px;
+  margin-left: 25px;
+  position: absolute;
+  margin-top: 48px;
+  width: 172px;
+
+}
+
+.load-saved-menu-gameslot-2loaded {
+  background-image: url(../assets/image/menu/load_saved_newgame_hover.png);
+  cursor: pointer;
+  height: 60px;
+  margin-left: 25px;
+  position: absolute;
+  margin-top: 114px;
+  width: 172px;
+
+}
+
+.load-saved-menu-gameslot-3loaded {
+  background-image: url(../assets/image/menu/load_saved_newgame_hover.png);
+  cursor: pointer;
+  height: 60px;
+  margin-left: 25px;
+  position: absolute;
+  margin-top: 181px;
+  width: 172px;
 }
