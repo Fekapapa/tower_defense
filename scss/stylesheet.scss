@@ -737,7 +737,7 @@ body {
   margin-right: 10px;
 }
 
-.load-saved-menu-gameslot-1 {
+.load-saved-menu-gameslot-1-unused {
   cursor: pointer;
   height: 60px;
   margin-left: 25px;
@@ -749,7 +749,7 @@ body {
   }
 }
 
-.load-saved-menu-gameslot-2 {
+.load-saved-menu-gameslot-2-unused {
   cursor: pointer;
   height: 60px;
   margin-left: 25px;
@@ -761,7 +761,7 @@ body {
   }
 }
 
-.load-saved-menu-gameslot-3 {
+.load-saved-menu-gameslot-3-unused {
   cursor: pointer;
   height: 60px;
   margin-left: 25px;
@@ -773,9 +773,12 @@ body {
   }
 }
 
-.load-saved-menu-gameslot-1loaded {
-  background-image: url(../assets/image/menu/load_saved_newgame_hover.png);
+.load-saved-menu-gameslot-1-used {
+  background-image: url(../assets/image/menu/load_saved_gameslot_used.png);
+  color: rgb(251, 239, 212);
   cursor: pointer;
+  font-style: italic;
+  font-size: 14px;
   height: 60px;
   margin-left: 25px;
   position: absolute;
@@ -784,9 +787,12 @@ body {
 
 }
 
-.load-saved-menu-gameslot-2loaded {
-  background-image: url(../assets/image/menu/load_saved_newgame_hover.png);
+.load-saved-menu-gameslot-2-used {
+  background-image: url(../assets/image/menu/load_saved_gameslot_used.png);
+  color: rgb(251, 239, 212);
   cursor: pointer;
+  font-style: italic;
+  font-size: 14px;
   height: 60px;
   margin-left: 25px;
   position: absolute;
@@ -795,12 +801,72 @@ body {
 
 }
 
-.load-saved-menu-gameslot-3loaded {
-  background-image: url(../assets/image/menu/load_saved_newgame_hover.png);
+.load-saved-menu-gameslot-3-used {
+  background-image: url(../assets/image/menu/load_saved_gameslot_used.png);
+  color: rgb(251, 239, 212);
   cursor: pointer;
+  font-style: italic;
+  font-size: 14px;
   height: 60px;
   margin-left: 25px;
   position: absolute;
   margin-top: 181px;
   width: 172px;
+}
+
+
+
+
+
+.load-saved-menu-gameslot-firstrow {
+  display: flex;
+  height: 20px;
+  justify-content: space-between;
+  margin: auto;
+  margin-top: 10px;
+  width: 150px;
+}
+
+.load-saved-menu-gameslot-secondrow {
+  display: flex;
+  height: 20px;
+  justify-content: space-between;
+  margin: auto;
+  width: 150px;
+}
+
+.load-saved-menu-gameslot-delete {
+  background-image: url(../assets/image/menu/load_saved_greycross_icon.png);
+  height: 15px;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 16px;
+}
+
+.load-saved-menu-gameslot-staricon {
+  background-image: url(../assets/image/menu/load_saved_star_icon.png);
+  height: 15px;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 17px;
+}
+
+.load-saved-menu-gameslot-shieldicon {
+  background-image: url(../assets/image/menu/load_saved_shield_icon.png);
+  height: 19px;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 24px;
+}
+
+.load-saved-menu-gameslot-fisticon {
+  background-image: url(../assets/image/menu/load_saved_fist_icon.png);
+  height: 19px;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 21px;
+}
+
+.load-saved-menu-gameslot-text {
+  padding-right: 7px;
 }

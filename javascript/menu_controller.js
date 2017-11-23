@@ -116,22 +116,25 @@ const MenuLogic = (function() {
   }
 
   function gameFrameOnload() {
-    let slot1 = {
+    let saveData = {};
+    saveData.slot1 = {
+      isUsed: true,
       stars: 1,
       shields: 2,
       swords: 3
     }
-    let slot2 = {
+    saveData.slot2 = {
+      isUsed: false,
       stars: 4,
       shields: 5,
       swords: 6
     }
-    let slot3 = {
+    saveData.slot3 = {
+      isUsed: true,
       stars: 7,
       shields: 8,
       swords: 9
     }
-    let saveData = [slot1, slot2];
     localStorage.setItem('kr_xp_save', JSON.stringify(saveData));
     loadGame();
 
@@ -354,20 +357,20 @@ const MenuLogic = (function() {
       }
 
       if(store.getState().lastAction == 'GAME_LOAD' && store.getState().currentPage == 'MAIN_MENU') {
-        console.log(savedData[0]);
-        console.log(savedData[1]);
-        console.log(savedData[2]);
-        if (savedData[0]) {
-          loadSavedMenuGameslot1id.classList.remove('load-saved-menu-gameslot-1');
-          loadSavedMenuGameslot1id.classList.add('load-saved-menu-gameslot-1loaded');
+        console.log(savedData);
+        // console.log(savedData[1]);
+        // console.log(savedData[2]);
+        if (savedData.slot1.isUsed == true) {
+          loadSavedMenuGameslot1id.classList.remove('load-saved-menu-gameslot-1-unused');
+          loadSavedMenuGameslot1id.classList.add('load-saved-menu-gameslot-1-used');
         }
-        if (savedData[1]) {
-          loadSavedMenuGameslot2id.classList.remove('load-saved-menu-gameslot-2');
-          loadSavedMenuGameslot2id.classList.add('load-saved-menu-gameslot-2loaded');
+        if (savedData.slot2.isUsed == true) {
+          loadSavedMenuGameslot2id.classList.remove('load-saved-menu-gameslot-2-unused');
+          loadSavedMenuGameslot2id.classList.add('load-saved-menu-gameslot-2-used');
         }
-        if (savedData[2]) {
-          loadSavedMenuGameslot3id.classList.remove('load-saved-menu-gameslot-3');
-          loadSavedMenuGameslot3id.classList.add('load-saved-menu-gameslot-3loaded');
+        if (savedData.slot3.isUsed == true) {
+          loadSavedMenuGameslot3id.classList.remove('load-saved-menu-gameslot-3-unused');
+          loadSavedMenuGameslot3id.classList.add('load-saved-menu-gameslot-3-used');
         }
       }
 
