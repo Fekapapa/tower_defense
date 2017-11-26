@@ -33,10 +33,19 @@ const MenuLogic = (function() {
   let loadSavedMenuCloseButtonid;
   let creditsBackButtonid;
   let loadSavedMenuLocalsaveHelpid;
-  let loadSavedMenuGameslot1id;
-  let loadSavedMenuGameslot2id;
-  let loadSavedMenuGameslot3id;
+  let loadSavedMenuGameslot1Unusedid;
+  let loadSavedMenuGameslot1Usedid;
+  let loadSavedMenuGameslot2Unusedid;
+  let loadSavedMenuGameslot2Usedid;
+  let loadSavedMenuGameslot3Unusedid;
+  let loadSavedMenuGameslot3Usedid;
+  let loadSavedMenuGameslot1UsedHoverid;
+  let loadSavedMenuGameslot2UsedHoverid;
+  let loadSavedMenuGameslot3UsedHoverid;
   let loadSavedMenuActionsContainerid;
+  let loadSavedMenuGameslot1Deleteid;
+  let loadSavedMenuGameslot2Deleteid;
+  let loadSavedMenuGameslot3Deleteid;
   let savedData;
   let sfxHelper = 0;
 
@@ -124,7 +133,7 @@ const MenuLogic = (function() {
       swords: 3
     }
     saveData.slot2 = {
-      isUsed: false,
+      isUsed: true,
       stars: 4,
       shields: 5,
       swords: 6
@@ -280,10 +289,20 @@ const MenuLogic = (function() {
         loadSavedMenuid = gameFrame.document.getElementById('load-saved-menuid');
         loadSavedMenuCloseButtonid = gameFrame.document.getElementById('load-saved-menu-close-buttonid');
         loadSavedMenuLocalsaveHelpid = gameFrame.document.getElementById('load-saved-menu-localsave-helpid');
-        loadSavedMenuGameslot1id = gameFrame.document.getElementById('load-saved-menu-gameslot-1id');
-        loadSavedMenuGameslot2id = gameFrame.document.getElementById('load-saved-menu-gameslot-2id');
-        loadSavedMenuGameslot3id = gameFrame.document.getElementById('load-saved-menu-gameslot-3id');
+        loadSavedMenuGameslot1Unusedid = gameFrame.document.getElementById('load-saved-menu-gameslot-1-unused-id');
+        loadSavedMenuGameslot1Usedid = gameFrame.document.getElementById('load-saved-menu-gameslot-1-used-id');
+        loadSavedMenuGameslot2Unusedid = gameFrame.document.getElementById('load-saved-menu-gameslot-2-unused-id');
+        loadSavedMenuGameslot2Usedid = gameFrame.document.getElementById('load-saved-menu-gameslot-2-used-id');
+        loadSavedMenuGameslot3Unusedid = gameFrame.document.getElementById('load-saved-menu-gameslot-3-unused-id');
+        loadSavedMenuGameslot3Usedid = gameFrame.document.getElementById('load-saved-menu-gameslot-3-used-id');
         loadSavedMenuActionsContainerid = gameFrame.document.getElementById('load-saved-menu-actions-containerid');
+        loadSavedMenuGameslot1UsedHoverid = gameFrame.document.getElementById('load-saved-menu-gameslot-1-used-hover-id');
+        loadSavedMenuGameslot2UsedHoverid = gameFrame.document.getElementById('load-saved-menu-gameslot-2-used-hover-id');
+        loadSavedMenuGameslot3UsedHoverid = gameFrame.document.getElementById('load-saved-menu-gameslot-3-used-hover-id');
+        loadSavedMenuGameslot1Deleteid = gameFrame.document.getElementById('load-saved-menu-gameslot-1-delete-id');
+        loadSavedMenuGameslot2Deleteid = gameFrame.document.getElementById('load-saved-menu-gameslot-2-delete-id');
+        loadSavedMenuGameslot3Deleteid = gameFrame.document.getElementById('load-saved-menu-gameslot-3-delete-id');
+
 
         mainMenuStartButtonid.addEventListener("mouseover", function() {
         mainSfxController(menuHoverSfxSource) });
@@ -297,9 +316,15 @@ const MenuLogic = (function() {
         mainSfxController(menuHoverSfxSource) });
         loadSavedMenuCloseButtonid.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
         loadSavedMenuLocalsaveHelpid.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
-        loadSavedMenuGameslot1id.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
-        loadSavedMenuGameslot2id.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
-        loadSavedMenuGameslot3id.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
+        loadSavedMenuGameslot1Unusedid.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
+        loadSavedMenuGameslot2Unusedid.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
+        loadSavedMenuGameslot3Unusedid.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
+        loadSavedMenuGameslot1UsedHoverid.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
+        loadSavedMenuGameslot2UsedHoverid.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
+        loadSavedMenuGameslot3UsedHoverid.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
+        loadSavedMenuGameslot1Deleteid.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
+        loadSavedMenuGameslot2Deleteid.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
+        loadSavedMenuGameslot3Deleteid.addEventListener("mouseover", function() { mainSfxController(menuHoverSfxSource) });
 
         mainMenuStartButtonid.addEventListener("click", function() {
         mainSfxController(menuClickSfxSource) });
@@ -315,12 +340,15 @@ const MenuLogic = (function() {
         mainMenuSoundButtonid.addEventListener("click", function() {
         mainSfxController(menuClickSfxSource) });
         loadSavedMenuCloseButtonid.addEventListener("click", function() { mainSfxController(menuClickSfxSource) });
-        loadSavedMenuGameslot1id.addEventListener("click", function() {
-        mainSfxController(menuClickSfxSource) });
-        loadSavedMenuGameslot2id.addEventListener("click", function() {
-        mainSfxController(menuClickSfxSource) });
-        loadSavedMenuGameslot3id.addEventListener("click", function() {
-        mainSfxController(menuClickSfxSource) });
+        loadSavedMenuGameslot1Unusedid.addEventListener("click", function() { mainSfxController(menuClickSfxSource) });
+        loadSavedMenuGameslot2Unusedid.addEventListener("click", function() { mainSfxController(menuClickSfxSource) });
+        loadSavedMenuGameslot3Unusedid.addEventListener("click", function() { mainSfxController(menuClickSfxSource) });
+        loadSavedMenuGameslot1UsedHoverid.addEventListener("click", function() { mainSfxController(menuClickSfxSource) });
+        loadSavedMenuGameslot2UsedHoverid.addEventListener("click", function() { mainSfxController(menuClickSfxSource) });
+        loadSavedMenuGameslot3UsedHoverid.addEventListener("click", function() { mainSfxController(menuClickSfxSource) });
+        loadSavedMenuGameslot1Deleteid.addEventListener("click", function() { mainSfxController(menuClickSfxSource) });
+        loadSavedMenuGameslot2Deleteid.addEventListener("click", function() { mainSfxController(menuClickSfxSource) });
+        loadSavedMenuGameslot3Deleteid.addEventListener("click", function() { mainSfxController(menuClickSfxSource) });
 
         if(store.getState().musicStatus == 'OFF') {
           mainMenuMusicButtonid.classList.remove('main-menu-music-button');
@@ -358,19 +386,24 @@ const MenuLogic = (function() {
 
       if(store.getState().lastAction == 'GAME_LOAD' && store.getState().currentPage == 'MAIN_MENU') {
         console.log(savedData);
-        // console.log(savedData[1]);
-        // console.log(savedData[2]);
+
         if (savedData.slot1.isUsed == true) {
-          loadSavedMenuGameslot1id.classList.remove('load-saved-menu-gameslot-1-unused');
-          loadSavedMenuGameslot1id.classList.add('load-saved-menu-gameslot-1-used');
+          loadSavedMenuGameslot1Unusedid.classList.add('hidden');
+          loadSavedMenuGameslot1Usedid.classList.remove('hidden');
+          loadSavedMenuGameslot1UsedHoverid.classList.remove('hidden');
+          loadSavedMenuGameslot1Deleteid.classList.remove('hidden');
         }
         if (savedData.slot2.isUsed == true) {
-          loadSavedMenuGameslot2id.classList.remove('load-saved-menu-gameslot-2-unused');
-          loadSavedMenuGameslot2id.classList.add('load-saved-menu-gameslot-2-used');
-        }
+          loadSavedMenuGameslot2Unusedid.classList.add('hidden');
+          loadSavedMenuGameslot2Usedid.classList.remove('hidden');
+          loadSavedMenuGameslot2UsedHoverid.classList.remove('hidden');
+          loadSavedMenuGameslot2Deleteid.classList.remove('hidden');
+      }
         if (savedData.slot3.isUsed == true) {
-          loadSavedMenuGameslot3id.classList.remove('load-saved-menu-gameslot-3-unused');
-          loadSavedMenuGameslot3id.classList.add('load-saved-menu-gameslot-3-used');
+          loadSavedMenuGameslot3Unusedid.classList.add('hidden');
+          loadSavedMenuGameslot3Usedid.classList.remove('hidden');
+          loadSavedMenuGameslot3UsedHoverid.classList.remove('hidden');
+          loadSavedMenuGameslot3Deleteid.classList.remove('hidden');
         }
       }
 
