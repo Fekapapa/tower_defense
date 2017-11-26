@@ -946,3 +946,62 @@ body {
     width: 18px
   }
 }
+
+.load-saved-menu-gameslot-1-delconf {
+  background-image: url(../assets/image/menu/load_saved_gameslot_delete.png);
+  height: 59px;
+  margin-left: 26px;
+  position: absolute;
+  margin-top: 49px;
+  width: 171px;
+}
+
+.load-saved-menu-gameslot-2-delconf {
+  background-image: url(../assets/image/menu/load_saved_gameslot_delete.png);
+  height: 59px;
+  margin-left: 26px;
+  position: absolute;
+  margin-top: 115px;
+  width: 171px;
+}
+
+.load-saved-menu-gameslot-3-delconf {
+  background-image: url(../assets/image/menu/load_saved_gameslot_delete.png);
+  height: 59px;
+  margin-left: 26px;
+  position: absolute;
+  margin-top: 182px;
+  width: 171px;
+}
+
+.load-saved-menu-gameslot-delconfyes {
+  cursor: pointer;
+  height: 24px;
+  margin-left: 44px;
+  position: absolute;
+  margin-top: 2px;
+  width: 23px;
+  &:hover {
+    background-image: url(../assets/image/menu/load_saved_gameslot_delconfyes.png);
+  }
+}
+
+.load-saved-menu-gameslot-delconfno {
+  cursor: pointer;
+  height: 21px;
+  margin-left: 100px;
+  position: absolute;
+  margin-top: 3px;
+  width: 21px;
+  &:hover {
+    background-image: url(../assets/image/menu/load_saved_gameslot_delconfno.png);
+  }
+}
+
+.load-saved-menu-gameslot-delconf-text {
+  color: rgb(251, 239, 212);
+  font-style: italic;
+  font-size: 14px;
+  margin-top: 5px;
+  text-align: center;
+}
