@@ -145,26 +145,21 @@ const MenuLogic = (function() {
   }
 
   function gameFrameOnload() {
-    // savedData = {};
-    // savedData.slot1 = {
-    //   isUsed: true,
-    //   stars: 1,
-    //   shields: 2,
-    //   swords: 3
-    // }
-    // savedData.slot2 = {
-    //   isUsed: true,
-    //   stars: 4,
-    //   shields: 5,
-    //   swords: 6
-    // }
-    // savedData.slot3 = {
-    //   isUsed: true,
-    //   stars: 7,
-    //   shields: 8,
-    //   swords: 9
-    // }
-    // localStorage.setItem('kr_xp_save', JSON.stringify(savedData));
+
+    if (localStorage.getItem('kr_xp_save') !== true) {
+      savedData = {};
+      savedData.slot1 = {
+        isUsed: false
+      }
+      savedData.slot2 = {
+        isUsed: false
+      }
+      savedData.slot3 = {
+        isUsed: false
+      }
+      localStorage.setItem('kr_xp_save', JSON.stringify(savedData));
+    }
+
     loadGame();
 
     if(store.getState().isFrameLoaded) {

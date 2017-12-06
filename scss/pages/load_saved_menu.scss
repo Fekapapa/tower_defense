@@ -1,0 +1,383 @@
+.load-saved-container {
+  display: inline-block;
+  height: 600px;
+  margin: auto;
+  position: relative;
+  width: 800px;
+}
+
+.load-saved-menu-start {
+  animation-timing-function: ease-in-out;
+  background-image: $load-saved-bg;
+  background: no-repeat cover center;
+  height: 287px;
+  margin-left: 289px;
+  position: absolute;
+  margin-top: 1600px;
+  width: 223px;
+}
+
+.load-saved-menu {
+  animation: load-saved-menu 0.4s forwards;
+  animation-delay: 0.2s;
+  animation-timing-function: ease-in-out;
+  background-image: $load-saved-bg;
+  background: no-repeat cover center;
+  height: 287px;
+  margin-left: 289px;
+  position: absolute;
+  margin-top: 600px;
+  width: 223px;
+}
+
+@keyframes load-saved-menu {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-294px); }
+}
+
+.load-saved-menu-reverse {
+  animation: load-saved-menu-reverse 0.4s forwards;
+  animation-timing-function: ease-in-out;
+  background-image: $load-saved-bg;
+  background: no-repeat cover center;
+  height: 287px;
+  margin-left: 289px;
+  position: absolute;
+  margin-top: 306px;
+  width: 223px;
+}
+
+@keyframes load-saved-menu-reverse {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(294px); }
+}
+
+.load-saved-menu-close-button {
+  cursor: pointer;
+  height: 23px;
+  margin-left: 30px;
+  position: absolute;
+  margin-top: 259px;
+  width: 160px;
+  &:hover {
+    background-image: $load-saved-close-hover-bg;
+    background: no-repeat cover center;
+  }
+}
+
+.load-saved-menu-localsave-help {
+  cursor: pointer;
+  height: 22px;
+  margin-left: 479px;
+  margin-top: 308px;
+  position: absolute;
+  width: 23px;
+  &:hover {
+    background-image: $load-saved-help-hover-bg;
+    height: 29px;
+    margin-left: 472px;
+    margin-top: 301px;
+    width: 30px;
+  }
+}
+
+.load-saved-menu-localsave-help-info {
+  display: none;
+}
+
+.load-saved-menu-localsave-help:hover + .load-saved-menu-localsave-help-info {
+  background-color: rgba(0, 0, 0, 0.8);
+  display: inline-block;
+  height: 161px;
+  margin-left: 235px;
+  position: relative;
+  top: 145px;
+  width: 243px;
+  font-style: italic;
+}
+
+.load-saved-menu-localsave-help-info-header {
+  color: white;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.load-saved-menu-localsave-help-info-text {
+  color: rgb(254, 225, 1);
+  font-size: 14px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.load-saved-menu-gameslot-1-unused {
+  cursor: pointer;
+  height: 60px;
+  margin-left: 25px;
+  position: absolute;
+  margin-top: 48px;
+  width: 172px;
+  &:hover {
+    background-image: $load-saved-newgame-hover-bg;
+  }
+}
+
+.load-saved-menu-gameslot-2-unused {
+  cursor: pointer;
+  height: 60px;
+  margin-left: 25px;
+  position: absolute;
+  margin-top: 114px;
+  width: 172px;
+  &:hover {
+    background-image: $load-saved-newgame-hover-bg;
+  }
+}
+
+.load-saved-menu-gameslot-3-unused {
+  cursor: pointer;
+  height: 60px;
+  margin-left: 25px;
+  position: absolute;
+  margin-top: 181px;
+  width: 172px;
+  &:hover {
+    background-image: $load-saved-newgame-hover-bg;
+  }
+}
+
+.load-saved-menu-gameslot-1-used {
+  background-image: $load-saved-gameslot-used-bg;
+  color: rgb(251, 239, 212);
+  cursor: pointer;
+  font-style: italic;
+  font-size: 14px;
+  height: 60px;
+  margin-left: 25px;
+  position: absolute;
+  margin-top: 48px;
+  width: 172px;
+}
+
+.load-saved-menu-gameslot-2-used {
+  background-image: $load-saved-gameslot-used-bg;
+  color: rgb(251, 239, 212);
+  cursor: pointer;
+  font-style: italic;
+  font-size: 14px;
+  height: 60px;
+  margin-left: 25px;
+  position: absolute;
+  margin-top: 114px;
+  width: 172px;
+}
+
+.load-saved-menu-gameslot-3-used {
+  background-image: $load-saved-gameslot-used-bg;
+  color: rgb(251, 239, 212);
+  cursor: pointer;
+  font-style: italic;
+  font-size: 14px;
+  height: 60px;
+  margin-left: 25px;
+  position: absolute;
+  margin-top: 181px;
+  width: 172px;
+}
+
+
+
+
+
+.load-saved-menu-gameslot-firstrow {
+  display: flex;
+  height: 20px;
+  justify-content: space-between;
+  margin: auto;
+  margin-top: 10px;
+  width: 150px;
+}
+
+.load-saved-menu-gameslot-secondrow {
+  display: flex;
+  height: 20px;
+  justify-content: space-between;
+  margin: auto;
+  width: 150px;
+}
+
+.load-saved-menu-gameslot-staricon {
+  background-image: $load-saved-star-icon-bg;
+  height: 15px;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 17px;
+}
+
+.load-saved-menu-gameslot-shieldicon {
+  background-image: $load-saved-shield-icon-bg;
+  height: 19px;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 24px;
+}
+
+.load-saved-menu-gameslot-fisticon {
+  background-image: $load-saved-fist-icon-bg;
+  height: 19px;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 21px;
+}
+
+.load-saved-menu-gameslot-text {
+  padding-right: 7px;
+}
+
+.load-saved-menu-gameslot-1-used-hover {
+  cursor: pointer;
+  height: 60px;
+  margin-left: 26px;
+  position: absolute;
+  margin-top: 48px;
+  width: 172px;
+  &:hover {
+    background-image: $load-saved-gameslot-hover-bg;
+  }
+}
+
+.load-saved-menu-gameslot-2-used-hover {
+  cursor: pointer;
+  height: 60px;
+  margin-left: 26px;
+  position: absolute;
+  margin-top: 114px;
+  width: 172px;
+  &:hover {
+    background-image: $load-saved-gameslot-hover-bg;
+  }
+}
+
+.load-saved-menu-gameslot-3-used-hover {
+  height: 60px;
+  margin-left: 26px;
+  position: absolute;
+  margin-top: 181px;
+  width: 172px;
+  &:hover {
+    background-image: $load-saved-gameslot-hover-bg;
+  }
+}
+
+.load-saved-menu-gameslot-1-delete {
+  background-image: $load-saved-greycross-icon-bg;
+  cursor: pointer;
+  height: 15px;
+  margin-left: 168px;
+  margin-top: 60px;
+  position: absolute;
+  width: 16px;
+  &:hover {
+    background-image: $load-saved-redcross-icon-bg;
+    height: 17px;
+    margin-left: 167px;
+    margin-top: 59px;
+    width: 18px
+  }
+}
+
+.load-saved-menu-gameslot-2-delete {
+  background-image: $load-saved-greycross-icon-bg;
+  cursor: pointer;
+  height: 15px;
+  margin-left: 168px;
+  margin-top: 126px;
+  position: absolute;
+  width: 16px;
+  &:hover {
+    background-image: $load-saved-redcross-icon-bg;
+    height: 17px;
+    margin-left: 167px;
+    margin-top: 125px;
+    width: 18px
+  }
+}
+
+.load-saved-menu-gameslot-3-delete {
+  background-image: $load-saved-greycross-icon-bg;
+  cursor: pointer;
+  height: 15px;
+  margin-left: 168px;
+  margin-top: 192px;
+  position: absolute;
+  width: 16px;
+  &:hover {
+    background-image: $load-saved-redcross-icon-bg;
+    height: 17px;
+    margin-left: 167px;
+    margin-top: 191px;
+    width: 18px
+  }
+}
+
+.load-saved-menu-gameslot-1-delconf {
+  background-image: $load-saved-gameslot-delete-bg;
+  height: 59px;
+  margin-left: 26px;
+  position: absolute;
+  margin-top: 49px;
+  width: 171px;
+}
+
+.load-saved-menu-gameslot-2-delconf {
+  background-image: $load-saved-gameslot-delete-bg;
+  height: 59px;
+  margin-left: 26px;
+  position: absolute;
+  margin-top: 115px;
+  width: 171px;
+}
+
+.load-saved-menu-gameslot-3-delconf {
+  background-image: $load-saved-gameslot-delete-bg;
+  height: 59px;
+  margin-left: 26px;
+  position: absolute;
+  margin-top: 182px;
+  width: 171px;
+}
+
+.load-saved-menu-gameslot-delconfyes {
+  cursor: pointer;
+  height: 24px;
+  margin-left: 44px;
+  position: absolute;
+  margin-top: 2px;
+  width: 23px;
+  &:hover {
+    background-image: $load-saved-gameslot-delconfyes-bg;
+  }
+}
+
+.load-saved-menu-gameslot-delconfno {
+  cursor: pointer;
+  height: 21px;
+  margin-left: 100px;
+  position: absolute;
+  margin-top: 3px;
+  width: 21px;
+  &:hover {
+    background-image: $load-saved-gameslot-delconfno-bg;
+  }
+}
+
+.load-saved-menu-gameslot-delconf-text {
+  color: rgb(251, 239, 212);
+  font-style: italic;
+  font-size: 14px;
+  margin-top: 5px;
+  text-align: center;
+}
