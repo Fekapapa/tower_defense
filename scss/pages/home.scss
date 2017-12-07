@@ -7,7 +7,8 @@
   margin: auto;
   overflow: hidden;
   position: absolute;
-  top: 0px;
+  // top: 0px;
+  margin-top: -607px;
   width: 800px;
   z-index: -1;
 }
@@ -88,7 +89,7 @@
   animation: preloader-container 1s forwards;
   margin: auto;
   margin-left: -180px;
-  margin-top: -604px;
+  margin-top: -607px;
   width: 1700px;
   z-index: 20;
 }
