@@ -55,6 +55,15 @@ const MenuLogic = (function() {
   let loadSavedMenuGameslot2Delconfnoid;
   let loadSavedMenuGameslot3Delconfyesid;
   let loadSavedMenuGameslot3Delconfnoid;
+  let gameslot1Stars;
+  let gameslot1Shields;
+  let gameslot1Fists;
+  let gameslot2Stars;
+  let gameslot2Shields;
+  let gameslot2Fists;
+  let gameslot3Stars;
+  let gameslot3Shields;
+  let gameslot3Fists;
 
   let savedData;
   let sfxHelper = 0;
@@ -119,6 +128,11 @@ const MenuLogic = (function() {
                 savedData: action.payload.savedData,
                 lastAction: GAME_LOAD
               })
+      case 'GAME_SAVE':
+        return Object.assign({}, state, {
+                savedData: action.payload.savedData,
+                lastAction: GAME_SAVE
+              })
       case 'GAME_DELETE':
         return Object.assign({}, state, {
                 gameSlot: action.payload.gameSlot,
@@ -146,7 +160,7 @@ const MenuLogic = (function() {
 
   function gameFrameOnload() {
 
-    if (localStorage.getItem('kr_xp_save') !== true) {
+    if (localStorage.getItem('kr_xp_save') == undefined) {
       savedData = {};
       savedData.slot1 = {
         isUsed: false
@@ -158,6 +172,8 @@ const MenuLogic = (function() {
         isUsed: false
       }
       localStorage.setItem('kr_xp_save', JSON.stringify(savedData));
+    } else {
+      savedData = JSON.parse(localStorage.getItem('kr_xp_save'));
     }
 
     loadGame();
@@ -461,6 +477,54 @@ const MenuLogic = (function() {
         loadSavedMenuGameslot3Delconfyesid.addEventListener("click", function() { mainSfxController(menuClickSfxSource) });
         loadSavedMenuGameslot3Delconfnoid.addEventListener("click", function() { mainSfxController(menuClickSfxSource) });
 
+        loadSavedMenuGameslot1Unusedid.addEventListener("click", function() {
+          savedData.slot1 = {
+            isUsed: true,
+            stars: 0,
+            shields: 0,
+            fists: 0
+          }
+          store.dispatch({
+            type: GAME_SAVE,
+            payload: {
+              savedData
+            }
+          });
+          saveGame();
+        });
+
+        loadSavedMenuGameslot2Unusedid.addEventListener("click", function() {
+          savedData.slot2 = {
+            isUsed: true,
+            stars: 0,
+            shields: 0,
+            fists: 0
+          }
+          store.dispatch({
+            type: GAME_SAVE,
+            payload: {
+              savedData
+            }
+          });
+          saveGame();
+        });
+
+        loadSavedMenuGameslot3Unusedid.addEventListener("click", function() {
+          savedData.slot3 = {
+            isUsed: true,
+            stars: 0,
+            shields: 0,
+            fists: 0
+          }
+          store.dispatch({
+            type: GAME_SAVE,
+            payload: {
+              savedData
+            }
+          });
+          saveGame();
+        });
+
         if(store.getState().musicStatus == 'OFF') {
           mainMenuMusicButtonid.classList.remove('main-menu-music-button');
           mainMenuMusicButtonid.classList.add('main-menu-music-button-disabled');
@@ -752,6 +816,14 @@ const MenuLogic = (function() {
         loadSavedMenuGameslot1Usedid.classList.remove('hidden');
         loadSavedMenuGameslot1UsedHoverid.classList.remove('hidden');
         loadSavedMenuGameslot1Deleteid.classList.remove('hidden');
+
+        gameslot1Stars = gameFrame.document.getElementById('gameslot-1-stars');
+        gameslot1Shields = gameFrame.document.getElementById('gameslot-1-shields');
+        gameslot1Fists = gameFrame.document.getElementById('gameslot-1-fists');
+
+        gameslot1Stars.innerHTML = store.getState().savedData.slot1.stars.toString() + '/77';
+        gameslot1Shields.innerHTML = store.getState().savedData.slot1.shields;
+        gameslot1Fists.innerHTML = store.getState().savedData.slot1.fists;
       }
       if (savedData.slot1.isUsed == false) {
         loadSavedMenuGameslot1Unusedid.classList.remove('hidden');
@@ -764,6 +836,10 @@ const MenuLogic = (function() {
         loadSavedMenuGameslot2Usedid.classList.remove('hidden');
         loadSavedMenuGameslot2UsedHoverid.classList.remove('hidden');
         loadSavedMenuGameslot2Deleteid.classList.remove('hidden');
+
+        gameslot2Stars = gameFrame.document.getElementById('gameslot-2-stars');
+        gameslot2Shields = gameFrame.document.getElementById('gameslot-2-shields');
+        gameslot2Fists = gameFrame.document.getElementById('gameslot-2-fists');
       }
       if (savedData.slot2.isUsed == false) {
         loadSavedMenuGameslot2Unusedid.classList.remove('hidden');
@@ -776,6 +852,10 @@ const MenuLogic = (function() {
         loadSavedMenuGameslot3Usedid.classList.remove('hidden');
         loadSavedMenuGameslot3UsedHoverid.classList.remove('hidden');
         loadSavedMenuGameslot3Deleteid.classList.remove('hidden');
+
+        gameslot3Stars = gameFrame.document.getElementById('gameslot-3-stars');
+        gameslot3Shields = gameFrame.document.getElementById('gameslot-3-shields');
+        gameslot3Fists = gameFrame.document.getElementById('gameslot-3-fists');
       }
       if (savedData.slot3.isUsed == false) {
         loadSavedMenuGameslot3Unusedid.classList.remove('hidden');
@@ -784,6 +864,37 @@ const MenuLogic = (function() {
         loadSavedMenuGameslot3Deleteid.classList.add('hidden');
       }
     }
+
+    if (store.getState().isFrameLoaded == true && store.getState().currentPage == 'LOAD_SAVED') {
+      if (savedData.slot1.isUsed == true) {
+        gameslot1Stars = gameFrame.document.getElementById('gameslot-1-stars');
+        gameslot1Shields = gameFrame.document.getElementById('gameslot-1-shields');
+        gameslot1Fists = gameFrame.document.getElementById('gameslot-1-fists');
+
+        gameslot1Stars.innerHTML = store.getState().savedData.slot1.stars.toString() + '/77';
+        gameslot1Shields.innerHTML = store.getState().savedData.slot1.shields;
+        gameslot1Fists.innerHTML = store.getState().savedData.slot1.fists;
+      }
+      if (savedData.slot2.isUsed == true) {
+        gameslot2Stars = gameFrame.document.getElementById('gameslot-2-stars');
+        gameslot2Shields = gameFrame.document.getElementById('gameslot-2-shields');
+        gameslot2Fists = gameFrame.document.getElementById('gameslot-2-fists');
+
+        gameslot2Stars.innerHTML = store.getState().savedData.slot2.stars.toString() + '/77';
+        gameslot2Shields.innerHTML = store.getState().savedData.slot2.shields;
+        gameslot2Fists.innerHTML = store.getState().savedData.slot2.fists;
+      }
+      if (savedData.slot3.isUsed == true) {
+        gameslot3Stars = gameFrame.document.getElementById('gameslot-3-stars');
+        gameslot3Shields = gameFrame.document.getElementById('gameslot-3-shields');
+        gameslot3Fists = gameFrame.document.getElementById('gameslot-3-fists');
+
+        gameslot3Stars.innerHTML = store.getState().savedData.slot3.stars.toString() + '/77';
+        gameslot3Shields.innerHTML = store.getState().savedData.slot3.shields;
+        gameslot3Fists.innerHTML = store.getState().savedData.slot3.fists;
+      }
+    }
+
   }
 
   function mainMusicController() {
@@ -825,6 +936,13 @@ const MenuLogic = (function() {
           savedData
         }
       });
+    }
+  }
+
+  function saveGame() {
+    if (store.getState().lastAction == 'GAME_SAVE' && store.getState().isFrameLoaded == true && store.getState().currentPage == 'LOAD_SAVED') {
+      localStorage.setItem('kr_xp_save', JSON.stringify(store.getState().savedData));
+      loadGame();
     }
   }
 
