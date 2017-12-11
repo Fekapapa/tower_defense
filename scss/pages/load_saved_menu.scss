@@ -9,7 +9,6 @@
 .load-saved-menu-start {
   animation-timing-function: ease-in-out;
   background-image: $load-saved-bg;
-  background: no-repeat cover center;
   height: 287px;
   margin-left: 289px;
   position: absolute;
@@ -22,7 +21,6 @@
   animation-delay: 0.2s;
   animation-timing-function: ease-in-out;
   background-image: $load-saved-bg;
-  background: no-repeat cover center;
   height: 287px;
   margin-left: 289px;
   position: absolute;
@@ -39,7 +37,6 @@
   animation: load-saved-menu-reverse 0.4s forwards;
   animation-timing-function: ease-in-out;
   background-image: $load-saved-bg;
-  background: no-repeat cover center;
   height: 287px;
   margin-left: 289px;
   position: absolute;
@@ -56,12 +53,11 @@
   cursor: pointer;
   height: 23px;
   margin-left: 30px;
-  position: absolute;
   margin-top: 259px;
+  position: absolute;
   width: 160px;
   &:hover {
     background-image: $load-saved-close-hover-bg;
-    background: no-repeat cover center;
   }
 }
 
@@ -99,10 +95,7 @@
 .load-saved-menu-localsave-help-info-header {
   color: white;
   font-size: 14px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin: 10px;
 }
 
 .load-saved-menu-localsave-help-info-text {
@@ -114,83 +107,34 @@
 }
 
 .load-saved-menu-gameslot-1-unused {
-  cursor: pointer;
-  height: 60px;
-  margin-left: 25px;
-  position: absolute;
   margin-top: 48px;
-  width: 172px;
-  &:hover {
-    background-image: $load-saved-newgame-hover-bg;
-  }
+  @include load-saved-menu-gameslot-unused;
 }
 
 .load-saved-menu-gameslot-2-unused {
-  cursor: pointer;
-  height: 60px;
-  margin-left: 25px;
-  position: absolute;
   margin-top: 114px;
-  width: 172px;
-  &:hover {
-    background-image: $load-saved-newgame-hover-bg;
-  }
+  @include load-saved-menu-gameslot-unused;
 }
 
 .load-saved-menu-gameslot-3-unused {
-  cursor: pointer;
-  height: 60px;
-  margin-left: 25px;
-  position: absolute;
   margin-top: 181px;
-  width: 172px;
-  &:hover {
-    background-image: $load-saved-newgame-hover-bg;
-  }
+  @include load-saved-menu-gameslot-unused;
 }
 
 .load-saved-menu-gameslot-1-used {
-  background-image: $load-saved-gameslot-used-bg;
-  color: rgb(251, 239, 212);
-  cursor: pointer;
-  font-style: italic;
-  font-size: 14px;
-  height: 60px;
-  margin-left: 25px;
-  position: absolute;
   margin-top: 48px;
-  width: 172px;
+  @include load-saved-menu-gameslot-used;
 }
 
 .load-saved-menu-gameslot-2-used {
-  background-image: $load-saved-gameslot-used-bg;
-  color: rgb(251, 239, 212);
-  cursor: pointer;
-  font-style: italic;
-  font-size: 14px;
-  height: 60px;
-  margin-left: 25px;
-  position: absolute;
   margin-top: 114px;
-  width: 172px;
+  @include load-saved-menu-gameslot-used;
 }
 
 .load-saved-menu-gameslot-3-used {
-  background-image: $load-saved-gameslot-used-bg;
-  color: rgb(251, 239, 212);
-  cursor: pointer;
-  font-style: italic;
-  font-size: 14px;
-  height: 60px;
-  margin-left: 25px;
-  position: absolute;
   margin-top: 181px;
-  width: 172px;
+  @include load-saved-menu-gameslot-used;
 }
-
-
-
-
 
 .load-saved-menu-gameslot-firstrow {
   display: flex;
@@ -238,124 +182,65 @@
 }
 
 .load-saved-menu-gameslot-1-used-hover {
-  cursor: pointer;
-  height: 60px;
-  margin-left: 26px;
-  position: absolute;
   margin-top: 48px;
-  width: 172px;
-  &:hover {
-    background-image: $load-saved-gameslot-hover-bg;
-  }
+  @include load-saved-menu-gameslot-used-hover;
 }
 
 .load-saved-menu-gameslot-2-used-hover {
-  cursor: pointer;
-  height: 60px;
-  margin-left: 26px;
-  position: absolute;
   margin-top: 114px;
-  width: 172px;
-  &:hover {
-    background-image: $load-saved-gameslot-hover-bg;
-  }
+  @include load-saved-menu-gameslot-used-hover;
 }
 
 .load-saved-menu-gameslot-3-used-hover {
-  height: 60px;
-  margin-left: 26px;
-  position: absolute;
   margin-top: 181px;
-  width: 172px;
-  &:hover {
-    background-image: $load-saved-gameslot-hover-bg;
-  }
+  @include load-saved-menu-gameslot-used-hover;
 }
 
 .load-saved-menu-gameslot-1-delete {
-  background-image: $load-saved-greycross-icon-bg;
-  cursor: pointer;
-  height: 15px;
-  margin-left: 168px;
   margin-top: 60px;
-  position: absolute;
-  width: 16px;
+  @include load-saved-menu-gameslot-delete;
   &:hover {
-    background-image: $load-saved-redcross-icon-bg;
-    height: 17px;
-    margin-left: 167px;
     margin-top: 59px;
-    width: 18px
   }
 }
 
 .load-saved-menu-gameslot-2-delete {
-  background-image: $load-saved-greycross-icon-bg;
-  cursor: pointer;
-  height: 15px;
-  margin-left: 168px;
   margin-top: 126px;
-  position: absolute;
-  width: 16px;
+  @include load-saved-menu-gameslot-delete;
   &:hover {
-    background-image: $load-saved-redcross-icon-bg;
-    height: 17px;
-    margin-left: 167px;
     margin-top: 125px;
-    width: 18px
   }
 }
 
 .load-saved-menu-gameslot-3-delete {
-  background-image: $load-saved-greycross-icon-bg;
-  cursor: pointer;
-  height: 15px;
-  margin-left: 168px;
   margin-top: 192px;
-  position: absolute;
-  width: 16px;
+  @include load-saved-menu-gameslot-delete;
   &:hover {
-    background-image: $load-saved-redcross-icon-bg;
-    height: 17px;
-    margin-left: 167px;
     margin-top: 191px;
-    width: 18px
   }
 }
 
 .load-saved-menu-gameslot-1-delconf {
-  background-image: $load-saved-gameslot-delete-bg;
-  height: 59px;
-  margin-left: 26px;
-  position: absolute;
   margin-top: 49px;
-  width: 171px;
+  @include load-saved-menu-gameslot-delconf;
 }
 
 .load-saved-menu-gameslot-2-delconf {
-  background-image: $load-saved-gameslot-delete-bg;
-  height: 59px;
-  margin-left: 26px;
-  position: absolute;
   margin-top: 115px;
-  width: 171px;
+  @include load-saved-menu-gameslot-delconf;
 }
 
 .load-saved-menu-gameslot-3-delconf {
-  background-image: $load-saved-gameslot-delete-bg;
-  height: 59px;
-  margin-left: 26px;
-  position: absolute;
   margin-top: 182px;
-  width: 171px;
+  @include load-saved-menu-gameslot-delconf;
 }
 
 .load-saved-menu-gameslot-delconfyes {
   cursor: pointer;
   height: 24px;
   margin-left: 44px;
-  position: absolute;
   margin-top: 2px;
+  position: absolute;
   width: 23px;
   &:hover {
     background-image: $load-saved-gameslot-delconfyes-bg;
@@ -366,8 +251,8 @@
   cursor: pointer;
   height: 21px;
   margin-left: 100px;
-  position: absolute;
   margin-top: 3px;
+  position: absolute;
   width: 21px;
   &:hover {
     background-image: $load-saved-gameslot-delconfno-bg;
@@ -378,6 +263,7 @@
   color: rgb(251, 239, 212);
   font-style: italic;
   font-size: 14px;
+  line-height: 19px;
   margin-top: 5px;
   text-align: center;
 }

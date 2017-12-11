@@ -7,36 +7,30 @@
   margin: auto;
   overflow: hidden;
   position: absolute;
-  // top: 0px;
-  margin-top: -607px;
+  margin-top: -605px;
   width: 800px;
   z-index: -1;
 }
 
 .preloader-fake-background-premenu {
   background-image: $pre-menu-background-bg;
-  background: no-repeat cover center;
 }
 
 .preloader-fake-background-mainmenu {
   background-image: $main-menu-preloader-background-bg;
-  background: no-repeat cover center;
 }
 
 .preloader-fake-background-mainmenu-stripped {
   background-image: $main-menu-background-bg;
-  background: no-repeat cover center;
 }
 
 .preloader-fake-background-creditsmenu {
   background-image: $credits-background-bg;
-  background: no-repeat cover center;
 }
 
 .preloader-leftside {
   animation: preloader-leftside 1s forwards;
   background-image: $preloader-left-bg;
-  background: no-repeat cover center;
   display: inline-block;
   height: 600px;
   transform: translateX(-668px);
@@ -58,7 +52,6 @@
 .preloader-rightside {
   animation: preloader-rightside 1s forwards;
   background-image: $preloader-right-bg;
-  background: no-repeat cover center;
   display: inline-block;
   height: 600px;
   top: 0;
@@ -89,7 +82,7 @@
   animation: preloader-container 1s forwards;
   margin: auto;
   margin-left: -180px;
-  margin-top: -607px;
+  margin-top: -606px;
   pointer-events: none;
   width: 1700px;
   z-index: 20;
@@ -117,13 +110,4 @@
   border: none;
   position: relative;
   z-index: 0;
-}
-
-.hidden {
-  visibility: hidden;
-  z-index: -1;
-}
-
-.undisplayed {
-  display: none;
 }

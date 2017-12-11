@@ -1,0 +1,107 @@
+
+// LOAD SAVED MENU MIXINS
+
+
+@mixin load-saved-menu-gameslot-unused {
+  cursor: pointer;
+  height: 60px;
+  margin-left: 25px;
+  position: absolute;
+  width: 172px;
+  &:hover {
+    background-image: $load-saved-newgame-hover-bg;
+  }
+}
+
+@mixin load-saved-menu-gameslot-used {
+  background-image: $load-saved-gameslot-used-bg;
+  color: rgb(251, 239, 212);
+  cursor: pointer;
+  font-style: italic;
+  font-size: 14px;
+  height: 60px;
+  margin-left: 25px;
+  position: absolute;
+  width: 172px;
+}
+
+@mixin load-saved-menu-gameslot-used-hover {
+  cursor: pointer;
+  height: 60px;
+  margin-left: 26px;
+  position: absolute;
+  width: 172px;
+  &:hover {
+    background-image: $load-saved-gameslot-hover-bg;
+  }
+}
+
+@mixin load-saved-menu-gameslot-delete {
+  background-image: $load-saved-greycross-icon-bg;
+  cursor: pointer;
+  height: 15px;
+  margin-left: 168px;
+  position: absolute;
+  width: 16px;
+  &:hover {
+    background-image: $load-saved-redcross-icon-bg;
+    height: 17px;
+    margin-left: 167px;
+    width: 18px
+  }
+}
+
+@mixin load-saved-menu-gameslot-delconf {
+  background-image: $load-saved-gameslot-delete-bg;
+  height: 59px;
+  margin-left: 26px;
+  position: absolute;
+  width: 171px;
+}
+
+
+// MAIN MENU MIXINS
+
+
+@mixin main-menu-armorgames-image {
+  animation: main-menu-armorgames-image 0.2s forwards;
+  animation-timing-function: ease-out;
+  background-image: $main-menu-armor-games-bg;
+  height: 143px;
+  margin-left: 620px;
+  position: absolute;
+  margin-top: 600px;
+  width: 154px;
+}
+
+@mixin main-menu-ironhide-image {
+  animation: main-menu-ironhide-image 0.2s forwards;
+  animation-timing-function: ease-out;
+  background-image: $main-menu-iron-hide-bg;
+  height: 147px;
+  margin-left: 18px;
+  position: absolute;
+  margin-top: 600px;
+  width: 155px;
+}
+
+@mixin main-menu-start-image {
+  animation: main-menu-start-image 0.2s forwards;
+  background-image: $main-menu-start-bg;
+  height: 176px;
+  margin-left: 298px;
+  position: relative;
+  top: -181px;
+  width: 195px;
+}
+
+@mixin main-menu-credits-image {
+  animation: main-menu-credits-image 0.4s forwards;
+  background-image: $main-menu-credits-bg;
+  height: 80px;
+  margin-left: 298px;
+  margin-top: 96px;
+  position: relative;
+  top: -357px;
+  width: 195px;
+}

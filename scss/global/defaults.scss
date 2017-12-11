@@ -12,3 +12,8 @@ body {
   overflow-x: hidden;
   font-family: 'Gochi Hand', cursive;
 }
+
+.hidden {
+  visibility: hidden;
+  z-index: -1;
+}

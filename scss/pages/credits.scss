@@ -1,6 +1,5 @@
 .credits-main-container {
   background-image: $credits-background-bg;
-  background: no-repeat cover center;
   height: 600px;
   margin: auto;
   width: 800px;
@@ -15,6 +14,5 @@
   width: 135px;
   &:hover {
     background-image: $credits-back-hover-bg;
-    background: no-repeat cover center;
   }
 }

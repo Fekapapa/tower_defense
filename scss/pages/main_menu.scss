@@ -1,6 +1,5 @@
 .main-menu-container {
   background-image: $main-menu-background-bg;
-  background: no-repeat cover center;
   height: 600px;
   margin: auto;
   width: 800px;
@@ -16,7 +15,6 @@
   z-index: 2;
   &:hover {
     background-image: $main-menu-start-hover-bg;
-    background: no-repeat cover center;
   }
 }
 
@@ -29,7 +27,6 @@
   z-index: 2;
   &:hover {
     background-image: $main-menu-credits-hover-bg;
-    background: no-repeat cover center;
   }
 }
 
@@ -38,7 +35,6 @@
   animation-delay: 1s;
   animation-timing-function: ease-out;
   background-image: $main-menu-playonmobile-bg;
-  background: no-repeat cover center;
   height: 143px;
   margin-left: 605px;
   margin-top: -143px;
@@ -47,7 +43,6 @@
 
   &:hover {
     background-image: $main-menu-playonmobile-hover-bg;
-    background: no-repeat cover center;
     height: 148px;
     margin-left: 600px;
     position: absolute;
@@ -69,7 +64,6 @@
   width: 45px;
   &:hover {
     background-image: $main-menu-twitter-hover-bg;
-    background: no-repeat cover center;
   }
 }
 
@@ -81,7 +75,6 @@
   width: 46px;
   &:hover {
     background-image: $main-menu-facebook-hover-bg;
-    background: no-repeat cover center;
   }
 }
 
@@ -95,7 +88,6 @@
   z-index: 1;
   &:hover {
     background-image: $main-menu-music-hover-bg;
-    background: no-repeat cover center;
   }
 }
 
@@ -110,7 +102,6 @@
   z-index: 1;
   &:hover {
     background-image: $main-menu-music-disabled-hover-bg;
-    background: no-repeat cover center;
   }
 }
 
@@ -124,7 +115,6 @@
   z-index: 1;
   &:hover {
     background-image: $main-menu-sound-hover-bg;
-    background: no-repeat cover center;
   }
 }
 
@@ -139,7 +129,6 @@
   z-index: 1;
   &:hover {
     background-image: $main-menu-sound-disabled-hover-bg;
-    background: no-repeat cover center;
     height: 25px;
     margin-left: 9px;
     margin-top: 10px;
@@ -168,29 +157,13 @@
 }
 
 .main-menu-armorgames-image {
-  animation: main-menu-armorgames-image 0.2s forwards;
   animation-delay: 1s;
-  animation-timing-function: ease-out;
-  background-image: $main-menu-armor-games-bg;
-  background: no-repeat cover center;
-  height: 143px;
-  margin-left: 620px;
-  position: absolute;
-  margin-top: 600px;
-  width: 154px;
+  @include main-menu-armorgames-image;
 }
 
 .main-menu-armorgames-image-ls {
-  animation: main-menu-armorgames-image 0.2s forwards;
   animation-delay: 0.4s;
-  animation-timing-function: ease-out;
-  background-image: $main-menu-armor-games-bg;
-  background: no-repeat cover center;
-  height: 143px;
-  margin-left: 620px;
-  position: absolute;
-  margin-top: 600px;
-  width: 154px;
+  @include main-menu-armorgames-image;
 }
 
 @keyframes main-menu-armorgames-image {
@@ -199,29 +172,13 @@
 }
 
 .main-menu-ironhide-image {
-  animation: main-menu-ironhide-image 0.2s forwards;
   animation-delay: 1s;
-  animation-timing-function: ease-out;
-  background-image: $main-menu-iron-hide-bg;
-  background: no-repeat cover center;
-  height: 147px;
-  margin-left: 18px;
-  position: absolute;
-  margin-top: 600px;
-  width: 155px;
+  @include main-menu-ironhide-image;
 }
 
 .main-menu-ironhide-image-ls {
-  animation: main-menu-ironhide-image 0.2s forwards;
   animation-delay: 0.4s;
-  animation-timing-function: ease-out;
-  background-image: $main-menu-iron-hide-bg;
-  background: no-repeat cover center;
-  height: 147px;
-  margin-left: 18px;
-  position: absolute;
-  margin-top: 600px;
-  width: 155px;
+  @include main-menu-ironhide-image;
 }
 
 @keyframes main-menu-ironhide-image {
@@ -230,27 +187,13 @@
 }
 
 .main-menu-start-image {
-  animation: main-menu-start-image 0.2s forwards;
   animation-delay: 1s;
-  background-image: $main-menu-start-bg;
-  background: no-repeat cover center;
-  height: 176px;
-  margin-left: 298px;
-  position: relative;
-  top: -181px;
-  width: 195px;
+  @include main-menu-start-image;
 }
 
 .main-menu-start-image-ls {
-  animation: main-menu-start-image 0.2s forwards;
   animation-delay: 0.4s;
-  background-image: $main-menu-start-bg;
-  background: no-repeat cover center;
-  height: 176px;
-  margin-left: 298px;
-  position: relative;
-  top: -181px;
-  width: 195px;
+  @include main-menu-start-image;
 }
 
 @keyframes main-menu-start-image {
@@ -259,29 +202,13 @@
 }
 
 .main-menu-credits-image {
-  animation: main-menu-credits-image 0.4s forwards;
   animation-delay: 1s;
-  background-image: $main-menu-credits-bg;
-  background: no-repeat cover center;
-  height: 80px;
-  margin-left: 298px;
-  margin-top: 96px;
-  position: relative;
-  top: -357px;
-  width: 195px;
+  @include main-menu-credits-image;
 }
 
 .main-menu-credits-image-ls {
-  animation: main-menu-credits-image 0.4s forwards;
   animation-delay: 0.4s;
-  background-image: $main-menu-credits-bg;
-  background: no-repeat cover center;
-  height: 80px;
-  margin-left: 298px;
-  margin-top: 96px;
-  position: relative;
-  top: -357px;
-  width: 195px;
+  @include main-menu-credits-image;
 }
 
 @keyframes main-menu-credits-image {
@@ -294,7 +221,6 @@
   animation: main-menu-armorgames-image-reverse 0.2s forwards;
   animation-timing-function: ease-out;
   background-image: $main-menu-armor-games-bg;
-  background: no-repeat cover center;
   height: 143px;
   margin-left: 620px;
   position: absolute;
@@ -311,7 +237,6 @@
   animation: main-menu-ironhide-image-reverse 0.2s forwards;
   animation-timing-function: ease-out;
   background-image: $main-menu-iron-hide-bg;
-  background: no-repeat cover center;
   height: 147px;
   margin-left: 18px;
   position: absolute;
@@ -328,7 +253,6 @@
   animation: main-menu-start-image-reverse 0.2s forwards;
   animation-delay: 0.2s;
   background-image: $main-menu-start-bg;
-  background: no-repeat cover center;
   height: 176px;
   margin-left: 298px;
   position: relative;
@@ -344,7 +268,6 @@
 .main-menu-credits-image-reverse {
   animation: main-menu-credits-image-reverse 0.4s forwards;
   background-image: $main-menu-credits-bg;
-  background: no-repeat cover center;
   height: 80px;
   margin-left: 298px;
   margin-top: 96px;
