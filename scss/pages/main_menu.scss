@@ -157,12 +157,16 @@
 }
 
 .main-menu-armorgames-image {
+  animation: main-menu-armorgames-image 0.2s forwards;
   animation-delay: 1s;
+  animation-timing-function: ease-out;
   @include main-menu-armorgames-image;
 }
 
 .main-menu-armorgames-image-ls {
+  animation: main-menu-armorgames-image 0.2s forwards;
   animation-delay: 0.4s;
+  animation-timing-function: ease-out;
   @include main-menu-armorgames-image;
 }
 
@@ -172,12 +176,16 @@
 }
 
 .main-menu-ironhide-image {
+  animation: main-menu-ironhide-image 0.2s forwards;
   animation-delay: 1s;
+  animation-timing-function: ease-out;
   @include main-menu-ironhide-image;
 }
 
 .main-menu-ironhide-image-ls {
+  animation: main-menu-ironhide-image 0.2s forwards;
   animation-delay: 0.4s;
+  animation-timing-function: ease-out;
   @include main-menu-ironhide-image;
 }
 
@@ -187,11 +195,13 @@
 }
 
 .main-menu-start-image {
+  animation: main-menu-start-image 0.2s forwards;
   animation-delay: 1s;
   @include main-menu-start-image;
 }
 
 .main-menu-start-image-ls {
+  animation: main-menu-start-image 0.2s forwards;
   animation-delay: 0.4s;
   @include main-menu-start-image;
 }
@@ -202,11 +212,13 @@
 }
 
 .main-menu-credits-image {
+  animation: main-menu-credits-image 0.4s forwards;
   animation-delay: 1s;
   @include main-menu-credits-image;
 }
 
 .main-menu-credits-image-ls {
+  animation: main-menu-credits-image 0.4s forwards;
   animation-delay: 0.4s;
   @include main-menu-credits-image;
 }

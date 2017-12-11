@@ -64,8 +64,6 @@
 
 
 @mixin main-menu-armorgames-image {
-  animation: main-menu-armorgames-image 0.2s forwards;
-  animation-timing-function: ease-out;
   background-image: $main-menu-armor-games-bg;
   height: 143px;
   margin-left: 620px;
@@ -75,8 +73,6 @@
 }
 
 @mixin main-menu-ironhide-image {
-  animation: main-menu-ironhide-image 0.2s forwards;
-  animation-timing-function: ease-out;
   background-image: $main-menu-iron-hide-bg;
   height: 147px;
   margin-left: 18px;
@@ -86,7 +82,6 @@
 }
 
 @mixin main-menu-start-image {
-  animation: main-menu-start-image 0.2s forwards;
   background-image: $main-menu-start-bg;
   height: 176px;
   margin-left: 298px;
@@ -96,7 +91,6 @@
 }
 
 @mixin main-menu-credits-image {
-  animation: main-menu-credits-image 0.4s forwards;
   background-image: $main-menu-credits-bg;
   height: 80px;
   margin-left: 298px;
