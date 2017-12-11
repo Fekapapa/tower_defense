@@ -1,0 +1,269 @@
+.load-saved-container {
+  display: inline-block;
+  height: 600px;
+  margin: auto;
+  position: relative;
+  width: 800px;
+}
+
+.load-saved-menu-start {
+  animation-timing-function: ease-in-out;
+  background-image: $load-saved-bg;
+  height: 287px;
+  margin-left: 289px;
+  position: absolute;
+  margin-top: 1600px;
+  width: 223px;
+}
+
+.load-saved-menu {
+  animation: load-saved-menu 0.4s forwards;
+  animation-delay: 0.2s;
+  animation-timing-function: ease-in-out;
+  background-image: $load-saved-bg;
+  height: 287px;
+  margin-left: 289px;
+  position: absolute;
+  margin-top: 600px;
+  width: 223px;
+}
+
+@keyframes load-saved-menu {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-294px); }
+}
+
+.load-saved-menu-reverse {
+  animation: load-saved-menu-reverse 0.4s forwards;
+  animation-timing-function: ease-in-out;
+  background-image: $load-saved-bg;
+  height: 287px;
+  margin-left: 289px;
+  position: absolute;
+  margin-top: 306px;
+  width: 223px;
+}
+
+@keyframes load-saved-menu-reverse {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(294px); }
+}
+
+.load-saved-menu-close-button {
+  cursor: pointer;
+  height: 23px;
+  margin-left: 30px;
+  margin-top: 259px;
+  position: absolute;
+  width: 160px;
+  &:hover {
+    background-image: $load-saved-close-hover-bg;
+  }
+}
+
+.load-saved-menu-localsave-help {
+  cursor: pointer;
+  height: 22px;
+  margin-left: 479px;
+  margin-top: 308px;
+  position: absolute;
+  width: 23px;
+  &:hover {
+    background-image: $load-saved-help-hover-bg;
+    height: 29px;
+    margin-left: 472px;
+    margin-top: 301px;
+    width: 30px;
+  }
+}
+
+.load-saved-menu-localsave-help-info {
+  display: none;
+}
+
+.load-saved-menu-localsave-help:hover + .load-saved-menu-localsave-help-info {
+  background-color: rgba(0, 0, 0, 0.8);
+  display: inline-block;
+  height: 161px;
+  margin-left: 235px;
+  position: relative;
+  top: 145px;
+  width: 243px;
+  font-style: italic;
+}
+
+.load-saved-menu-localsave-help-info-header {
+  color: white;
+  font-size: 14px;
+  margin: 10px;
+}
+
+.load-saved-menu-localsave-help-info-text {
+  color: rgb(254, 225, 1);
+  font-size: 14px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.load-saved-menu-gameslot-1-unused {
+  margin-top: 48px;
+  @include load-saved-menu-gameslot-unused;
+}
+
+.load-saved-menu-gameslot-2-unused {
+  margin-top: 114px;
+  @include load-saved-menu-gameslot-unused;
+}
+
+.load-saved-menu-gameslot-3-unused {
+  margin-top: 181px;
+  @include load-saved-menu-gameslot-unused;
+}
+
+.load-saved-menu-gameslot-1-used {
+  margin-top: 48px;
+  @include load-saved-menu-gameslot-used;
+}
+
+.load-saved-menu-gameslot-2-used {
+  margin-top: 114px;
+  @include load-saved-menu-gameslot-used;
+}
+
+.load-saved-menu-gameslot-3-used {
+  margin-top: 181px;
+  @include load-saved-menu-gameslot-used;
+}
+
+.load-saved-menu-gameslot-firstrow {
+  display: flex;
+  height: 20px;
+  justify-content: space-between;
+  margin: auto;
+  margin-top: 10px;
+  width: 150px;
+}
+
+.load-saved-menu-gameslot-secondrow {
+  display: flex;
+  height: 20px;
+  justify-content: space-between;
+  margin: auto;
+  width: 150px;
+}
+
+.load-saved-menu-gameslot-staricon {
+  background-image: $load-saved-star-icon-bg;
+  height: 15px;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 17px;
+}
+
+.load-saved-menu-gameslot-shieldicon {
+  background-image: $load-saved-shield-icon-bg;
+  height: 19px;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 24px;
+}
+
+.load-saved-menu-gameslot-fisticon {
+  background-image: $load-saved-fist-icon-bg;
+  height: 19px;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 21px;
+}
+
+.load-saved-menu-gameslot-text {
+  padding-right: 7px;
+}
+
+.load-saved-menu-gameslot-1-used-hover {
+  margin-top: 48px;
+  @include load-saved-menu-gameslot-used-hover;
+}
+
+.load-saved-menu-gameslot-2-used-hover {
+  margin-top: 114px;
+  @include load-saved-menu-gameslot-used-hover;
+}
+
+.load-saved-menu-gameslot-3-used-hover {
+  margin-top: 181px;
+  @include load-saved-menu-gameslot-used-hover;
+}
+
+.load-saved-menu-gameslot-1-delete {
+  margin-top: 60px;
+  @include load-saved-menu-gameslot-delete;
+  &:hover {
+    margin-top: 59px;
+  }
+}
+
+.load-saved-menu-gameslot-2-delete {
+  margin-top: 126px;
+  @include load-saved-menu-gameslot-delete;
+  &:hover {
+    margin-top: 125px;
+  }
+}
+
+.load-saved-menu-gameslot-3-delete {
+  margin-top: 192px;
+  @include load-saved-menu-gameslot-delete;
+  &:hover {
+    margin-top: 191px;
+  }
+}
+
+.load-saved-menu-gameslot-1-delconf {
+  margin-top: 49px;
+  @include load-saved-menu-gameslot-delconf;
+}
+
+.load-saved-menu-gameslot-2-delconf {
+  margin-top: 115px;
+  @include load-saved-menu-gameslot-delconf;
+}
+
+.load-saved-menu-gameslot-3-delconf {
+  margin-top: 182px;
+  @include load-saved-menu-gameslot-delconf;
+}
+
+.load-saved-menu-gameslot-delconfyes {
+  cursor: pointer;
+  height: 24px;
+  margin-left: 44px;
+  margin-top: 2px;
+  position: absolute;
+  width: 23px;
+  &:hover {
+    background-image: $load-saved-gameslot-delconfyes-bg;
+  }
+}
+
+.load-saved-menu-gameslot-delconfno {
+  cursor: pointer;
+  height: 21px;
+  margin-left: 100px;
+  margin-top: 3px;
+  position: absolute;
+  width: 21px;
+  &:hover {
+    background-image: $load-saved-gameslot-delconfno-bg;
+  }
+}
+
+.load-saved-menu-gameslot-delconf-text {
+  color: rgb(251, 239, 212);
+  font-style: italic;
+  font-size: 14px;
+  line-height: 19px;
+  margin-top: 5px;
+  text-align: center;
+}

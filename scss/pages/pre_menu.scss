@@ -1,0 +1,45 @@
+.pre-menu-background {
+  background-image: $pre-menu-background-bg;
+  background: no-repeat cover center;
+  height: 600px;
+  margin: auto;
+  width: 800px;
+}
+
+.pre-menu-ironhide-button {
+  cursor: pointer;
+  height: 150px;
+  margin-left: 81px;
+  position: absolute;
+  margin-top: 225px;
+  width: 133px;
+}
+
+.pre-menu-armorgames-button {
+  cursor: pointer;
+  height: 150px;
+  margin-left: 592px;
+  position: absolute;
+  margin-top: 220px;
+  width: 147px;
+}
+
+.pre-menu-playonmobile-button {
+  height: 252px;
+  margin-left: 250px;
+  position: absolute;
+  margin-top: 204px;
+  width: 301px;
+}
+
+.pre-menu-play-button {
+  height: 65px;
+  margin-left: 335px;
+  position: absolute;
+  margin-top: 463px;
+  width: 130px;
+  &:hover {
+    background-image: $main-menu-play-hover-bg;
+    background: no-repeat cover center;
+  }
+}

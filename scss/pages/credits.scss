@@ -1,0 +1,18 @@
+.credits-main-container {
+  background-image: $credits-background-bg;
+  height: 600px;
+  margin: auto;
+  width: 800px;
+}
+
+.credits-back-button {
+  cursor: pointer;
+  height: 123px;
+  margin-left: 5px;
+  position: absolute;
+  margin-top: 477px;
+  width: 135px;
+  &:hover {
+    background-image: $credits-back-hover-bg;
+  }
+}

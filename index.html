@@ -1,11 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Ferenc Hartmann website - code snippets</title>
+    <title>XPWebTech</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="./css/stylesheet.css">
+    <link rel="stylesheet" href="../css/stylesheet.css">
+    <script src="https://unpkg.com/redux@latest/dist/redux.min.js"></script>
   </head>
-  <body>
-    <p>CSS works!</p>
+  <body class="landing_page_body">
+    <audio id="main-audio-music" loop src="" type="audio/mpeg"></audio>
+    <audio id="main-audio-sfx-primary" src="" type="audio/mpeg"></audio>
+    <audio id="main-audio-sfx-secondary" src="" type="audio/mpeg"></audio>
+    <audio id="main-audio-sfx-tertiary" src="" type="audio/mpeg"></audio>
+
+    <h2 class="main-title">An Experimetnal Web Technologies experiment.</h2>
+    <p>TODO:</p>
+    <p>write readme file on git</p>
+    <p>write credits text</p>
+    <br>
+
+    <div class="main-container">
+      <iframe id="game-frame" src="html/pre_menu.html" title="gameFrame" width="800" height="600" scrolling="no">
+        <p>Your browser does not support iframes. Use the latest Google Chrome, Mozilla Firefox or Safari to paly this game.</p>
+      </iframe>
+      <div id="preloader-fake-backgroundid" class="preloader-fake-background hidden"></div>
+      <div id="preloader-containerid" class="preloader-container hidden">
+        <div id="preloader-leftsideid" class="preloader-leftside"></div>
+        <div id="preloader-rightsideid" class="preloader-rightside"></div>
+      </div>
+    </div>
   </body>
+  <script src="javascript/action_types.js"></script>
+  <script src="javascript/menu_controller.js"></script>
 </html>
