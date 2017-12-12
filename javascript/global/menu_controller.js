@@ -79,10 +79,8 @@ const MenuLogic = (function() {
       }
 
       if(store.getState().currentPage == 'MAIN_MENU') {
-
         gameFrame.document.getElementById('main-menu-music-buttonid')
           .addEventListener('click', function () {
-
             if (store.getState().musicStatus == 'OFF') {
               store.dispatch(
                 { type: MUSIC_ON,
@@ -107,7 +105,6 @@ const MenuLogic = (function() {
 
         gameFrame.document.getElementById('main-menu-sound-buttonid')
           .addEventListener('click', function () {
-
             if (store.getState().sfxStatus == 'OFF') {
               store.dispatch(
                 { type: SFX_ON,
@@ -127,9 +124,7 @@ const MenuLogic = (function() {
               return
             }
           })
-        }
 
-      if(store.getState().currentPage == 'MAIN_MENU') {
         gameFrame.document.getElementById('main-menu-credits-buttonid')
         .addEventListener('click', function () {
           store.dispatch({
