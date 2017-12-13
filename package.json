@@ -4,7 +4,11 @@
   "description": "This is an Experimental HTML5 tower defense game clone.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "node compiler.js",
+    "sass": "sass ./scss/stylesheet.scss ./css/stylesheet.css",
+    "server": "http-server",
+    "build": "run-s compile sass server"
   },
   "repository": {
     "type": "git",
@@ -18,5 +22,8 @@
   "homepage": "https://github.com/Fekapapa/tower_defense#readme",
   "dependencies": {
     "redux": "^3.7.2"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.2"
   }
 }

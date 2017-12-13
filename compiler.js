@@ -17,6 +17,8 @@ const outputFile = './javascript/global/menu_controller.js'
 
 // CONFIG END
 
+const fs = require('fs');
+
 const Compiler = (function() {
   let outputData;
   let inputData = [];
