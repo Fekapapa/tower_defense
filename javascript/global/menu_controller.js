@@ -2,7 +2,7 @@
 
 const MenuLogic = (function() {
 
-//import "./variables.js";
+//import variables.js;
 
   store.subscribe(stateExecutor);
 
@@ -11,7 +11,7 @@ const MenuLogic = (function() {
     mainMusicController();
   }
 
-//import "./reducer.js";
+//import reducer.js;
 
   document.getElementById('game-frame').onload = function() {
     store.dispatch({
@@ -165,13 +165,13 @@ const MenuLogic = (function() {
           });
         })
 
-// import "./getelementbyid.js";
+//import getelementbyid.js
 
-// import "./deletesavedgame.js";
+//import deletesavedgame.js
 
-// import ./addSFXsound.js
+//import addSFXsound.js
 
-// import ./gameslotused.js
+//import gameslotused.js
 
         if(store.getState().musicStatus == 'OFF') {
           mainMenuMusicButtonid.classList.remove('main-menu-music-button');
@@ -382,7 +382,7 @@ const MenuLogic = (function() {
       }, 800);
     }
 
-//importgameload.js
+//import gameload.js
 
     if (store.getState().isFrameLoaded == true && store.getState().currentPage == 'LOAD_SAVED') {
       if (savedData.slot1.isUsed == true) {
