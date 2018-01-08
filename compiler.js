@@ -13,7 +13,9 @@ const inputFiles = [
   './javascript/global/gameload.js'
 ]
 
-const outputFile = './javascript/global/menu_controller.js'
+const outputFile = './javascript/global/menu_controller.js';
+
+const outputPath = './javascript/build/';
 
 // CONFIG END
 
@@ -67,8 +69,7 @@ const Compiler = (function() {
   }
 
   function fileWriter(outputData) {
-    const dir = './javascript/build/';
-    const output = dir + outputFile.split('/').slice(-1)[0];
+    const output = outputPath + outputFile.split('/').slice(-1)[0];
 
     if (!fs.existsSync(dir)){
       fs.mkdirSync(dir);

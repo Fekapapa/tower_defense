@@ -17,6 +17,9 @@ body {
   visibility: hidden;
   z-index: -1; }
 
+.main-title-container {
+  height: 150px; }
+
 .main-title {
   margin: 20px 0; }
 
@@ -25,7 +28,7 @@ body {
   margin: auto;
   overflow: hidden;
   position: absolute;
-  margin-top: -605px;
+  margin-top: -600px;
   width: 800px;
   z-index: -1; }
 
@@ -102,11 +105,12 @@ body {
 
 .preloader-container {
   animation: preloader-container 1s forwards;
+  height: 600px;
   margin: auto;
   margin-left: -180px;
-  margin-top: -606px;
+  margin-top: -600px;
   pointer-events: none;
-  width: 1700px;
+  width: 1701px;
   z-index: 20; }
 
 @keyframes preloader-container {
@@ -129,6 +133,7 @@ body {
 #game-frame {
   border: none;
   position: relative;
+  transform: translateY(7px);
   z-index: 0; }
 
 .pre-menu-background {
