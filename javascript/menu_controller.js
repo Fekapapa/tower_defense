@@ -84,6 +84,12 @@ const MenuLogic = (function() {
   // Elements in this list have mouse click sound effect
   const mouseClickList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid];
 
+  // Elements visibility in this list affected by gameslot used or not
+  const gameslotElementList = [loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot1Usedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot2Usedid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot3Usedid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot3Deleteid];
+
+  // These elements on the main menu animated a lot of times
+  const mainMenuAnimatedelementList = [mainMenuArmorgamesImageid, mainMenuIronhideImageid, mainMenuStartImageid, mainMenuCreditsImageid];
+
   // Redux and global variable declaration
   const store = Redux.createStore(reducer);
   let savedData;
@@ -348,8 +354,7 @@ const MenuLogic = (function() {
     }
   }
 
-  function gameFrameOnload() {
-
+  function gameslotsInitilaizer() {
     if (localStorage.getItem('kr_xp_save') == undefined) {
       savedData = {};
       savedData.slot1 = {
@@ -367,6 +372,9 @@ const MenuLogic = (function() {
     }
 
     loadGame();
+  }
+
+  function gameFrameOnload() {
 
     if(store.getState().currentPage == 'MAIN_MENU') {
       if(store.getState().musicStatus == 'OFF') {
@@ -380,42 +388,9 @@ const MenuLogic = (function() {
     }
 
     if(store.getState().lastAction == 'GAME_LOAD' && store.getState().currentPage == 'MAIN_MENU') {
-      if (savedData.slot1.isUsed == true) {
-        loadSavedMenuGameslot1Unusedid.classList.add('hidden');
-        loadSavedMenuGameslot1Usedid.classList.remove('hidden');
-        loadSavedMenuGameslot1UsedHoverid.classList.remove('hidden');
-        loadSavedMenuGameslot1Deleteid.classList.remove('hidden');
-      }
-      if (savedData.slot1.isUsed == false) {
-        loadSavedMenuGameslot1Unusedid.classList.remove('hidden');
-        loadSavedMenuGameslot1Usedid.classList.add('hidden');
-        loadSavedMenuGameslot1UsedHoverid.classList.add('hidden');
-        loadSavedMenuGameslot1Deleteid.classList.add('hidden');
-      }
-      if (savedData.slot2.isUsed == true) {
-        loadSavedMenuGameslot2Unusedid.classList.add('hidden');
-        loadSavedMenuGameslot2Usedid.classList.remove('hidden');
-        loadSavedMenuGameslot2UsedHoverid.classList.remove('hidden');
-        loadSavedMenuGameslot2Deleteid.classList.remove('hidden');
-      }
-      if (savedData.slot2.isUsed == false) {
-        loadSavedMenuGameslot2Unusedid.classList.remove('hidden');
-        loadSavedMenuGameslot2Usedid.classList.add('hidden');
-        loadSavedMenuGameslot2UsedHoverid.classList.add('hidden');
-        loadSavedMenuGameslot2Deleteid.classList.add('hidden');
-      }
-      if (savedData.slot3.isUsed == true) {
-        loadSavedMenuGameslot3Unusedid.classList.add('hidden');
-        loadSavedMenuGameslot3Usedid.classList.remove('hidden');
-        loadSavedMenuGameslot3UsedHoverid.classList.remove('hidden');
-        loadSavedMenuGameslot3Deleteid.classList.remove('hidden');
-      }
-      if (savedData.slot3.isUsed == false) {
-        loadSavedMenuGameslot3Unusedid.classList.remove('hidden');
-        loadSavedMenuGameslot3Usedid.classList.add('hidden');
-        loadSavedMenuGameslot3UsedHoverid.classList.add('hidden');
-        loadSavedMenuGameslot3Deleteid.classList.add('hidden');
-      }
+      gameslotElementList.forEach(function(element) {
+        element.classList.toggle('hidden');
+      });
     }
 
     // Add sound to the preloader from pre-menu to main-menu
@@ -426,22 +401,22 @@ const MenuLogic = (function() {
   }
 
   function renderOnAction() {
-    if (store.getState().musicStatus == 'OFF' && mainMenuMusicButtonid !== undefined) {
+    if (store.getState().musicStatus == 'OFF') {
       mainMenuMusicButtonid.classList.remove('main-menu-music-button');
       mainMenuMusicButtonid.classList.add('main-menu-music-button-disabled');
     }
 
-    if (store.getState().musicStatus == 'ON' && mainMenuMusicButtonid !== undefined) {
+    if (store.getState().musicStatus == 'ON') {
       mainMenuMusicButtonid.classList.add('main-menu-music-button');
       mainMenuMusicButtonid.classList.remove('main-menu-music-button-disabled');
     }
 
-    if (store.getState().sfxStatus == 'OFF' && mainMenuSoundButtonid !== undefined) {
+    if (store.getState().sfxStatus == 'OFF') {
       mainMenuSoundButtonid.classList.remove('main-menu-sound-button');
       mainMenuSoundButtonid.classList.add('main-menu-sound-button-disabled');
     }
 
-    if (store.getState().sfxStatus == 'ON' && mainMenuSoundButtonid !== undefined) {
+    if (store.getState().sfxStatus == 'ON') {
       mainMenuSoundButtonid.classList.add('main-menu-sound-button');
       mainMenuSoundButtonid.classList.remove('main-menu-sound-button-disabled');
     }
@@ -466,12 +441,10 @@ const MenuLogic = (function() {
       if (store.getState().previousPage == 'PRE_MENU' && store.getState().currentPage == 'MAIN_MENU') {
         preMenu.classList.add('pagehide');
         mainMenu.classList.remove('pagehide');
-
-        mainMenuArmorgamesImageid.classList.remove('nodisplay');
-        mainMenuIronhideImageid.classList.remove('nodisplay');
-        mainMenuStartImageid.classList.remove('nodisplay');
-        mainMenuCreditsImageid.classList.remove('nodisplay');
         mainMenuPlayonmobileButtonid.classList.remove('nodisplay');
+        mainMenuAnimatedelementList.forEach(function(element) {
+          element.classList.remove('nodisplay');
+        });
 
         preloaderFakeBackgroundid.classList.add('preloader-fake-background-premenu');
         setTimeout(function(){
@@ -488,12 +461,10 @@ const MenuLogic = (function() {
       if (store.getState().previousPage == 'MAIN_MENU' && store.getState().currentPage == 'CREDITS') {
         mainMenu.classList.add('pagehide');
         credits.classList.remove('pagehide');
-
-        mainMenuArmorgamesImageid.classList.add('nodisplay');
-        mainMenuIronhideImageid.classList.add('nodisplay');
-        mainMenuStartImageid.classList.add('nodisplay');
-        mainMenuCreditsImageid.classList.add('nodisplay');
         mainMenuPlayonmobileButtonid.classList.add('nodisplay');
+        mainMenuAnimatedelementList.forEach(function(element) {
+          element.classList.add('nodisplay');
+        });
 
         preloaderFakeBackgroundid.classList.add('preloader-fake-background-mainmenu');
         setTimeout(function(){
@@ -511,16 +482,10 @@ const MenuLogic = (function() {
         credits.classList.add('pagehide');
         mainMenu.classList.remove('pagehide');
 
-        mainMenuArmorgamesImageid.classList.remove('nodisplay');
-        mainMenuIronhideImageid.classList.remove('nodisplay');
-        mainMenuStartImageid.classList.remove('nodisplay');
-        mainMenuCreditsImageid.classList.remove('nodisplay');
         mainMenuPlayonmobileButtonid.classList.remove('nodisplay');
-
-        mainMenuArmorgamesImageid.classList.remove('main-menu-armorgames-image-ls');
-        mainMenuIronhideImageid.classList.remove('main-menu-ironhide-image-ls');
-        mainMenuStartImageid.classList.remove('main-menu-start-image-ls');
-        mainMenuCreditsImageid.classList.remove('main-menu-credits-image-ls');
+        mainMenuAnimatedelementList.forEach(function(element) {
+          element.classList = [];
+        });
 
         mainMenuArmorgamesImageid.classList.add('main-menu-armorgames-image');
         mainMenuIronhideImageid.classList.add('main-menu-ironhide-image');
@@ -615,20 +580,15 @@ const MenuLogic = (function() {
     }
 
     if (store.getState().previousPage == 'LOAD_SAVED' && store.getState().currentPage == 'MAIN_MENU') {
-      mainMenuCreditsImageid.classList.remove('main-menu-credits-image-reverse');
-      mainMenuStartImageid.classList.remove('main-menu-start-image-reverse');
-      mainMenuArmorgamesImageid.classList.remove('main-menu-armorgames-image-reverse');
-      mainMenuIronhideImageid.classList.remove('main-menu-ironhide-image-reverse');
+      mainMenuCreditsImageid.classList.replace('main-menu-credits-image-reverse', 'main-menu-credits-image-ls');
+      mainMenuStartImageid.classList.replace('main-menu-start-image-reverse', 'main-menu-start-image-ls');
+      mainMenuArmorgamesImageid.classList.replace('main-menu-armorgames-image-reverse', 'main-menu-armorgames-image-ls');
+      mainMenuIronhideImageid.classList.replace('main-menu-ironhide-image-reverse', 'main-menu-ironhide-image-ls');
 
       mainMenuCreditsButtonid.classList.remove('hidden');
       mainMenuStartButtonid.classList.remove('hidden');
       mainMenuArmorgamesButtonid.classList.remove('hidden');
       mainMenuIronhideButtonid.classList.remove('hidden');
-
-      mainMenuArmorgamesImageid.classList.add('main-menu-armorgames-image-ls');
-      mainMenuIronhideImageid.classList.add('main-menu-ironhide-image-ls');
-      mainMenuStartImageid.classList.add('main-menu-start-image-ls');
-      mainMenuCreditsImageid.classList.add('main-menu-credits-image-ls');
 
       loadSavedMenuid.classList.remove('load-saved-menu');
       loadSavedMenuid.classList.add('load-saved-menu-reverse');
@@ -656,7 +616,8 @@ const MenuLogic = (function() {
       }, 800);
     }
 
-    if (store.getState().lastAction == 'GAME_LOAD' && store.getState().currentPage == 'LOAD_SAVED') {
+    if (store.getState().lastAction == 'GAME_LOAD') {
+
       if (savedData.slot1.isUsed == true) {
         loadSavedMenuGameslot1Unusedid.classList.add('hidden');
         loadSavedMenuGameslot1Usedid.classList.remove('hidden');
@@ -767,6 +728,7 @@ const MenuLogic = (function() {
     }
   }
 
+  gameslotsInitilaizer();
   addEvent(mouseOverList, 'mouseover', mainSfxController, menuHoverSfxSource);
   addEvent(mouseClickList, 'click', mainSfxController, menuClickSfxSource);
   addEvent(mainMenuMusicButtonid, 'click', musicButtonFunctionality, undefined);
@@ -788,11 +750,6 @@ const MenuLogic = (function() {
   addEvent(loadSavedMenuGameslot2Unusedid, 'click', loadSavedMenuGameslotUnusedFunctionality, 2);
   addEvent(loadSavedMenuGameslot3Unusedid, 'click', loadSavedMenuGameslotUnusedFunctionality, 3);
   addEvent(creditsBackButtonid, 'click', creditsBackButtonFunctionality, undefined);
-
-
-
-
-
 
   setInterval(function () {console.log(store.getState())}, 1000);
 
