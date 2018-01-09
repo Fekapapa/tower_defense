@@ -19,10 +19,11 @@
 }
 
 .main-menu-credits-button {
+  cursor: pointer;
   height: 65px;
   margin-left: 315px;
-  position: absolute;
   margin-top: 487px;
+  position: absolute;
   width: 164px;
   z-index: 2;
   &:hover {

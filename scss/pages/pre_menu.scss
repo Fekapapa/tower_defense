@@ -1,6 +1,5 @@
 .pre-menu-background {
   background-image: $pre-menu-background-bg;
-  background: no-repeat cover center;
   height: 600px;
   margin: auto;
   width: 800px;
@@ -33,6 +32,7 @@
 }
 
 .pre-menu-play-button {
+  cursor: pointer;
   height: 65px;
   margin-left: 335px;
   position: absolute;
@@ -40,6 +40,5 @@
   width: 130px;
   &:hover {
     background-image: $main-menu-play-hover-bg;
-    background: no-repeat cover center;
   }
 }

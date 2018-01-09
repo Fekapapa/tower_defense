@@ -17,3 +17,18 @@ body {
   visibility: hidden;
   z-index: -1;
 }
+
+.pagehide {
+  margin: 0;
+  max-height: 0;
+  max-width: 0;
+  padding: 0;
+  pointer-events: none;
+  position: absolute;
+  visibility: hidden;
+  z-index: -1;
+}
+
+.nodisplay {
+  display: none;
+}
