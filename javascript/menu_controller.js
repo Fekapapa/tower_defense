@@ -96,7 +96,7 @@ const MenuLogic = (function() {
   // These elements on the main menu animated a lot of times
   const mainMenuAnimatedElementList = [mainMenuArmorgamesImageid, mainMenuIronhideImageid, mainMenuStartImageid, mainMenuCreditsImageid];
 
-  // This function adds the event listeners to the html elements. Called at the end of this file.
+  // This function adds the event listeners to the html elements. Called at the end of this file
   function addEvent(elements, event, functionality, value) {
     if (value != undefined && elements.length > 1) {
       elements.forEach(function(element) {
@@ -111,7 +111,7 @@ const MenuLogic = (function() {
     }
   }
 
-  // This function handles the music button functionality (music on/off).
+  // This function handles the music button functionality (music on/off)
   function musicButtonFunctionality () {
     if (store.getState().musicStatus == 'OFF') {
       store.dispatch( {
@@ -135,7 +135,7 @@ const MenuLogic = (function() {
     }
   }
 
-  // This function handles the SFX sound button functionality (SFX sound on/off).
+  // This function handles the SFX sound button functionality (SFX sound on/off)
   function soundButtonFunctionality () {
     if (store.getState().sfxStatus == 'OFF') {
       store.dispatch( {
@@ -157,7 +157,7 @@ const MenuLogic = (function() {
     }
   }
 
-  // This function handles the pre-menu play button functionality (enters to main menu, set both SFX and music on).
+  // This function handles the pre-menu play button functionality (enters to main menu, set both SFX and music on)
   function preMenuPlayButtonFunctionality () {
     store.dispatch( {
       type: MENU_CHANGE,
@@ -181,7 +181,7 @@ const MenuLogic = (function() {
     });
   }
 
-  // This function handles the main menu credits button functionality (enters to credits page).
+  // This function handles the main menu credits button functionality (enters to credits page)
   function mainMenuCreditsButtonFunctionality () {
     store.dispatch( {
       type: MENU_CHANGE,
@@ -192,7 +192,7 @@ const MenuLogic = (function() {
     });
   }
 
-  // This function handles the main menu start button functionality (enters to load-saved pseudo page).
+  // This function handles the main menu start button functionality (enters to load-saved pseudo page)
   function mainMenuStartButtonFunctionality () {
     store.dispatch( {
       type: MENU_CHANGE,
@@ -203,7 +203,7 @@ const MenuLogic = (function() {
     });
   }
 
-  // This function handles the load-saved menu close button functionality (goes back to main menu).
+  // This function handles the load-saved menu close button functionality (goes back to main menu)
   function loadSavedMenuCloseButtonFunctionality () {
     store.dispatch( {
       type: MENU_CHANGE,
@@ -214,7 +214,7 @@ const MenuLogic = (function() {
     });
   }
 
-  // This function handles the load-saved menu gameslot delete button functionality (lead to agneslot delete confirmation).
+  // This function handles the load-saved menu gameslot delete button functionality (lead to agneslot delete confirmation)
   function loadSavedMenuGameslotDeleteFunctionality (value) {
     store.dispatch( {
       type: GAME_DELETE,
@@ -224,7 +224,7 @@ const MenuLogic = (function() {
     });
   }
 
-  // This function handles the load-saved menu gameslot delete confirmation button functionality (delete saved game slot if confirmed).
+  // This function handles the load-saved menu gameslot delete confirmation button functionality (delete saved game slot if confirmed)
   function loadSavedMenuGameslotDelconfFunctionality (value) {
     store.dispatch( {
       type: GAME_DELCONF,
@@ -234,7 +234,7 @@ const MenuLogic = (function() {
     });
   }
 
-  // This function handles the load-saved menu new game button functionality (creates an empty save slot).
+  // This function handles the load-saved menu new game button functionality (creates an empty save slot)
   function loadSavedMenuGameslotUnusedFunctionality (value) {
     const emptySaveParameters = {
       isUsed: true,
@@ -260,7 +260,7 @@ const MenuLogic = (function() {
     saveGame();
   }
 
-  // This function handles the credits page back button functionality (goes back to main menu).
+  // This function handles the credits page back button functionality (goes back to main menu)
   function creditsBackButtonFunctionality () {
     store.dispatch( {
       type: MENU_CHANGE,
@@ -271,7 +271,7 @@ const MenuLogic = (function() {
     });
   }
 
-  // This function handles load game state.
+  // This function handles load game state
   function loadGame () {
     store.dispatch( {
       type: GAME_LOAD,
@@ -281,6 +281,7 @@ const MenuLogic = (function() {
     });
   }
 
+  // This function is the Reducer function for Redux
   function reducer (state, action) {
 
     if (typeof state === 'undefined') {
@@ -349,6 +350,7 @@ const MenuLogic = (function() {
     }
   }
 
+  // This function creates empty save slots on the local storage (if the game starts first)
   function gameslotsInitilaizer () {
     if (localStorage.getItem('kr_xp_save') == undefined) {
       savedData = {};
@@ -369,6 +371,7 @@ const MenuLogic = (function() {
     loadGame();
   }
 
+  // This function draws the music and sound icons according to ON/OFF statement
   function soundIconDrawer () {
     if (store.getState().musicStatus == 'OFF') {
       mainMenuMusicButtonid.classList.remove('main-menu-music-button');
@@ -388,6 +391,7 @@ const MenuLogic = (function() {
     }
   }
 
+  // This function draws the used gameslots inner elements
   function gameslotSubElementDrawer () {
     if (store.getState().currentPage == 'LOAD_SAVED') {
       if (savedData.slot1.isUsed == true) {
@@ -408,6 +412,7 @@ const MenuLogic = (function() {
     }
   }
 
+  // This function handles the music play or pause
   function mainMusicController () {
     if (store.getState().currentMusicSource && store.getState().lastAction == MUSIC_ON) {
       mainAudioMusic.setAttribute('src', store.getState().currentMusicSource);
@@ -420,6 +425,7 @@ const MenuLogic = (function() {
     }
   }
 
+  // This function handles the SFX sounds on the 3 SFX only audio tags
   function mainSfxController (source) {
     if (store.getState().sfxStatus == 'ON') {
       sfxHelper += 1;
@@ -438,6 +444,7 @@ const MenuLogic = (function() {
     }
   }
 
+  // This function handles the game save to the local storage
   function saveGame () {
     if (store.getState().lastAction == 'GAME_SAVE' && store.getState().currentPage == 'LOAD_SAVED') {
       localStorage.setItem('kr_xp_save', JSON.stringify(store.getState().savedData));
@@ -446,6 +453,7 @@ const MenuLogic = (function() {
     }
   }
 
+  // This function handles the delete gameslot confrimtaion if it is yes
   function loadSavedMenuDeleteConfirmationTrue () {
     if (store.getState().lastAction == GAME_DELCONF && store.getState().deleteConfirmation == true) {
       const tempSavedData = store.getState().savedData;
@@ -469,6 +477,7 @@ const MenuLogic = (function() {
     }
   }
 
+  // This function handles the delete gameslot confrimtaion if it is no
   function loadSavedMenuDeleteConfirmationFalse () {
     if (store.getState().lastAction == GAME_DELCONF && store.getState().deleteConfirmation == false || store.getState().lastAction == GAME_DELETE) {
       if (store.getState().gameSlot == 1) {
@@ -483,6 +492,7 @@ const MenuLogic = (function() {
     }
   }
 
+  // This function handles the main menu to load-saved menu change
   function mainMenutoLoadSavedMenu () {
     if (store.getState().previousPage == 'MAIN_MENU' && store.getState().currentPage == 'LOAD_SAVED') {
       mainMenuCreditsButtonid.classList.remove('main-menu-credits-button');
@@ -509,6 +519,7 @@ const MenuLogic = (function() {
     }
   }
 
+  // This function handles the load-saved menu to main menu change
   function loadSavedMenutoMainMenu () {
     if (store.getState().previousPage == 'LOAD_SAVED' && store.getState().currentPage == 'MAIN_MENU') {
       mainMenuCreditsImageid.classList.replace('main-menu-credits-image-reverse', 'main-menu-credits-image-ls');
@@ -536,6 +547,7 @@ const MenuLogic = (function() {
     }
   }
 
+  // This function handles the main menu not from load-saved menu change (main menu from pre menu or credits)
   function mainMenuNotfromLoadSavedMenu () {
     if (store.getState().currentPage == 'MAIN_MENU' && store.getState().previousPage !== 'LOAD_SAVED') {
       setTimeout(function(){
@@ -548,7 +560,8 @@ const MenuLogic = (function() {
     }
   }
 
-  function pageChangeHandler (previousPageFakeBackground, currentPageFakeBackground) {
+  // This function help on the page change by restarting by changeing backgrounds
+  function pageChangeBackgroundChanger (previousPageFakeBackground, currentPageFakeBackground) {
     preloaderFakeBackgroundid.classList.add(previousPageFakeBackground);
     setTimeout(function(){
         preloaderFakeBackgroundid.classList.remove(previousPageFakeBackground);
@@ -561,32 +574,44 @@ const MenuLogic = (function() {
     }, 1000);
   }
 
+  // This function handles the pre menu to main menu change
   function preMenutoMainMenu () {
-    if (store.getState().previousPage == 'PRE_MENU' && store.getState().currentPage == 'MAIN_MENU') {
+    if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage == 'PRE_MENU' && store.getState().currentPage == 'MAIN_MENU') {
+      mainSfxController(preloaderSfxSource);
+      preloaderStarter();
+
       preMenu.classList.add('pagehide');
       mainMenu.classList.remove('pagehide');
       mainMenuPlayonmobileButtonid.classList.remove('nodisplay');
       mainMenuAnimatedElementList.forEach(function(element) {
         element.classList.remove('nodisplay');
       });
-      pageChangeHandler ('preloader-fake-background-premenu', 'preloader-fake-background-mainmenu-stripped')
+      pageChangeBackgroundChanger ('preloader-fake-background-premenu', 'preloader-fake-background-mainmenu-stripped')
     }
   }
 
+  // This function handles the main menu to credits change
   function mainMenutoCredits () {
-    if (store.getState().previousPage == 'MAIN_MENU' && store.getState().currentPage == 'CREDITS') {
+    if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage == 'MAIN_MENU' && store.getState().currentPage == 'CREDITS') {
+      mainSfxController(preloaderSfxSource);
+      preloaderStarter();
+
       mainMenu.classList.add('pagehide');
       credits.classList.remove('pagehide');
       mainMenuPlayonmobileButtonid.classList.add('nodisplay');
       mainMenuAnimatedElementList.forEach(function(element) {
         element.classList.add('nodisplay');
       });
-      pageChangeHandler ('preloader-fake-background-mainmenu', 'preloader-fake-background-creditsmenu')
+      pageChangeBackgroundChanger ('preloader-fake-background-mainmenu', 'preloader-fake-background-creditsmenu')
     }
   }
 
+  // This function handles the credits to main menu change
   function CreditstoMainMenu () {
-    if (store.getState().previousPage == 'CREDITS' && store.getState().currentPage == 'MAIN_MENU') {
+    if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage == 'CREDITS' && store.getState().currentPage == 'MAIN_MENU') {
+      mainSfxController(preloaderSfxSource);
+      preloaderStarter();
+
       credits.classList.add('pagehide');
       mainMenu.classList.remove('pagehide');
 
@@ -600,10 +625,11 @@ const MenuLogic = (function() {
       mainMenuStartImageid.classList.add('main-menu-start-image');
       mainMenuCreditsImageid.classList.add('main-menu-credits-image');
 
-      pageChangeHandler ('preloader-fake-background-creditsmenu', 'preloader-fake-background-mainmenu-stripped')
+      pageChangeBackgroundChanger ('preloader-fake-background-creditsmenu', 'preloader-fake-background-mainmenu-stripped')
     }
   }
 
+  // This function handles restarts the preloader animation
   function preloaderStarter () {
     // Reload the preloader animation
     preloaderContainerid.classList.remove('hidden');
@@ -619,6 +645,7 @@ const MenuLogic = (function() {
     preloaderFakeBackgroundid.classList.remove('hidden');
   }
 
+  // This function handles music and display rendering
   function render () {
     // Add sound to the preloader from pre-menu to main-menu
     // if(store.getState().currentPage == 'MAIN_MENU' && store.getState().previousPage == 'PRE_MENU') {
@@ -627,23 +654,16 @@ const MenuLogic = (function() {
     mainMusicController();
     soundIconDrawer();
     gameslotSubElementDrawer();
-
-    if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage && store.getState().currentPage !== 'LOAD_SAVED' && store.getState().previousPage !== 'LOAD_SAVED') {
-
-      mainSfxController(preloaderSfxSource);
-      preloaderStarter();
-      preMenutoMainMenu();
-      mainMenutoCredits();
-      CreditstoMainMenu();
-
-    }
-
+    preMenutoMainMenu();
+    mainMenutoCredits();
+    CreditstoMainMenu();
     mainMenutoLoadSavedMenu();
     loadSavedMenutoMainMenu();
     mainMenuNotfromLoadSavedMenu();
 
     // If gameload can be handled by really laoding the next game pahse, then this section will be useless so van be deleted.
     if (store.getState().lastAction == 'GAME_LOAD') {
+      console.log('lastAction == GAME_LOAD');
       if (savedData.slot1.isUsed == true) {
         loadSavedMenuGameslot1Unusedid.classList.add('hidden');
         loadSavedMenuGameslot1Usedid.classList.remove('hidden');
