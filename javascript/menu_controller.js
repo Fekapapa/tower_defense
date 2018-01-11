@@ -2,6 +2,12 @@
 
 const MenuLogic = (function() {
 
+  // Redux and global variable declaration
+  const store = Redux.createStore(reducer);
+  store.subscribe(render);
+  let savedData;
+  let sfxHelper = 0;
+
   // Audio tags and source declaration
   const mainAudioMusic = document.getElementById('main-audio-music');
   const mainAudioSfxPrimary = document.getElementById('main-audio-sfx-primary');
@@ -88,12 +94,7 @@ const MenuLogic = (function() {
   const gameslotElementList = [loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot1Usedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot2Usedid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot3Usedid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot3Deleteid];
 
   // These elements on the main menu animated a lot of times
-  const mainMenuAnimatedelementList = [mainMenuArmorgamesImageid, mainMenuIronhideImageid, mainMenuStartImageid, mainMenuCreditsImageid];
-
-  // Redux and global variable declaration
-  const store = Redux.createStore(reducer);
-  let savedData;
-  let sfxHelper = 0;
+  const mainMenuAnimatedElementList = [mainMenuArmorgamesImageid, mainMenuIronhideImageid, mainMenuStartImageid, mainMenuCreditsImageid];
 
   // This function adds the event listeners to the html elements. Called at the end of this file.
   function addEvent(elements, event, functionality, value) {
@@ -270,15 +271,17 @@ const MenuLogic = (function() {
     });
   }
 
-  store.subscribe(stateExecutor);
-
-  function stateExecutor() {
-    renderOnAction();
-    mainMusicController();
-    pageLoad();
+  // This function handles load game state.
+  function loadGame () {
+    store.dispatch( {
+      type: GAME_LOAD,
+      payload: {
+        savedData
+      }
+    });
   }
 
-  function reducer(state, action) {
+  function reducer (state, action) {
 
     if (typeof state === 'undefined') {
       state = {
@@ -346,15 +349,7 @@ const MenuLogic = (function() {
     }
   }
 
-  window.onload = gameFrameOnload;
-
-  function pageLoad() {
-    if (store.getState().lastAction == 'MENU_CHANGE') {
-      gameFrameOnload()
-    }
-  }
-
-  function gameslotsInitilaizer() {
+  function gameslotsInitilaizer () {
     if (localStorage.getItem('kr_xp_save') == undefined) {
       savedData = {};
       savedData.slot1 = {
@@ -374,211 +369,147 @@ const MenuLogic = (function() {
     loadGame();
   }
 
-  function gameFrameOnload() {
-
-    if(store.getState().currentPage == 'MAIN_MENU') {
-      if(store.getState().musicStatus == 'OFF') {
-        mainMenuMusicButtonid.classList.remove('main-menu-music-button');
-        mainMenuMusicButtonid.classList.add('main-menu-music-button-disabled');
-      }
-      if(store.getState().sfxStatus == 'OFF') {
-        mainMenuSoundButtonid.classList.remove('main-menu-sound-button');
-        mainMenuSoundButtonid.classList.add('main-menu-sound-button-disabled');
-      }
-    }
-
-    if(store.getState().lastAction == 'GAME_LOAD' && store.getState().currentPage == 'MAIN_MENU') {
-      gameslotElementList.forEach(function(element) {
-        element.classList.toggle('hidden');
-      });
-    }
-
-    // Add sound to the preloader from pre-menu to main-menu
-    // if(store.getState().currentPage == 'MAIN_MENU' && store.getState().previousPage == 'PRE_MENU') {
-    //   mainSfxController(preloaderSfxSource);
-    // }
-
-  }
-
-  function renderOnAction() {
+  function soundIconDrawer () {
     if (store.getState().musicStatus == 'OFF') {
       mainMenuMusicButtonid.classList.remove('main-menu-music-button');
       mainMenuMusicButtonid.classList.add('main-menu-music-button-disabled');
     }
-
     if (store.getState().musicStatus == 'ON') {
       mainMenuMusicButtonid.classList.add('main-menu-music-button');
       mainMenuMusicButtonid.classList.remove('main-menu-music-button-disabled');
     }
-
     if (store.getState().sfxStatus == 'OFF') {
       mainMenuSoundButtonid.classList.remove('main-menu-sound-button');
       mainMenuSoundButtonid.classList.add('main-menu-sound-button-disabled');
     }
-
     if (store.getState().sfxStatus == 'ON') {
       mainMenuSoundButtonid.classList.add('main-menu-sound-button');
       mainMenuSoundButtonid.classList.remove('main-menu-sound-button-disabled');
     }
+  }
 
-    if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage && store.getState().currentPage !== 'LOAD_SAVED' && store.getState().previousPage !== 'LOAD_SAVED') {
-
-      mainSfxController(preloaderSfxSource);
-
-      // Reload the preloader animation
-      preloaderContainerid.classList.remove('hidden');
-      preloaderLeftsideid.classList.remove('preloader-leftside');
-      preloaderRightsideid.classList.remove('preloader-rightside');
-      preloaderLeftsideid.getBoundingClientRect();
-      preloaderRightsideid.getBoundingClientRect();
-      preloaderLeftsideid.classList.add('preloader-leftside');
-      preloaderRightsideid.classList.add('preloader-rightside');
-
-      // hide the iframe element and display the fake background
-      iframeid.classList.add('hidden');
-      preloaderFakeBackgroundid.classList.remove('hidden');
-
-      if (store.getState().previousPage == 'PRE_MENU' && store.getState().currentPage == 'MAIN_MENU') {
-        preMenu.classList.add('pagehide');
-        mainMenu.classList.remove('pagehide');
-        mainMenuPlayonmobileButtonid.classList.remove('nodisplay');
-        mainMenuAnimatedelementList.forEach(function(element) {
-          element.classList.remove('nodisplay');
-        });
-
-        preloaderFakeBackgroundid.classList.add('preloader-fake-background-premenu');
-        setTimeout(function(){
-            preloaderFakeBackgroundid.classList.remove('preloader-fake-background-premenu');
-            preloaderFakeBackgroundid.classList.add('preloader-fake-background-mainmenu-stripped');
-        }, 600);
-        setTimeout(function(){
-            iframeid.classList.remove('hidden');
-            preloaderFakeBackgroundid.classList.remove('preloader-fake-background-mainmenu-stripped');
-            preloaderFakeBackgroundid.classList.add('hidden');
-        }, 1000);
+  function gameslotSubElementDrawer () {
+    if (store.getState().currentPage == 'LOAD_SAVED') {
+      if (savedData.slot1.isUsed == true) {
+        loadSavedGameslot1Stars.innerHTML = store.getState().savedData.slot1.stars.toString() + '/77';
+        loadSavedGameslot1Shields.innerHTML = store.getState().savedData.slot1.shields;
+        loadSavedGameslot1Fists.innerHTML = store.getState().savedData.slot1.fists;
       }
-
-      if (store.getState().previousPage == 'MAIN_MENU' && store.getState().currentPage == 'CREDITS') {
-        mainMenu.classList.add('pagehide');
-        credits.classList.remove('pagehide');
-        mainMenuPlayonmobileButtonid.classList.add('nodisplay');
-        mainMenuAnimatedelementList.forEach(function(element) {
-          element.classList.add('nodisplay');
-        });
-
-        preloaderFakeBackgroundid.classList.add('preloader-fake-background-mainmenu');
-        setTimeout(function(){
-            preloaderFakeBackgroundid.classList.remove('preloader-fake-background-mainmenu');
-            preloaderFakeBackgroundid.classList.add('preloader-fake-background-creditsmenu');
-        }, 600);
-        setTimeout(function(){
-            iframeid.classList.remove('hidden');
-            preloaderFakeBackgroundid.classList.remove('preloader-fake-background-creditsmenu');
-            preloaderFakeBackgroundid.classList.add('hidden');
-        }, 1000);
+      if (savedData.slot2.isUsed == true) {
+        loadSavedGameslot2Stars.innerHTML = store.getState().savedData.slot2.stars.toString() + '/77';
+        loadSavedGameslot2Shields.innerHTML = store.getState().savedData.slot2.shields;
+        loadSavedGameslot2Fists.innerHTML = store.getState().savedData.slot2.fists;
       }
-
-      if (store.getState().previousPage == 'CREDITS' && store.getState().currentPage == 'MAIN_MENU') {
-        credits.classList.add('pagehide');
-        mainMenu.classList.remove('pagehide');
-
-        mainMenuPlayonmobileButtonid.classList.remove('nodisplay');
-        mainMenuAnimatedelementList.forEach(function(element) {
-          element.classList = [];
-        });
-
-        mainMenuArmorgamesImageid.classList.add('main-menu-armorgames-image');
-        mainMenuIronhideImageid.classList.add('main-menu-ironhide-image');
-        mainMenuStartImageid.classList.add('main-menu-start-image');
-        mainMenuCreditsImageid.classList.add('main-menu-credits-image');
-
-        preloaderFakeBackgroundid.classList.add('preloader-fake-background-creditsmenu');
-        setTimeout(function(){
-            preloaderFakeBackgroundid.classList.remove('preloader-fake-background-creditsmenu');
-            preloaderFakeBackgroundid.classList.add('preloader-fake-background-mainmenu-stripped');
-        }, 600);
-        setTimeout(function(){
-            iframeid.classList.remove('hidden');
-            preloaderFakeBackgroundid.classList.remove('preloader-fake-background-mainmenu-stripped');
-            preloaderFakeBackgroundid.classList.add('hidden');
-        }, 1000);
+      if (savedData.slot3.isUsed == true) {
+        loadSavedGameslot3Stars.innerHTML = store.getState().savedData.slot3.stars.toString() + '/77';
+        loadSavedGameslot3Shields.innerHTML = store.getState().savedData.slot3.shields;
+        loadSavedGameslot3Fists.innerHTML = store.getState().savedData.slot3.fists;
       }
     }
+  }
 
+  function mainMusicController () {
+    if (store.getState().currentMusicSource && store.getState().lastAction == MUSIC_ON) {
+      mainAudioMusic.setAttribute('src', store.getState().currentMusicSource);
+      mainAudioMusic.play();
+    }
+    if (store.getState().musicStatus == 'OFF') {
+      mainAudioMusic.pause();
+      mainAudioMusic.setAttribute('src', '');
+      mainAudioMusic.currentTime = 0;
+    }
+  }
+
+  function mainSfxController (source) {
+    if (store.getState().sfxStatus == 'ON') {
+      sfxHelper += 1;
+      if ((sfxHelper % 3) == 0) {
+        mainAudioSfxPrimary.setAttribute('src', source);
+        mainAudioSfxPrimary.play();
+      }
+      if ((sfxHelper % 3) == 1) {
+        mainAudioSfxSecondary.setAttribute('src', source);
+        mainAudioSfxSecondary.play();
+      }
+      if ((sfxHelper % 3) == 2) {
+        mainAudioSfxTertiary.setAttribute('src', source);
+        mainAudioSfxTertiary.play();
+      }
+    }
+  }
+
+  function saveGame () {
+    if (store.getState().lastAction == 'GAME_SAVE' && store.getState().currentPage == 'LOAD_SAVED') {
+      localStorage.setItem('kr_xp_save', JSON.stringify(store.getState().savedData));
+      savedData = JSON.parse(localStorage.getItem('kr_xp_save'));
+      loadGame();
+    }
+  }
+
+  function loadSavedMenuDeleteConfirmationTrue () {
+    if (store.getState().lastAction == GAME_DELCONF && store.getState().deleteConfirmation == true) {
+      const tempSavedData = store.getState().savedData;
+
+      if (store.getState().gameSlot == 1) {
+        tempSavedData.slot1.isUsed = false;
+        loadSavedMenuGameslot1Delconfid.classList.add('hidden');
+      }
+      if (store.getState().gameSlot == 2) {
+        tempSavedData.slot2.isUsed = false;
+        loadSavedMenuGameslot2Delconfid.classList.add('hidden');
+      }
+      if (store.getState().gameSlot == 3) {
+        tempSavedData.slot3.isUsed = false;
+        loadSavedMenuGameslot3Delconfid.classList.add('hidden');
+      }
+
+      localStorage.setItem('kr_xp_save', JSON.stringify(tempSavedData));
+      savedData = JSON.parse(localStorage.getItem('kr_xp_save'));
+      loadGame();
+    }
+  }
+
+  function loadSavedMenuDeleteConfirmationFalse () {
+    if (store.getState().lastAction == GAME_DELCONF && store.getState().deleteConfirmation == false || store.getState().lastAction == GAME_DELETE) {
+      if (store.getState().gameSlot == 1) {
+        loadSavedMenuGameslot1Delconfid.classList.toggle('hidden');
+      }
+      if (store.getState().gameSlot == 2) {
+        loadSavedMenuGameslot2Delconfid.classList.toggle('hidden');
+      }
+      if (store.getState().gameSlot == 3) {
+        loadSavedMenuGameslot3Delconfid.classList.toggle('hidden');
+      }
+    }
+  }
+
+  function mainMenutoLoadSavedMenu () {
     if (store.getState().previousPage == 'MAIN_MENU' && store.getState().currentPage == 'LOAD_SAVED') {
-
       mainMenuCreditsButtonid.classList.remove('main-menu-credits-button');
       mainMenuStartButtonid.classList.remove('main-menu-start-button');
-      mainMenuArmorgamesImageid.classList.remove('main-menu-armorgames-image');
-      mainMenuIronhideImageid.classList.remove('main-menu-ironhide-image');
-      mainMenuStartImageid.classList.remove('main-menu-start-image');
-      mainMenuCreditsImageid.classList.remove('main-menu-credits-image');
-      mainMenuArmorgamesImageid.classList.remove('main-menu-armorgames-image-ls');
-      mainMenuIronhideImageid.classList.remove('main-menu-ironhide-image-ls');
-      mainMenuStartImageid.classList.remove('main-menu-start-image-ls');
-      mainMenuCreditsImageid.classList.remove('main-menu-credits-image-ls');
+      mainMenuAnimatedElementList.forEach(function(element) {
+        element.classList = [];
+      });
 
       mainMenuArmorgamesImageid.classList.add('main-menu-armorgames-image-reverse');
       mainMenuIronhideImageid.classList.add('main-menu-ironhide-image-reverse');
       mainMenuStartImageid.classList.add('main-menu-start-image-reverse');
       mainMenuCreditsImageid.classList.add('main-menu-credits-image-reverse');
 
-      loadSavedMenuid.classList.remove('load-saved-menu-start');
-      loadSavedMenuid.classList.remove('load-saved-menu-reverse');
+      loadSavedMenuid.classList.remove('load-saved-menu-start', 'load-saved-menu-reverse');
       loadSavedMenuid.classList.add('load-saved-menu');
 
       setTimeout(function(){
-        try {
-          loadSavedMenuActionsContainerid.classList.remove('hidden');
-        }
+        try { loadSavedMenuActionsContainerid.classList.remove('hidden') }
         catch(err) {}
       }, 800);
 
-      if (store.getState().lastAction == GAME_DELCONF && store.getState().deleteConfirmation == true) {
-        const tempSavedData = store.getState().savedData;
-
-        if (store.getState().gameSlot == 1) {
-          tempSavedData.slot1.isUsed = false;
-          loadSavedMenuGameslot1Delconfid.classList.add('hidden');
-        }
-        if (store.getState().gameSlot == 2) {
-          tempSavedData.slot2.isUsed = false;
-          loadSavedMenuGameslot2Delconfid.classList.add('hidden');
-        }
-        if (store.getState().gameSlot == 3) {
-          tempSavedData.slot3.isUsed = false;
-          loadSavedMenuGameslot3Delconfid.classList.add('hidden');
-        }
-
-        localStorage.setItem('kr_xp_save', JSON.stringify(tempSavedData));
-        loadGame();
-      }
-
-      if (store.getState().lastAction == GAME_DELCONF && store.getState().deleteConfirmation == false) {
-        if (store.getState().gameSlot == 1) {
-          loadSavedMenuGameslot1Delconfid.classList.add('hidden');
-        }
-        if (store.getState().gameSlot == 2) {
-          loadSavedMenuGameslot2Delconfid.classList.add('hidden');
-        }
-        if (store.getState().gameSlot == 3) {
-          loadSavedMenuGameslot3Delconfid.classList.add('hidden');
-        }
-      }
-
-      if (store.getState().lastAction == GAME_DELETE) {
-        if (store.getState().gameSlot == 1) {
-          loadSavedMenuGameslot1Delconfid.classList.remove('hidden');
-        }
-        if (store.getState().gameSlot == 2) {
-          loadSavedMenuGameslot2Delconfid.classList.remove('hidden');
-        }
-        if (store.getState().gameSlot == 3) {
-          loadSavedMenuGameslot3Delconfid.classList.remove('hidden');
-        }
-      }
+      loadSavedMenuDeleteConfirmationTrue();
+      loadSavedMenuDeleteConfirmationFalse();
     }
+  }
 
+  function loadSavedMenutoMainMenu () {
     if (store.getState().previousPage == 'LOAD_SAVED' && store.getState().currentPage == 'MAIN_MENU') {
       mainMenuCreditsImageid.classList.replace('main-menu-credits-image-reverse', 'main-menu-credits-image-ls');
       mainMenuStartImageid.classList.replace('main-menu-start-image-reverse', 'main-menu-start-image-ls');
@@ -594,8 +525,18 @@ const MenuLogic = (function() {
       loadSavedMenuid.classList.add('load-saved-menu-reverse');
 
       loadSavedMenuActionsContainerid.classList.add('hidden');
-    }
 
+      setTimeout(function(){
+        try {
+          mainMenuCreditsButtonid.classList.add('main-menu-credits-button');
+          mainMenuStartButtonid.classList.add('main-menu-start-button');
+        }
+        catch(err) {}
+      }, 800);
+    }
+  }
+
+  function mainMenuNotfromLoadSavedMenu () {
     if (store.getState().currentPage == 'MAIN_MENU' && store.getState().previousPage !== 'LOAD_SAVED') {
       setTimeout(function(){
         try {
@@ -605,28 +546,109 @@ const MenuLogic = (function() {
         catch(err) {}
       }, 1400);
     }
+  }
 
-    if (store.getState().currentPage == 'MAIN_MENU' && store.getState().previousPage == 'LOAD_SAVED') {
-      setTimeout(function(){
-        try {
-          mainMenuCreditsButtonid.classList.add('main-menu-credits-button');
-          mainMenuStartButtonid.classList.add('main-menu-start-button');
-        }
-        catch(err) {}
-      }, 800);
+  function pageChangeHandler (previousPageFakeBackground, currentPageFakeBackground) {
+    preloaderFakeBackgroundid.classList.add(previousPageFakeBackground);
+    setTimeout(function(){
+        preloaderFakeBackgroundid.classList.remove(previousPageFakeBackground);
+        preloaderFakeBackgroundid.classList.add(currentPageFakeBackground);
+    }, 600);
+    setTimeout(function(){
+        iframeid.classList.remove('hidden');
+        preloaderFakeBackgroundid.classList.remove(currentPageFakeBackground);
+        preloaderFakeBackgroundid.classList.add('hidden');
+    }, 1000);
+  }
+
+  function preMenutoMainMenu () {
+    if (store.getState().previousPage == 'PRE_MENU' && store.getState().currentPage == 'MAIN_MENU') {
+      preMenu.classList.add('pagehide');
+      mainMenu.classList.remove('pagehide');
+      mainMenuPlayonmobileButtonid.classList.remove('nodisplay');
+      mainMenuAnimatedElementList.forEach(function(element) {
+        element.classList.remove('nodisplay');
+      });
+      pageChangeHandler ('preloader-fake-background-premenu', 'preloader-fake-background-mainmenu-stripped')
+    }
+  }
+
+  function mainMenutoCredits () {
+    if (store.getState().previousPage == 'MAIN_MENU' && store.getState().currentPage == 'CREDITS') {
+      mainMenu.classList.add('pagehide');
+      credits.classList.remove('pagehide');
+      mainMenuPlayonmobileButtonid.classList.add('nodisplay');
+      mainMenuAnimatedElementList.forEach(function(element) {
+        element.classList.add('nodisplay');
+      });
+      pageChangeHandler ('preloader-fake-background-mainmenu', 'preloader-fake-background-creditsmenu')
+    }
+  }
+
+  function CreditstoMainMenu () {
+    if (store.getState().previousPage == 'CREDITS' && store.getState().currentPage == 'MAIN_MENU') {
+      credits.classList.add('pagehide');
+      mainMenu.classList.remove('pagehide');
+
+      mainMenuPlayonmobileButtonid.classList.remove('nodisplay');
+      mainMenuAnimatedElementList.forEach(function(element) {
+        element.classList = [];
+      });
+
+      mainMenuArmorgamesImageid.classList.add('main-menu-armorgames-image');
+      mainMenuIronhideImageid.classList.add('main-menu-ironhide-image');
+      mainMenuStartImageid.classList.add('main-menu-start-image');
+      mainMenuCreditsImageid.classList.add('main-menu-credits-image');
+
+      pageChangeHandler ('preloader-fake-background-creditsmenu', 'preloader-fake-background-mainmenu-stripped')
+    }
+  }
+
+  function preloaderStarter () {
+    // Reload the preloader animation
+    preloaderContainerid.classList.remove('hidden');
+    preloaderLeftsideid.classList.remove('preloader-leftside');
+    preloaderRightsideid.classList.remove('preloader-rightside');
+    preloaderLeftsideid.getBoundingClientRect();
+    preloaderRightsideid.getBoundingClientRect();
+    preloaderLeftsideid.classList.add('preloader-leftside');
+    preloaderRightsideid.classList.add('preloader-rightside');
+
+    // hide the iframe element and display the fake background
+    iframeid.classList.add('hidden');
+    preloaderFakeBackgroundid.classList.remove('hidden');
+  }
+
+  function render () {
+    // Add sound to the preloader from pre-menu to main-menu
+    // if(store.getState().currentPage == 'MAIN_MENU' && store.getState().previousPage == 'PRE_MENU') {
+    //   mainSfxController(preloaderSfxSource);
+    // }
+    mainMusicController();
+    soundIconDrawer();
+    gameslotSubElementDrawer();
+
+    if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage && store.getState().currentPage !== 'LOAD_SAVED' && store.getState().previousPage !== 'LOAD_SAVED') {
+
+      mainSfxController(preloaderSfxSource);
+      preloaderStarter();
+      preMenutoMainMenu();
+      mainMenutoCredits();
+      CreditstoMainMenu();
+
     }
 
-    if (store.getState().lastAction == 'GAME_LOAD') {
+    mainMenutoLoadSavedMenu();
+    loadSavedMenutoMainMenu();
+    mainMenuNotfromLoadSavedMenu();
 
+    // If gameload can be handled by really laoding the next game pahse, then this section will be useless so van be deleted.
+    if (store.getState().lastAction == 'GAME_LOAD') {
       if (savedData.slot1.isUsed == true) {
         loadSavedMenuGameslot1Unusedid.classList.add('hidden');
         loadSavedMenuGameslot1Usedid.classList.remove('hidden');
         loadSavedMenuGameslot1UsedHoverid.classList.remove('hidden');
         loadSavedMenuGameslot1Deleteid.classList.remove('hidden');
-
-        loadSavedGameslot1Stars.innerHTML = store.getState().savedData.slot1.stars.toString() + '/77';
-        loadSavedGameslot1Shields.innerHTML = store.getState().savedData.slot1.shields;
-        loadSavedGameslot1Fists.innerHTML = store.getState().savedData.slot1.fists;
       }
       if (savedData.slot1.isUsed == false) {
         loadSavedMenuGameslot1Unusedid.classList.remove('hidden');
@@ -658,73 +680,6 @@ const MenuLogic = (function() {
         loadSavedMenuGameslot3UsedHoverid.classList.add('hidden');
         loadSavedMenuGameslot3Deleteid.classList.add('hidden');
       }
-    }
-
-    if (store.getState().currentPage == 'LOAD_SAVED') {
-      if (savedData.slot1.isUsed == true) {
-        loadSavedGameslot1Stars.innerHTML = store.getState().savedData.slot1.stars.toString() + '/77';
-        loadSavedGameslot1Shields.innerHTML = store.getState().savedData.slot1.shields;
-        loadSavedGameslot1Fists.innerHTML = store.getState().savedData.slot1.fists;
-      }
-      if (savedData.slot2.isUsed == true) {
-        loadSavedGameslot2Stars.innerHTML = store.getState().savedData.slot2.stars.toString() + '/77';
-        loadSavedGameslot2Shields.innerHTML = store.getState().savedData.slot2.shields;
-        loadSavedGameslot2Fists.innerHTML = store.getState().savedData.slot2.fists;
-      }
-      if (savedData.slot3.isUsed == true) {
-        loadSavedGameslot3Stars.innerHTML = store.getState().savedData.slot3.stars.toString() + '/77';
-        loadSavedGameslot3Shields.innerHTML = store.getState().savedData.slot3.shields;
-        loadSavedGameslot3Fists.innerHTML = store.getState().savedData.slot3.fists;
-      }
-    }
-  }
-
-  function mainMusicController() {
-    if (store.getState().currentMusicSource && store.getState().lastAction == MUSIC_ON) {
-      mainAudioMusic.setAttribute('src', store.getState().currentMusicSource);
-      mainAudioMusic.play();
-    }
-    if (store.getState().musicStatus == 'OFF') {
-      mainAudioMusic.pause();
-      mainAudioMusic.setAttribute('src', '');
-      mainAudioMusic.currentTime = 0;
-    }
-  }
-
-  function mainSfxController(source) {
-    if (store.getState().sfxStatus == 'ON') {
-      sfxHelper += 1;
-      if ((sfxHelper % 3) == 0) {
-        mainAudioSfxPrimary.setAttribute('src', source);
-        mainAudioSfxPrimary.play();
-      }
-      if ((sfxHelper % 3) == 1) {
-        mainAudioSfxSecondary.setAttribute('src', source);
-        mainAudioSfxSecondary.play();
-      }
-      if ((sfxHelper % 3) == 2) {
-        mainAudioSfxTertiary.setAttribute('src', source);
-        mainAudioSfxTertiary.play();
-      }
-    }
-  }
-
-  function loadGame() {
-    if (localStorage.getItem('kr_xp_save')) {
-      savedData = JSON.parse(localStorage.getItem('kr_xp_save'));
-      store.dispatch({
-        type: GAME_LOAD,
-        payload: {
-          savedData
-        }
-      });
-    }
-  }
-
-  function saveGame() {
-    if (store.getState().lastAction == 'GAME_SAVE' && store.getState().currentPage == 'LOAD_SAVED') {
-      localStorage.setItem('kr_xp_save', JSON.stringify(store.getState().savedData));
-      loadGame();
     }
   }
 
