@@ -96,23 +96,8 @@ const MenuLogic = (function() {
   // These elements on the main menu animated a lot of times
   const mainMenuAnimatedElementList = [mainMenuArmorgamesImageid, mainMenuIronhideImageid, mainMenuStartImageid, mainMenuCreditsImageid];
 
-  // This function adds the event listeners to the html elements. Called at the end of this file
-  function addEvent(elements, event, functionality, value) {
-    if (value != undefined && elements.length > 1) {
-      elements.forEach(function(element) {
-        element.addEventListener(event, function() { functionality(value) });
-      });
-    }
-    if (value == undefined) {
-      elements.addEventListener(event, function() { functionality() });
-    }
-    if (value != undefined && elements.length == undefined) {
-      elements.addEventListener(event, function() { functionality(value) });
-    }
-  }
-
-  // This function handles the music button functionality (music on/off)
-  function musicButtonFunctionality () {
+  // This function starts the music on/off states
+  function musicButtonStateChangeStarter () {
     if (store.getState().musicStatus == 'OFF') {
       store.dispatch( {
         type: MUSIC_ON,
@@ -135,8 +120,8 @@ const MenuLogic = (function() {
     }
   }
 
-  // This function handles the SFX sound button functionality (SFX sound on/off)
-  function soundButtonFunctionality () {
+  // This function starts the SFX sound on/off states
+  function soundButtonStateChangeStarter () {
     if (store.getState().sfxStatus == 'OFF') {
       store.dispatch( {
         type: SFX_ON,
@@ -157,8 +142,8 @@ const MenuLogic = (function() {
     }
   }
 
-  // This function handles the pre-menu play button functionality (enters to main menu, set both SFX and music on)
-  function preMenuPlayButtonFunctionality () {
+  // This function handles the pre-menu play button state start (enters to main menu, set both SFX and music on)
+  function preMenuPlayButtonStateChangeStarter () {
     store.dispatch( {
       type: MENU_CHANGE,
       payload: {
@@ -181,8 +166,8 @@ const MenuLogic = (function() {
     });
   }
 
-  // This function handles the main menu credits button functionality (enters to credits page)
-  function mainMenuCreditsButtonFunctionality () {
+  // This function handles the main menu credits button state change (enters to credits page)
+  function mainMenuCreditsButtonStateChangeStarter () {
     store.dispatch( {
       type: MENU_CHANGE,
       payload: {
@@ -192,8 +177,8 @@ const MenuLogic = (function() {
     });
   }
 
-  // This function handles the main menu start button functionality (enters to load-saved pseudo page)
-  function mainMenuStartButtonFunctionality () {
+  // This function handles the main menu start button state change (enters to load-saved pseudo page)
+  function mainMenuStartButtonStateChangeStarter () {
     store.dispatch( {
       type: MENU_CHANGE,
       payload: {
@@ -203,8 +188,8 @@ const MenuLogic = (function() {
     });
   }
 
-  // This function handles the load-saved menu close button functionality (goes back to main menu)
-  function loadSavedMenuCloseButtonFunctionality () {
+  // This function handles the load-saved menu close button state change (goes back to main menu)
+  function loadSavedMenuCloseButtonStateChangeStarter () {
     store.dispatch( {
       type: MENU_CHANGE,
       payload: {
@@ -214,8 +199,8 @@ const MenuLogic = (function() {
     });
   }
 
-  // This function handles the load-saved menu gameslot delete button functionality (lead to agneslot delete confirmation)
-  function loadSavedMenuGameslotDeleteFunctionality (value) {
+  // This function handles the load-saved menu gameslot delete button state change (lead to gameslot delete confirmation)
+  function loadSavedMenuGameslotDeleteStateChangeStarter (value) {
     store.dispatch( {
       type: GAME_DELETE,
       payload: {
@@ -224,12 +209,44 @@ const MenuLogic = (function() {
     });
   }
 
-  // This function handles the load-saved menu gameslot delete confirmation button functionality (delete saved game slot if confirmed)
-  function loadSavedMenuGameslotDelconfFunctionality (value) {
+  // This function handles the load-saved menu gameslot delete confirmation button state changey (delete saved game slot if confirmed)
+  function loadSavedMenuGameslotDelconfStateChangeStarter (value) {
     store.dispatch( {
       type: GAME_DELCONF,
       payload: {
         delConf: value
+      }
+    });
+  }
+
+  // This function handles the load-saved menu new game button state change (creates an empty save slot)
+  function saveGameStateChangeStarter () {
+    store.dispatch( {
+      type: GAME_SAVE,
+      payload: {
+        savedData
+      }
+    });
+    saveGame();
+  }
+
+  // This function handles the credits page back button state change (goes back to main menu)
+  function creditsBackButtonStateChangeStarter () {
+    store.dispatch( {
+      type: MENU_CHANGE,
+      payload: {
+        currentPage: 'MAIN_MENU',
+        previousPage: 'CREDITS'
+      }
+    });
+  }
+
+  // This function handles load game state
+  function loadGameStateChangeStarter () {
+    store.dispatch( {
+      type: GAME_LOAD,
+      payload: {
+        savedData
       }
     });
   }
@@ -251,34 +268,22 @@ const MenuLogic = (function() {
       savedData.slot3 = emptySaveParameters;
     }
 
-    store.dispatch( {
-      type: GAME_SAVE,
-      payload: {
-        savedData
-      }
-    });
-    saveGame();
+    saveGameStateChangeStarter();
   }
 
-  // This function handles the credits page back button functionality (goes back to main menu)
-  function creditsBackButtonFunctionality () {
-    store.dispatch( {
-      type: MENU_CHANGE,
-      payload: {
-        currentPage: 'MAIN_MENU',
-        previousPage: 'CREDITS'
-      }
-    });
-  }
-
-  // This function handles load game state
-  function loadGame () {
-    store.dispatch( {
-      type: GAME_LOAD,
-      payload: {
-        savedData
-      }
-    });
+  // This function adds the event listeners to the html elements
+  function addEvent(elements, event, functionality, value) {
+    if (value != undefined && elements.length > 1) {
+      elements.forEach(function(element) {
+        element.addEventListener(event, function() { functionality(value) });
+      });
+    }
+    if (value == undefined) {
+      elements.addEventListener(event, function() { functionality() });
+    }
+    if (value != undefined && elements.length == undefined) {
+      elements.addEventListener(event, function() { functionality(value) });
+    }
   }
 
   // This function is the Reducer function for Redux
@@ -368,7 +373,7 @@ const MenuLogic = (function() {
       savedData = JSON.parse(localStorage.getItem('kr_xp_save'));
     }
 
-    loadGame();
+    loadGameStateChangeStarter();
   }
 
   // This function draws the music and sound icons according to ON/OFF statement
@@ -449,7 +454,7 @@ const MenuLogic = (function() {
     if (store.getState().lastAction == 'GAME_SAVE' && store.getState().currentPage == 'LOAD_SAVED') {
       localStorage.setItem('kr_xp_save', JSON.stringify(store.getState().savedData));
       savedData = JSON.parse(localStorage.getItem('kr_xp_save'));
-      loadGame();
+      loadGameStateChangeStarter();
     }
   }
 
@@ -473,7 +478,7 @@ const MenuLogic = (function() {
 
       localStorage.setItem('kr_xp_save', JSON.stringify(tempSavedData));
       savedData = JSON.parse(localStorage.getItem('kr_xp_save'));
-      loadGame();
+      loadGameStateChangeStarter();
     }
   }
 
@@ -706,25 +711,25 @@ const MenuLogic = (function() {
   gameslotsInitilaizer();
   addEvent(mouseOverList, 'mouseover', mainSfxController, menuHoverSfxSource);
   addEvent(mouseClickList, 'click', mainSfxController, menuClickSfxSource);
-  addEvent(mainMenuMusicButtonid, 'click', musicButtonFunctionality, undefined);
-  addEvent(mainMenuSoundButtonid, 'click', soundButtonFunctionality, undefined);
-  addEvent(preMenuPlayButtonid, 'click', preMenuPlayButtonFunctionality, undefined);
-  addEvent(mainMenuCreditsButtonid, 'click', mainMenuCreditsButtonFunctionality, undefined);
-  addEvent(mainMenuStartButtonid, 'click', mainMenuStartButtonFunctionality, undefined);
-  addEvent(loadSavedMenuCloseButtonid, 'click', loadSavedMenuCloseButtonFunctionality, undefined);
-  addEvent(loadSavedMenuGameslot1Deleteid, 'click', loadSavedMenuGameslotDeleteFunctionality, 1);
-  addEvent(loadSavedMenuGameslot2Deleteid, 'click', loadSavedMenuGameslotDeleteFunctionality, 2);
-  addEvent(loadSavedMenuGameslot3Deleteid, 'click', loadSavedMenuGameslotDeleteFunctionality, 3);
-  addEvent(loadSavedMenuGameslot1Delconfyesid, 'click', loadSavedMenuGameslotDelconfFunctionality, true);
-  addEvent(loadSavedMenuGameslot2Delconfyesid, 'click', loadSavedMenuGameslotDelconfFunctionality, true);
-  addEvent(loadSavedMenuGameslot3Delconfyesid, 'click', loadSavedMenuGameslotDelconfFunctionality, true);
-  addEvent(loadSavedMenuGameslot1Delconfnoid, 'click', loadSavedMenuGameslotDelconfFunctionality, false);
-  addEvent(loadSavedMenuGameslot2Delconfnoid, 'click', loadSavedMenuGameslotDelconfFunctionality, false);
-  addEvent(loadSavedMenuGameslot3Delconfnoid, 'click', loadSavedMenuGameslotDelconfFunctionality, false);
+  addEvent(mainMenuMusicButtonid, 'click', musicButtonStateChangeStarter, undefined);
+  addEvent(mainMenuSoundButtonid, 'click', soundButtonStateChangeStarter, undefined);
+  addEvent(preMenuPlayButtonid, 'click', preMenuPlayButtonStateChangeStarter, undefined);
+  addEvent(mainMenuCreditsButtonid, 'click', mainMenuCreditsButtonStateChangeStarter, undefined);
+  addEvent(mainMenuStartButtonid, 'click', mainMenuStartButtonStateChangeStarter, undefined);
+  addEvent(loadSavedMenuCloseButtonid, 'click', loadSavedMenuCloseButtonStateChangeStarter, undefined);
+  addEvent(loadSavedMenuGameslot1Deleteid, 'click', loadSavedMenuGameslotDeleteStateChangeStarter, 1);
+  addEvent(loadSavedMenuGameslot2Deleteid, 'click', loadSavedMenuGameslotDeleteStateChangeStarter, 2);
+  addEvent(loadSavedMenuGameslot3Deleteid, 'click', loadSavedMenuGameslotDeleteStateChangeStarter, 3);
+  addEvent(loadSavedMenuGameslot1Delconfyesid, 'click', loadSavedMenuGameslotDelconfStateChangeStarter, true);
+  addEvent(loadSavedMenuGameslot2Delconfyesid, 'click', loadSavedMenuGameslotDelconfStateChangeStarter, true);
+  addEvent(loadSavedMenuGameslot3Delconfyesid, 'click', loadSavedMenuGameslotDelconfStateChangeStarter, true);
+  addEvent(loadSavedMenuGameslot1Delconfnoid, 'click', loadSavedMenuGameslotDelconfStateChangeStarter, false);
+  addEvent(loadSavedMenuGameslot2Delconfnoid, 'click', loadSavedMenuGameslotDelconfStateChangeStarter, false);
+  addEvent(loadSavedMenuGameslot3Delconfnoid, 'click', loadSavedMenuGameslotDelconfStateChangeStarter, false);
   addEvent(loadSavedMenuGameslot1Unusedid, 'click', loadSavedMenuGameslotUnusedFunctionality, 1);
   addEvent(loadSavedMenuGameslot2Unusedid, 'click', loadSavedMenuGameslotUnusedFunctionality, 2);
   addEvent(loadSavedMenuGameslot3Unusedid, 'click', loadSavedMenuGameslotUnusedFunctionality, 3);
-  addEvent(creditsBackButtonid, 'click', creditsBackButtonFunctionality, undefined);
+  addEvent(creditsBackButtonid, 'click', creditsBackButtonStateChangeStarter, undefined);
 
   setInterval(function () {console.log(store.getState())}, 1000);
 
