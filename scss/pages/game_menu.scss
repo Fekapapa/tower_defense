@@ -1,0 +1,27 @@
+// <div id="game-menu-id" class="game-menu-main-container pagehide">
+//   <div id="game-menu-startableid" class="game-menu-startable"></div>
+//   <div id="game-menu-start-buttonid" class="game-menu-start-button"></div>
+//   <div id="game-menu-back-buttonid" class="game-menu-back-button"></div>
+//   <div id="game-menu-starthere-textid" class="game-menu-starthere-text"></div>
+// </div>
+
+
+
+.game-menu-main-container {
+  background-image: $game-menu-bg;
+  height: 600px;
+  margin: auto;
+  width: 800px;
+}
+
+.game-menu-back-button {
+  cursor: pointer;
+  height: 55px;
+  margin-left: 53px;
+  position: absolute;
+  margin-top: 520px;
+  width: 58px;
+  &:hover {
+    background-image: $game-menu-menu-hover-bg;
+  }
+}

@@ -8,6 +8,17 @@ const MenuLogic = (function() {
   let savedData;
   let sfxHelper = 0;
 
+  // Redux action types
+  const MENU_CHANGE = 'MENU_CHANGE';
+  const MUSIC_ON = 'MUSIC_ON';
+  const MUSIC_OFF = 'MUSIC_OFF';
+  const SFX_ON = 'SFX_ON';
+  const SFX_OFF = 'SFX_OFF';
+  const GAME_LOAD = 'GAME_LOAD';
+  const GAME_SAVE = 'GAME_SAVE';
+  const GAME_DELETE = 'GAME_DELETE';
+  const GAME_DELCONF = 'GAME_DELCONF';
+
   // Audio tags and source declaration
   const mainAudioMusic = document.getElementById('main-audio-music');
   const mainAudioSfxPrimary = document.getElementById('main-audio-sfx-primary');
@@ -22,6 +33,7 @@ const MenuLogic = (function() {
   const preMenu = document.getElementById('pre-menu-id');
   const mainMenu = document.getElementById('main-menu-id');;
   const credits = document.getElementById('credits-id');;
+  const gameMenu = document.getElementById('game-menu-id');;
 
   // Premenu and preloader elements declaration
   const preloaderContainerid = document.getElementById('preloader-containerid');
@@ -80,6 +92,12 @@ const MenuLogic = (function() {
   const loadSavedMenuGameslot2Delconfnoid = document.getElementById('load-saved-menu-gameslot-2-delconfno-id');
   const loadSavedMenuGameslot3Delconfyesid = document.getElementById('load-saved-menu-gameslot-3-delconfyes-id');
   const loadSavedMenuGameslot3Delconfnoid = document.getElementById('load-saved-menu-gameslot-3-delconfno-id');
+
+  // Game menu elements declaration
+  const gameMenuStartableid = document.getElementById('game-menu-startableid');
+  const gameMenuStartButtonid = document.getElementById('game-menu-start-buttonid');
+  const gameMenuBackButtonid = document.getElementById('game-menu-back-buttonid');
+  const gameMenuStarthereTextid = document.getElementById('game-menu-starthere-textid');
 
   // Credits elements declaration
   const creditsBackButtonid = document.getElementById('credits-back-buttonid');
@@ -230,6 +248,18 @@ const MenuLogic = (function() {
     saveGame();
   }
 
+  // This function handles the load-saved menu to game menu state change (creates an empty save slot)
+  function loadsavedtoGameMenuStateChangeStarter () {
+    store.dispatch( {
+      type: MENU_CHANGE,
+      payload: {
+        currentPage: 'GAME_MENU',
+        previousPage: 'LOAD_SAVED'
+      }
+    });
+    saveGame();
+  }
+
   // This function handles the credits page back button state change (goes back to main menu)
   function creditsBackButtonStateChangeStarter () {
     store.dispatch( {
@@ -247,6 +277,17 @@ const MenuLogic = (function() {
       type: GAME_LOAD,
       payload: {
         savedData
+      }
+    });
+  }
+
+  // This function handles the game menu to main menu state change (goes back to main menu)
+  function gameMenutoMainMenuButtonStateChangeStarter () {
+    store.dispatch( {
+      type: MENU_CHANGE,
+      payload: {
+        currentPage: 'MAIN_MENU',
+        previousPage: 'GAME_MENU'
       }
     });
   }
@@ -595,22 +636,46 @@ const MenuLogic = (function() {
     }
   }
 
-  // This function handles the main menu to credits change
-  function mainMenutoCredits () {
-    if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage == 'MAIN_MENU' && store.getState().currentPage == 'CREDITS') {
+  // This function handles the main menu to game change
+  function loadSavedtoGameMenu () {
+    if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage == 'LOAD_SAVED' && store.getState().currentPage == 'GAME_MENU') {
       mainSfxController(preloaderSfxSource);
       preloaderStarter();
 
       mainMenu.classList.add('pagehide');
-      credits.classList.remove('pagehide');
+      gameMenu.classList.remove('pagehide');
       mainMenuPlayonmobileButtonid.classList.add('nodisplay');
       mainMenuAnimatedElementList.forEach(function(element) {
         element.classList.add('nodisplay');
       });
-      pageChangeBackgroundChanger ('preloader-fake-background-mainmenu', 'preloader-fake-background-creditsmenu')
+      pageChangeBackgroundChanger ('preloader-fake-background-mainmenu-stripped', 'preloader-fake-background-gamemenu')
     }
   }
 
+  // This function handles the main menu to game change
+  function gameMenutoMainMenu () {
+    if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage == 'GAME_MENU' && store.getState().currentPage == 'MAIN_MENU') {
+      mainSfxController(preloaderSfxSource);
+      preloaderStarter();
+
+      gameMenu.classList.add('pagehide');
+      mainMenu.classList.remove('pagehide');
+      mainMenuPlayonmobileButtonid.classList.remove('nodisplay');
+      mainMenuAnimatedElementList.forEach(function(element) {
+        element.classList = [];
+      });
+
+      loadSavedMenuid.classList.remove('load-saved-menu');
+      loadSavedMenuid.classList.add('load-saved-menu-reverse');
+
+      mainMenuArmorgamesImageid.classList.add('main-menu-armorgames-image');
+      mainMenuIronhideImageid.classList.add('main-menu-ironhide-image');
+      mainMenuStartImageid.classList.add('main-menu-start-image');
+      mainMenuCreditsImageid.classList.add('main-menu-credits-image');
+
+      pageChangeBackgroundChanger ('preloader-fake-background-gamemenu', 'preloader-fake-background-mainmenu-stripped')
+    }
+  }
   // This function handles the credits to main menu change
   function CreditstoMainMenu () {
     if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage == 'CREDITS' && store.getState().currentPage == 'MAIN_MENU') {
@@ -631,6 +696,22 @@ const MenuLogic = (function() {
       mainMenuCreditsImageid.classList.add('main-menu-credits-image');
 
       pageChangeBackgroundChanger ('preloader-fake-background-creditsmenu', 'preloader-fake-background-mainmenu-stripped')
+    }
+  }
+
+  // This function handles the main menu to credits change
+  function mainMenutoCredits () {
+    if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage == 'MAIN_MENU' && store.getState().currentPage == 'CREDITS') {
+      mainSfxController(preloaderSfxSource);
+      preloaderStarter();
+
+      mainMenu.classList.add('pagehide');
+      credits.classList.remove('pagehide');
+      mainMenuPlayonmobileButtonid.classList.add('nodisplay');
+      mainMenuAnimatedElementList.forEach(function(element) {
+        element.classList.add('nodisplay');
+      });
+      pageChangeBackgroundChanger ('preloader-fake-background-mainmenu', 'preloader-fake-background-creditsmenu')
     }
   }
 
@@ -665,6 +746,8 @@ const MenuLogic = (function() {
     mainMenutoLoadSavedMenu();
     loadSavedMenutoMainMenu();
     mainMenuNotfromLoadSavedMenu();
+    loadSavedtoGameMenu();
+    gameMenutoMainMenu();
 
     // If gameload can be handled by really laoding the next game pahse, then this section will be useless so van be deleted.
     if (store.getState().lastAction == 'GAME_LOAD') {
@@ -729,7 +812,11 @@ const MenuLogic = (function() {
   addEvent(loadSavedMenuGameslot1Unusedid, 'click', loadSavedMenuGameslotUnusedFunctionality, 1);
   addEvent(loadSavedMenuGameslot2Unusedid, 'click', loadSavedMenuGameslotUnusedFunctionality, 2);
   addEvent(loadSavedMenuGameslot3Unusedid, 'click', loadSavedMenuGameslotUnusedFunctionality, 3);
+  addEvent(loadSavedMenuGameslot1Unusedid, 'click', loadsavedtoGameMenuStateChangeStarter, 1);
+  addEvent(loadSavedMenuGameslot2Unusedid, 'click', loadsavedtoGameMenuStateChangeStarter, 2);
+  addEvent(loadSavedMenuGameslot3Unusedid, 'click', loadsavedtoGameMenuStateChangeStarter, 3);
   addEvent(creditsBackButtonid, 'click', creditsBackButtonStateChangeStarter, undefined);
+  addEvent(gameMenuBackButtonid, 'click', gameMenutoMainMenuButtonStateChangeStarter, undefined);
 
   setInterval(function () {console.log(store.getState())}, 1000);
 

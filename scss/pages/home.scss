@@ -33,6 +33,10 @@
   background-image: $credits-background-bg;
 }
 
+.preloader-fake-background-gamemenu {
+  background-image: $game-menu-bg;
+}
+
 .preloader-leftside {
   animation: preloader-leftside 1s forwards;
   background-image: $preloader-left-bg;
