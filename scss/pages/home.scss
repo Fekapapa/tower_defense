@@ -7,36 +7,6 @@
   margin: 20px 0;
 }
 
-.preloader-fake-background {
-  height: 600px;
-  margin: auto;
-  overflow: hidden;
-  position: absolute;
-  margin-top: -600px;
-  width: 800px;
-  z-index: -1;
-}
-
-.preloader-fake-background-premenu {
-  background-image: $pre-menu-background-bg;
-}
-
-.preloader-fake-background-mainmenu {
-  background-image: $main-menu-preloader-background-bg;
-}
-
-.preloader-fake-background-mainmenu-stripped {
-  background-image: $main-menu-background-bg;
-}
-
-.preloader-fake-background-creditsmenu {
-  background-image: $credits-background-bg;
-}
-
-.preloader-fake-background-gamemenu {
-  background-image: $game-menu-bg;
-}
-
 .preloader-leftside {
   animation: preloader-leftside 1s forwards;
   background-image: $preloader-left-bg;

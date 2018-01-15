@@ -39,7 +39,6 @@ const MenuLogic = (function() {
   const preloaderContainerid = document.getElementById('preloader-containerid');
   const preloaderLeftsideid = document.getElementById('preloader-leftsideid');
   const preloaderRightsideid = document.getElementById('preloader-rightsideid');
-  const preloaderFakeBackgroundid = document.getElementById('preloader-fake-backgroundid');
   const preMenuPlayButtonid = document.getElementById('pre-menu-play-buttonid');
 
   // Main menu elements declaration
@@ -496,6 +495,9 @@ const MenuLogic = (function() {
       localStorage.setItem('kr_xp_save', JSON.stringify(store.getState().savedData));
       savedData = JSON.parse(localStorage.getItem('kr_xp_save'));
       loadGameStateChangeStarter();
+      setTimeout(function(){
+        loadSavedMenuGameslotDisplayHandler();
+      }, 600);
     }
   }
 
@@ -520,6 +522,7 @@ const MenuLogic = (function() {
       localStorage.setItem('kr_xp_save', JSON.stringify(tempSavedData));
       savedData = JSON.parse(localStorage.getItem('kr_xp_save'));
       loadGameStateChangeStarter();
+      loadSavedMenuGameslotDisplayHandler();
     }
   }
 
@@ -560,11 +563,22 @@ const MenuLogic = (function() {
         catch(err) {}
       }, 800);
 
+      setTimeout(function(){
+        loadSavedMenuGameslotDisplayHandler();
+      }, 600);
+
+
       loadSavedMenuDeleteConfirmationTrue();
       loadSavedMenuDeleteConfirmationFalse();
     }
   }
 
+  // This function handles the load saved menu game slot delete state
+  function loadSavedMenuGameslotDeleteHandler () {
+    if (store.getState().lastAction == 'GAME_DELETE') {
+      loadSavedMenuGameslotDisplayHandler();
+    }
+  }
   // This function handles the load-saved menu to main menu change
   function loadSavedMenutoMainMenu () {
     if (store.getState().previousPage == 'LOAD_SAVED' && store.getState().currentPage == 'MAIN_MENU') {
@@ -606,33 +620,22 @@ const MenuLogic = (function() {
     }
   }
 
-  // This function help on the page change by restarting by changeing backgrounds
-  function pageChangeBackgroundChanger (previousPageFakeBackground, currentPageFakeBackground) {
-    preloaderFakeBackgroundid.classList.add(previousPageFakeBackground);
-    setTimeout(function(){
-        preloaderFakeBackgroundid.classList.remove(previousPageFakeBackground);
-        preloaderFakeBackgroundid.classList.add(currentPageFakeBackground);
-    }, 600);
-    setTimeout(function(){
-        iframeid.classList.remove('hidden');
-        preloaderFakeBackgroundid.classList.remove(currentPageFakeBackground);
-        preloaderFakeBackgroundid.classList.add('hidden');
-    }, 1000);
-  }
-
   // This function handles the pre menu to main menu change
   function preMenutoMainMenu () {
     if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage == 'PRE_MENU' && store.getState().currentPage == 'MAIN_MENU') {
       mainSfxController(preloaderSfxSource);
       preloaderStarter();
+      loadSavedMenuGameslotDisplayHandler();
 
-      preMenu.classList.add('pagehide');
-      mainMenu.classList.remove('pagehide');
+      setTimeout(function(){
+        preMenu.classList.add('pagehide');
+        mainMenu.classList.remove('pagehide');
+      }, 600);
+
       mainMenuPlayonmobileButtonid.classList.remove('nodisplay');
       mainMenuAnimatedElementList.forEach(function(element) {
         element.classList.remove('nodisplay');
       });
-      pageChangeBackgroundChanger ('preloader-fake-background-premenu', 'preloader-fake-background-mainmenu-stripped')
     }
   }
 
@@ -642,13 +645,15 @@ const MenuLogic = (function() {
       mainSfxController(preloaderSfxSource);
       preloaderStarter();
 
-      mainMenu.classList.add('pagehide');
-      gameMenu.classList.remove('pagehide');
+      setTimeout(function(){
+        mainMenu.classList.add('pagehide');
+        gameMenu.classList.remove('pagehide');
+      }, 600);
+
       mainMenuPlayonmobileButtonid.classList.add('nodisplay');
       mainMenuAnimatedElementList.forEach(function(element) {
         element.classList.add('nodisplay');
       });
-      pageChangeBackgroundChanger ('preloader-fake-background-mainmenu-stripped', 'preloader-fake-background-gamemenu')
     }
   }
 
@@ -658,8 +663,11 @@ const MenuLogic = (function() {
       mainSfxController(preloaderSfxSource);
       preloaderStarter();
 
-      gameMenu.classList.add('pagehide');
-      mainMenu.classList.remove('pagehide');
+      setTimeout(function(){
+        gameMenu.classList.add('pagehide');
+        mainMenu.classList.remove('pagehide');
+      }, 600);
+
       mainMenuPlayonmobileButtonid.classList.remove('nodisplay');
       mainMenuAnimatedElementList.forEach(function(element) {
         element.classList = [];
@@ -672,19 +680,24 @@ const MenuLogic = (function() {
       mainMenuIronhideImageid.classList.add('main-menu-ironhide-image');
       mainMenuStartImageid.classList.add('main-menu-start-image');
       mainMenuCreditsImageid.classList.add('main-menu-credits-image');
-
-      pageChangeBackgroundChanger ('preloader-fake-background-gamemenu', 'preloader-fake-background-mainmenu-stripped')
     }
   }
+
   // This function handles the credits to main menu change
   function CreditstoMainMenu () {
     if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage == 'CREDITS' && store.getState().currentPage == 'MAIN_MENU') {
       mainSfxController(preloaderSfxSource);
       preloaderStarter();
 
-      credits.classList.add('pagehide');
-      mainMenu.classList.remove('pagehide');
+      setTimeout(function(){
+        credits.classList.add('pagehide');
+        mainMenu.classList.remove('pagehide');
+      }, 600);
 
+      mainMenuPlayonmobileButtonid.classList.add('nodisplay');
+      mainMenuAnimatedElementList.forEach(function(element) {
+        element.classList.add('nodisplay');
+      });
       mainMenuPlayonmobileButtonid.classList.remove('nodisplay');
       mainMenuAnimatedElementList.forEach(function(element) {
         element.classList = [];
@@ -694,8 +707,6 @@ const MenuLogic = (function() {
       mainMenuIronhideImageid.classList.add('main-menu-ironhide-image');
       mainMenuStartImageid.classList.add('main-menu-start-image');
       mainMenuCreditsImageid.classList.add('main-menu-credits-image');
-
-      pageChangeBackgroundChanger ('preloader-fake-background-creditsmenu', 'preloader-fake-background-mainmenu-stripped')
     }
   }
 
@@ -705,13 +716,14 @@ const MenuLogic = (function() {
       mainSfxController(preloaderSfxSource);
       preloaderStarter();
 
-      mainMenu.classList.add('pagehide');
-      credits.classList.remove('pagehide');
-      mainMenuPlayonmobileButtonid.classList.add('nodisplay');
-      mainMenuAnimatedElementList.forEach(function(element) {
-        element.classList.add('nodisplay');
-      });
-      pageChangeBackgroundChanger ('preloader-fake-background-mainmenu', 'preloader-fake-background-creditsmenu')
+      setTimeout(function(){
+        mainMenu.classList.add('pagehide');
+        credits.classList.remove('pagehide');
+        mainMenuPlayonmobileButtonid.classList.add('nodisplay');
+        mainMenuAnimatedElementList.forEach(function(element) {
+          element.classList.add('nodisplay');
+        });
+      }, 600);
     }
   }
 
@@ -725,18 +737,50 @@ const MenuLogic = (function() {
     preloaderRightsideid.getBoundingClientRect();
     preloaderLeftsideid.classList.add('preloader-leftside');
     preloaderRightsideid.classList.add('preloader-rightside');
+  }
 
-    // hide the iframe element and display the fake background
-    iframeid.classList.add('hidden');
-    preloaderFakeBackgroundid.classList.remove('hidden');
+  // This function handles the load saved menu gameslot dispaly changes
+  function loadSavedMenuGameslotDisplayHandler () {
+    if (savedData.slot1.isUsed == true) {
+      loadSavedMenuGameslot1Unusedid.classList.add('hidden');
+      loadSavedMenuGameslot1Usedid.classList.remove('hidden');
+      loadSavedMenuGameslot1UsedHoverid.classList.remove('hidden');
+      loadSavedMenuGameslot1Deleteid.classList.remove('hidden');
+    }
+    if (savedData.slot1.isUsed == false) {
+      loadSavedMenuGameslot1Unusedid.classList.remove('hidden');
+      loadSavedMenuGameslot1Usedid.classList.add('hidden');
+      loadSavedMenuGameslot1UsedHoverid.classList.add('hidden');
+      loadSavedMenuGameslot1Deleteid.classList.add('hidden');
+    }
+    if (savedData.slot2.isUsed == true) {
+      loadSavedMenuGameslot2Unusedid.classList.add('hidden');
+      loadSavedMenuGameslot2Usedid.classList.remove('hidden');
+      loadSavedMenuGameslot2UsedHoverid.classList.remove('hidden');
+      loadSavedMenuGameslot2Deleteid.classList.remove('hidden');
+    }
+    if (savedData.slot2.isUsed == false) {
+      loadSavedMenuGameslot2Unusedid.classList.remove('hidden');
+      loadSavedMenuGameslot2Usedid.classList.add('hidden');
+      loadSavedMenuGameslot2UsedHoverid.classList.add('hidden');
+      loadSavedMenuGameslot2Deleteid.classList.add('hidden');
+    }
+    if (savedData.slot3.isUsed == true) {
+      loadSavedMenuGameslot3Unusedid.classList.add('hidden');
+      loadSavedMenuGameslot3Usedid.classList.remove('hidden');
+      loadSavedMenuGameslot3UsedHoverid.classList.remove('hidden');
+      loadSavedMenuGameslot3Deleteid.classList.remove('hidden');
+    }
+    if (savedData.slot3.isUsed == false) {
+      loadSavedMenuGameslot3Unusedid.classList.remove('hidden');
+      loadSavedMenuGameslot3Usedid.classList.add('hidden');
+      loadSavedMenuGameslot3UsedHoverid.classList.add('hidden');
+      loadSavedMenuGameslot3Deleteid.classList.add('hidden');
+    }
   }
 
   // This function handles music and display rendering
   function render () {
-    // Add sound to the preloader from pre-menu to main-menu
-    // if(store.getState().currentPage == 'MAIN_MENU' && store.getState().previousPage == 'PRE_MENU') {
-    //   mainSfxController(preloaderSfxSource);
-    // }
     mainMusicController();
     soundIconDrawer();
     gameslotSubElementDrawer();
@@ -748,47 +792,6 @@ const MenuLogic = (function() {
     mainMenuNotfromLoadSavedMenu();
     loadSavedtoGameMenu();
     gameMenutoMainMenu();
-
-    // If gameload can be handled by really laoding the next game pahse, then this section will be useless so van be deleted.
-    if (store.getState().lastAction == 'GAME_LOAD') {
-      console.log('lastAction == GAME_LOAD');
-      if (savedData.slot1.isUsed == true) {
-        loadSavedMenuGameslot1Unusedid.classList.add('hidden');
-        loadSavedMenuGameslot1Usedid.classList.remove('hidden');
-        loadSavedMenuGameslot1UsedHoverid.classList.remove('hidden');
-        loadSavedMenuGameslot1Deleteid.classList.remove('hidden');
-      }
-      if (savedData.slot1.isUsed == false) {
-        loadSavedMenuGameslot1Unusedid.classList.remove('hidden');
-        loadSavedMenuGameslot1Usedid.classList.add('hidden');
-        loadSavedMenuGameslot1UsedHoverid.classList.add('hidden');
-        loadSavedMenuGameslot1Deleteid.classList.add('hidden');
-      }
-      if (savedData.slot2.isUsed == true) {
-        loadSavedMenuGameslot2Unusedid.classList.add('hidden');
-        loadSavedMenuGameslot2Usedid.classList.remove('hidden');
-        loadSavedMenuGameslot2UsedHoverid.classList.remove('hidden');
-        loadSavedMenuGameslot2Deleteid.classList.remove('hidden');
-      }
-      if (savedData.slot2.isUsed == false) {
-        loadSavedMenuGameslot2Unusedid.classList.remove('hidden');
-        loadSavedMenuGameslot2Usedid.classList.add('hidden');
-        loadSavedMenuGameslot2UsedHoverid.classList.add('hidden');
-        loadSavedMenuGameslot2Deleteid.classList.add('hidden');
-      }
-      if (savedData.slot3.isUsed == true) {
-        loadSavedMenuGameslot3Unusedid.classList.add('hidden');
-        loadSavedMenuGameslot3Usedid.classList.remove('hidden');
-        loadSavedMenuGameslot3UsedHoverid.classList.remove('hidden');
-        loadSavedMenuGameslot3Deleteid.classList.remove('hidden');
-      }
-      if (savedData.slot3.isUsed == false) {
-        loadSavedMenuGameslot3Unusedid.classList.remove('hidden');
-        loadSavedMenuGameslot3Usedid.classList.add('hidden');
-        loadSavedMenuGameslot3UsedHoverid.classList.add('hidden');
-        loadSavedMenuGameslot3Deleteid.classList.add('hidden');
-      }
-    }
   }
 
   gameslotsInitilaizer();
