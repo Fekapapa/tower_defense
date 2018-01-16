@@ -95,3 +95,111 @@
     width: 31px;
   }
 }
+
+.game-menu-startable-stars {
+  color: rgb(251, 239, 212);
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 35px;
+  margin-top: 37px;
+  position: absolute;
+}
+
+.game-menu-feature-coming-soon-hero-hover, .game-menu-feature-coming-soon-upgrades-hover, .game-menu-feature-coming-soon-encyclopedia-hover, .game-menu-feature-coming-soon-achievements-hover {
+    cursor: pointer;
+    height: 74px;
+    margin-left: 373px;
+    margin-top: 504px;
+    position: absolute;
+    width: 78px;
+    &:hover {
+      background: $game-menu-black-pointer-arrow-bg;
+      background-repeat: no-repeat;
+      background-position-x: 20px;
+      background-position-y: 0px;
+      height: 74px;
+      margin-left: 373px;
+      margin-top: 504px;
+      width: 78px;
+    }
+}
+
+.game-menu-feature-coming-soon-hero-info, .game-menu-feature-coming-soon-upgrades-info , .game-menu-feature-coming-soon-encyclopedia-info, .game-menu-feature-coming-soon-achievements-info  {
+  display: none;
+}
+
+.game-menu-feature-coming-soon-hero-hover:hover + .game-menu-feature-coming-soon-hero-info, .game-menu-feature-coming-soon-upgrades-hover:hover + .game-menu-feature-coming-soon-upgrades-info, .game-menu-feature-coming-soon-encyclopedia-hover:hover + .game-menu-feature-coming-soon-encyclopedia-info, .game-menu-feature-coming-soon-achievements-hover:hover + .game-menu-feature-coming-soon-achievements-info {
+  background-color: rgba(0, 0, 0, 0.8);
+  display: inline-block;
+  height: 95px;
+  margin-left: 155px;
+  position: relative;
+  top: 414px;
+  width: 243px;
+}
+
+.game-menu-feature-coming-soon-info-header {
+  color: white;
+  font-size: 14px;
+  margin: 10px;
+}
+
+.game-menu-feature-coming-soon-info-text {
+  color: rgb(254, 225, 1);
+  font-size: 14px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.game-menu-feature-coming-soon-upgrades-hover {
+  margin-left: 461px;
+
+  &:hover {
+    margin-left: 461px;
+  }
+}
+
+.game-menu-feature-coming-soon-upgrades-info {
+  margin-left: 243px;
+}
+
+.game-menu-feature-coming-soon-upgrades-hover:hover + .game-menu-feature-coming-soon-upgrades-info {
+  margin-left: 243px;
+}
+
+.game-menu-feature-coming-soon-encyclopedia-hover {
+  margin-left: 550px;
+  width: 88px;
+
+  &:hover {
+    margin-left: 550px;
+    width: 88px;
+  }
+}
+
+.game-menu-feature-coming-soon-encyclopedia-info {
+  margin-left: 332px;
+}
+
+.game-menu-feature-coming-soon-encyclopedia-hover:hover + .game-menu-feature-coming-soon-encyclopedia-info {
+  margin-left: 332px;
+}
+
+ .game-menu-feature-coming-soon-achievements-hover {
+   margin-left: 649px;
+    width: 88px;
+
+   &:hover {
+     margin-left: 649px;
+    width: 88px;
+   }
+ }
+
+ .game-menu-feature-coming-soon-achievements-info {
+   margin-left: 431px;
+ }
+
+.game-menu-feature-coming-soon-achievements-hover:hover + .game-menu-feature-coming-soon-achievements-info {
+  margin-left: 431px;
+}
