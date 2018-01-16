@@ -18,6 +18,8 @@ const MenuLogic = (function() {
   const GAME_SAVE = 'GAME_SAVE';
   const GAME_DELETE = 'GAME_DELETE';
   const GAME_DELCONF = 'GAME_DELCONF';
+  const GET_GAMEDATA = 'GET_GAMEDATA';
+  const GAMEDATA_LOADED = 'GAMEDATA_LOADED';
 
   // Audio tags and source declaration
   const mainAudioMusic = document.getElementById('main-audio-music');
@@ -94,26 +96,106 @@ const MenuLogic = (function() {
 
   // Game menu elements declaration
   const gameMenuStartableid = document.getElementById('game-menu-startableid');
-  const gameMenuStartButtonid = document.getElementById('game-menu-start-buttonid');
+  const gameMenuBattlepointerid = document.getElementById('game-menu-battlepointerid');
   const gameMenuBackButtonid = document.getElementById('game-menu-back-buttonid');
   const gameMenuStarthereTextid = document.getElementById('game-menu-starthere-textid');
   const gameMenuMusicButtonid = document.getElementById('game-menu-music-buttonid');
   const gameMenuSoundButtonid = document.getElementById('game-menu-sound-buttonid');
+  const gameMenuStartableStarsid = document.getElementById('game-menu-startable-starsid');
 
   // Credits elements declaration
   const creditsBackButtonid = document.getElementById('credits-back-buttonid');
 
   // Elements in this list have mouse over sound effect
-  const mouseOverList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuCloseButtonid, loadSavedMenuLocalsaveHelpid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid];
+  const mouseOverList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuCloseButtonid, loadSavedMenuLocalsaveHelpid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid, gameMenuBattlepointerid];
 
   // Elements in this list have mouse click sound effect
-  const mouseClickList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid];
+  const mouseClickList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid, gameMenuBattlepointerid];
 
   // Elements visibility in this list affected by gameslot used or not
   const gameslotElementList = [loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot1Usedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot2Usedid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot3Usedid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot3Deleteid];
 
   // These elements on the main menu animated a lot of times
   const mainMenuAnimatedElementList = [mainMenuArmorgamesImageid, mainMenuIronhideImageid, mainMenuStartImageid, mainMenuCreditsImageid];
+
+  // This function is the Reducer function for Redux
+  function reducer (state, action) {
+
+    if (typeof state === 'undefined') {
+      state = {
+        previousPage: false,
+        currentPage: 'PRE_MENU',
+        musicStatus: 'OFF',
+        currentMusicSource: false,
+        sfxStatus: 'OFF',
+        currentSfxSource: false
+      };
+      return state
+    }
+
+    switch (action.type) {
+      case 'MENU_CHANGE':
+        return Object.assign({}, state, {
+                currentPage: action.payload.currentPage,
+                previousPage: action.payload.previousPage,
+                lastAction: MENU_CHANGE
+              })
+      case 'MUSIC_ON':
+        return Object.assign({}, state, {
+                musicStatus: action.payload.status,
+                currentMusicSource: action.payload.src,
+                lastAction: MUSIC_ON
+              })
+      case 'MUSIC_OFF':
+        return Object.assign({}, state, {
+                musicStatus: action.payload.status,
+                currentMusicSource: action.payload.src,
+                lastAction: MUSIC_OFF
+              })
+      case 'SFX_ON':
+        return Object.assign({}, state, {
+                sfxStatus: action.payload.status,
+                lastAction: SFX_ON
+              })
+      case 'SFX_OFF':
+        return Object.assign({}, state, {
+                sfxStatus: action.payload.status,
+                lastAction: SFX_OFF
+              })
+      case 'GAME_LOAD':
+        return Object.assign({}, state, {
+                savedData: action.payload.savedData,
+                lastAction: GAME_LOAD
+              })
+      case 'GAME_SAVE':
+        return Object.assign({}, state, {
+                savedData: action.payload.savedData,
+                lastAction: GAME_SAVE
+              })
+      case 'GAME_DELETE':
+        return Object.assign({}, state, {
+                gameSlot: action.payload.gameSlot,
+                lastAction: GAME_DELETE
+              })
+      case 'GAME_DELCONF':
+        return Object.assign({}, state, {
+                deleteConfirmation: action.payload.delConf,
+                lastAction: GAME_DELCONF
+              })
+      case 'GET_GAMEDATA':
+        return Object.assign({}, state, {
+                activeSlot: action.payload.activeSlot,
+                lastAction: GET_GAMEDATA
+              })
+      case 'GAMEDATA_LOADED':
+        return Object.assign({}, state, {
+                activeGameState: action.payload.activeGameState,
+                lastAction: GAMEDATA_LOADED
+              })
+      default:
+        return state
+    }
+  }
 
   // This function starts the music on/off states
   function musicButtonStateChangeStarter () {
@@ -271,13 +353,18 @@ const MenuLogic = (function() {
   }
 
   // This function handles the load-saved menu to game menu state change
-  function loadsavedtoGameMenuStateChangeStarter () {
-    console.log('alma')
+  function loadsavedtoGameMenuStateChangeStarter (value) {
     store.dispatch( {
       type: MENU_CHANGE,
       payload: {
         currentPage: 'GAME_MENU',
         previousPage: 'LOAD_SAVED'
+      }
+    });
+    store.dispatch( {
+      type: GET_GAMEDATA,
+      payload: {
+        activeSlot: value,
       }
     });
     if (store.getState().musicStatus == 'ON') {
@@ -328,6 +415,34 @@ const MenuLogic = (function() {
     }
   }
 
+  // This function handles the saved game loading to the current (active) game session state change
+  function currentGameDataLoaderStateChangeStarter () {
+    if (store.getState().activeSlot == 1) {
+      store.dispatch( {
+        type: GAMEDATA_LOADED,
+        payload: {
+          activeGameState: store.getState().savedData.slot1
+        }
+      });
+    }
+    if (store.getState().activeSlot == 2) {
+      store.dispatch( {
+        type: GAMEDATA_LOADED,
+        payload: {
+          activeGameState: store.getState().savedData.slot2
+        }
+      });
+    }
+    if (store.getState().activeSlot == 3) {
+      store.dispatch( {
+        type: GAMEDATA_LOADED,
+        payload: {
+          activeGameState: store.getState().savedData.slot3
+        }
+      });
+    }
+  }
+
   // This function handles the load-saved menu new game button functionality (creates an empty save slot)
   function loadSavedMenuGameslotUnusedFunctionality (value) {
     const emptySaveParameters = {
@@ -360,75 +475,6 @@ const MenuLogic = (function() {
     }
     if (value != undefined && elements.length == undefined) {
       elements.addEventListener(event, function() { functionality(value) });
-    }
-  }
-
-  // This function is the Reducer function for Redux
-  function reducer (state, action) {
-
-    if (typeof state === 'undefined') {
-      state = {
-        previousPage: false,
-        currentPage: 'PRE_MENU',
-        musicStatus: 'OFF',
-        currentMusicSource: false,
-        sfxStatus: 'OFF',
-        currentSfxSource: false
-      };
-      return state
-    }
-
-    switch (action.type) {
-      case 'MENU_CHANGE':
-        return Object.assign({}, state, {
-                currentPage: action.payload.currentPage,
-                previousPage: action.payload.previousPage,
-                lastAction: MENU_CHANGE
-              })
-      case 'MUSIC_ON':
-        return Object.assign({}, state, {
-                musicStatus: action.payload.status,
-                currentMusicSource: action.payload.src,
-                lastAction: MUSIC_ON
-              })
-      case 'MUSIC_OFF':
-        return Object.assign({}, state, {
-                musicStatus: action.payload.status,
-                currentMusicSource: action.payload.src,
-                lastAction: MUSIC_OFF
-              })
-      case 'SFX_ON':
-        return Object.assign({}, state, {
-                sfxStatus: action.payload.status,
-                lastAction: SFX_ON
-              })
-      case 'SFX_OFF':
-        return Object.assign({}, state, {
-                sfxStatus: action.payload.status,
-                lastAction: SFX_OFF
-              })
-      case 'GAME_LOAD':
-        return Object.assign({}, state, {
-                savedData: action.payload.savedData,
-                lastAction: GAME_LOAD
-              })
-      case 'GAME_SAVE':
-        return Object.assign({}, state, {
-                savedData: action.payload.savedData,
-                lastAction: GAME_SAVE
-              })
-      case 'GAME_DELETE':
-        return Object.assign({}, state, {
-                gameSlot: action.payload.gameSlot,
-                lastAction: GAME_DELETE
-              })
-      case 'GAME_DELCONF':
-        return Object.assign({}, state, {
-                deleteConfirmation: action.payload.delConf,
-                lastAction: GAME_DELCONF
-              })
-      default:
-        return state
     }
   }
 
@@ -716,7 +762,12 @@ const MenuLogic = (function() {
         gameMenu.classList.remove('pagehide');
       }, 600);
 
+      setTimeout(function(){
+        gameMenuStarthereTextid.classList.remove('nodisplay');
+      }, 2600);
+
       gameMenuStartableid.classList.remove('nodisplay');
+      gameMenuBattlepointerid.classList.remove('nodisplay');
       mainMenuAnimatedElementList.forEach(function(element) {
         element.classList.add('nodisplay');
       });
@@ -733,6 +784,8 @@ const MenuLogic = (function() {
         gameMenu.classList.add('pagehide');
         mainMenu.classList.remove('pagehide');
         gameMenuStartableid.classList.add('nodisplay');
+        gameMenuBattlepointerid.classList.add('nodisplay');
+        gameMenuStarthereTextid.classList.add('nodisplay');
       }, 600);
 
       setTimeout(function(){
@@ -859,6 +912,20 @@ const MenuLogic = (function() {
     }
   }
 
+  // This function initiates the saved game loading to the current (active) game session
+  function currentGameDataLoadingHandler () {
+    if (store.getState().lastAction == 'GET_GAMEDATA') {
+      currentGameDataLoaderStateChangeStarter();
+    }
+  }
+
+  // This function handles the drawing of the game menu startable text
+  function gameMenuStartableDrawer () {
+    if (store.getState().currentPage == 'GAME_MENU' && store.getState().lastAction == 'GAMEDATA_LOADED') {
+      gameMenuStartableStarsid.innerHTML = store.getState().activeGameState.stars.toString() + '/77';
+    }
+  }
+
   // This function handles music and display rendering
   function render () {
     mainMusicController();
@@ -872,6 +939,8 @@ const MenuLogic = (function() {
     mainMenuNotfromLoadSavedMenu();
     loadSavedtoGameMenu();
     gameMenutoMainMenu();
+    currentGameDataLoadingHandler();
+    gameMenuStartableDrawer();
   }
 
   gameslotsInitilaizer();
@@ -895,12 +964,12 @@ const MenuLogic = (function() {
   addEvent(loadSavedMenuGameslot1Unusedid, 'click', loadSavedMenuGameslotUnusedFunctionality, 1);
   addEvent(loadSavedMenuGameslot2Unusedid, 'click', loadSavedMenuGameslotUnusedFunctionality, 2);
   addEvent(loadSavedMenuGameslot3Unusedid, 'click', loadSavedMenuGameslotUnusedFunctionality, 3);
-  addEvent(loadSavedMenuGameslot1Unusedid, 'click', loadsavedtoGameMenuStateChangeStarter);
-  addEvent(loadSavedMenuGameslot2Unusedid, 'click', loadsavedtoGameMenuStateChangeStarter);
-  addEvent(loadSavedMenuGameslot3Unusedid, 'click', loadsavedtoGameMenuStateChangeStarter);
-  addEvent(loadSavedMenuGameslot1UsedHoverid, 'click', loadsavedtoGameMenuStateChangeStarter);
-  addEvent(loadSavedMenuGameslot2UsedHoverid, 'click', loadsavedtoGameMenuStateChangeStarter);
-  addEvent(loadSavedMenuGameslot3UsedHoverid, 'click', loadsavedtoGameMenuStateChangeStarter);
+  addEvent(loadSavedMenuGameslot1Unusedid, 'click', loadsavedtoGameMenuStateChangeStarter, 1);
+  addEvent(loadSavedMenuGameslot2Unusedid, 'click', loadsavedtoGameMenuStateChangeStarter, 2);
+  addEvent(loadSavedMenuGameslot3Unusedid, 'click', loadsavedtoGameMenuStateChangeStarter, 3);
+  addEvent(loadSavedMenuGameslot1UsedHoverid, 'click', loadsavedtoGameMenuStateChangeStarter, 1);
+  addEvent(loadSavedMenuGameslot2UsedHoverid, 'click', loadsavedtoGameMenuStateChangeStarter, 2);
+  addEvent(loadSavedMenuGameslot3UsedHoverid, 'click', loadsavedtoGameMenuStateChangeStarter, 3);
   addEvent(creditsBackButtonid, 'click', creditsBackButtonStateChangeStarter, undefined);
   addEvent(gameMenuBackButtonid, 'click', gameMenutoMainMenuButtonStateChangeStarter, undefined);
   addEvent(gameMenuMusicButtonid, 'click', musicButtonStateChangeStarter, undefined);
