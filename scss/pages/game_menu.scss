@@ -33,3 +33,65 @@
   0% { transform: translateY(0); }
   100% { transform: translateY(79px); }
 }
+
+.game-menu-music-button {
+  cursor: pointer;
+  height: 27px;
+  margin-left: 92px;
+  position: absolute;
+  margin-top: 15px;
+  width: 30px;
+  z-index: 1;
+  &:hover {
+    background-image: $game-menu-music-hover-bg;
+  }
+}
+
+.game-menu-music-button-disabled {
+  background-image: $game-menu-music-disabled-bg;
+  cursor: pointer;
+  height: 25px;
+  margin-left: 92px;
+  position: absolute;
+  margin-top: 16px;
+  width: 29px;
+  z-index: 1;
+  &:hover {
+    background-image: $game-menu-music-disabled-hover-bg;
+    height: 26px;
+    margin-left: 92px;
+    margin-top: 16px;
+    width: 30px;
+  }
+}
+
+.game-menu-sound-button {
+  cursor: pointer;
+  height: 27px;
+  margin-left: 55px;
+  position: absolute;
+  margin-top: 14px;
+  width: 32px;
+  z-index: 1;
+  &:hover {
+    background-image: $game-menu-sound-hover-bg;
+  }
+}
+
+.game-menu-sound-button-disabled {
+  background-image: $game-menu-sound-disabled-bg;
+  cursor: pointer;
+  height: 26px;
+  margin-left: 57px;
+  position: absolute;
+  margin-top: 15px;
+  width: 30px;
+  z-index: 1;
+  &:hover {
+    background-image: $game-menu-sound-disabled-hover-bg;
+    height: 26px;
+    margin-left: 56px;
+    margin-top: 15px;
+    width: 31px;
+  }
+}

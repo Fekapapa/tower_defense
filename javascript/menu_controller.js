@@ -97,15 +97,17 @@ const MenuLogic = (function() {
   const gameMenuStartButtonid = document.getElementById('game-menu-start-buttonid');
   const gameMenuBackButtonid = document.getElementById('game-menu-back-buttonid');
   const gameMenuStarthereTextid = document.getElementById('game-menu-starthere-textid');
+  const gameMenuMusicButtonid = document.getElementById('game-menu-music-buttonid');
+  const gameMenuSoundButtonid = document.getElementById('game-menu-sound-buttonid');
 
   // Credits elements declaration
   const creditsBackButtonid = document.getElementById('credits-back-buttonid');
 
   // Elements in this list have mouse over sound effect
-  const mouseOverList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuCloseButtonid, loadSavedMenuLocalsaveHelpid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid];
+  const mouseOverList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuCloseButtonid, loadSavedMenuLocalsaveHelpid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid];
 
   // Elements in this list have mouse click sound effect
-  const mouseClickList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid];
+  const mouseClickList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid];
 
   // Elements visibility in this list affected by gameslot used or not
   const gameslotElementList = [loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot1Usedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot2Usedid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot3Usedid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot3Deleteid];
@@ -120,7 +122,7 @@ const MenuLogic = (function() {
         type: MUSIC_ON,
         payload: {
           status: 'ON',
-          src: "../assets/sound/KRO_main_menu2.mp3"
+          src: store.getState().currentMusicSource
         }
       });
       return
@@ -130,7 +132,7 @@ const MenuLogic = (function() {
         type: MUSIC_OFF,
         payload: {
           status: 'OFF',
-          src: false
+          src: store.getState().currentMusicSource
         }
       });
       return
@@ -268,8 +270,9 @@ const MenuLogic = (function() {
     });
   }
 
-  // This function handles the load-saved menu to game menu state change (creates an empty save slot)
+  // This function handles the load-saved menu to game menu state change
   function loadsavedtoGameMenuStateChangeStarter () {
+    console.log('alma')
     store.dispatch( {
       type: MENU_CHANGE,
       payload: {
@@ -277,13 +280,23 @@ const MenuLogic = (function() {
         previousPage: 'LOAD_SAVED'
       }
     });
-    store.dispatch( {
-      type: MUSIC_ON,
-      payload: {
-        status: 'ON',
-        src: "../assets/sound/KRO_game_menu2.mp3"
-      }
-    });
+    if (store.getState().musicStatus == 'ON') {
+      store.dispatch( {
+        type: MUSIC_ON,
+        payload: {
+          status: 'ON',
+          src: "../assets/sound/KRO_game_menu.mp3"
+        }
+      });
+    } else {
+      store.dispatch( {
+        type: MUSIC_OFF,
+        payload: {
+          status: 'OFF',
+          src: "../assets/sound/KRO_game_menu.mp3"
+        }
+      });
+    }
     saveGame();
   }
 
@@ -296,13 +309,23 @@ const MenuLogic = (function() {
         previousPage: 'GAME_MENU'
       }
     });
-    store.dispatch( {
-      type: MUSIC_ON,
-      payload: {
-        status: 'ON',
-        src: "../assets/sound/KRO_main_menu2.mp3"
-      }
-    });
+    if (store.getState().musicStatus == 'ON') {
+      store.dispatch( {
+        type: MUSIC_ON,
+        payload: {
+          status: 'ON',
+          src: "../assets/sound/KRO_main_menu2.mp3"
+        }
+      });
+    } else {
+      store.dispatch( {
+        type: MUSIC_OFF,
+        payload: {
+          status: 'OFF',
+          src: "../assets/sound/KRO_main_menu2.mp3"
+        }
+      });
+    }
   }
 
   // This function handles the load-saved menu new game button functionality (creates an empty save slot)
@@ -432,21 +455,41 @@ const MenuLogic = (function() {
 
   // This function draws the music and sound icons according to ON/OFF statement
   function soundIconDrawer () {
-    if (store.getState().musicStatus == 'OFF') {
-      mainMenuMusicButtonid.classList.remove('main-menu-music-button');
-      mainMenuMusicButtonid.classList.add('main-menu-music-button-disabled');
+    if (store.getState().currentPage != 'GAME_MENU') {
+      if (store.getState().musicStatus == 'OFF') {
+        mainMenuMusicButtonid.classList.remove('main-menu-music-button');
+        mainMenuMusicButtonid.classList.add('main-menu-music-button-disabled');
+      }
+      if (store.getState().musicStatus == 'ON') {
+        mainMenuMusicButtonid.classList.add('main-menu-music-button');
+        mainMenuMusicButtonid.classList.remove('main-menu-music-button-disabled');
+      }
+      if (store.getState().sfxStatus == 'OFF') {
+        mainMenuSoundButtonid.classList.remove('main-menu-sound-button');
+        mainMenuSoundButtonid.classList.add('main-menu-sound-button-disabled');
+      }
+      if (store.getState().sfxStatus == 'ON') {
+        mainMenuSoundButtonid.classList.add('main-menu-sound-button');
+        mainMenuSoundButtonid.classList.remove('main-menu-sound-button-disabled');
+      }
     }
-    if (store.getState().musicStatus == 'ON') {
-      mainMenuMusicButtonid.classList.add('main-menu-music-button');
-      mainMenuMusicButtonid.classList.remove('main-menu-music-button-disabled');
-    }
-    if (store.getState().sfxStatus == 'OFF') {
-      mainMenuSoundButtonid.classList.remove('main-menu-sound-button');
-      mainMenuSoundButtonid.classList.add('main-menu-sound-button-disabled');
-    }
-    if (store.getState().sfxStatus == 'ON') {
-      mainMenuSoundButtonid.classList.add('main-menu-sound-button');
-      mainMenuSoundButtonid.classList.remove('main-menu-sound-button-disabled');
+    if (store.getState().currentPage == 'GAME_MENU') {
+      if (store.getState().musicStatus == 'OFF') {
+        gameMenuMusicButtonid.classList.remove('game-menu-music-button');
+        gameMenuMusicButtonid.classList.add('game-menu-music-button-disabled');
+      }
+      if (store.getState().musicStatus == 'ON') {
+        gameMenuMusicButtonid.classList.add('game-menu-music-button');
+        gameMenuMusicButtonid.classList.remove('game-menu-music-button-disabled');
+      }
+      if (store.getState().sfxStatus == 'OFF') {
+        gameMenuSoundButtonid.classList.remove('game-menu-sound-button');
+        gameMenuSoundButtonid.classList.add('game-menu-sound-button-disabled');
+      }
+      if (store.getState().sfxStatus == 'ON') {
+        gameMenuSoundButtonid.classList.add('game-menu-sound-button');
+        gameMenuSoundButtonid.classList.remove('game-menu-sound-button-disabled');
+      }
     }
   }
 
@@ -852,11 +895,16 @@ const MenuLogic = (function() {
   addEvent(loadSavedMenuGameslot1Unusedid, 'click', loadSavedMenuGameslotUnusedFunctionality, 1);
   addEvent(loadSavedMenuGameslot2Unusedid, 'click', loadSavedMenuGameslotUnusedFunctionality, 2);
   addEvent(loadSavedMenuGameslot3Unusedid, 'click', loadSavedMenuGameslotUnusedFunctionality, 3);
-  addEvent(loadSavedMenuGameslot1Unusedid, 'click', loadsavedtoGameMenuStateChangeStarter, 1);
-  addEvent(loadSavedMenuGameslot2Unusedid, 'click', loadsavedtoGameMenuStateChangeStarter, 2);
-  addEvent(loadSavedMenuGameslot3Unusedid, 'click', loadsavedtoGameMenuStateChangeStarter, 3);
+  addEvent(loadSavedMenuGameslot1Unusedid, 'click', loadsavedtoGameMenuStateChangeStarter);
+  addEvent(loadSavedMenuGameslot2Unusedid, 'click', loadsavedtoGameMenuStateChangeStarter);
+  addEvent(loadSavedMenuGameslot3Unusedid, 'click', loadsavedtoGameMenuStateChangeStarter);
+  addEvent(loadSavedMenuGameslot1UsedHoverid, 'click', loadsavedtoGameMenuStateChangeStarter);
+  addEvent(loadSavedMenuGameslot2UsedHoverid, 'click', loadsavedtoGameMenuStateChangeStarter);
+  addEvent(loadSavedMenuGameslot3UsedHoverid, 'click', loadsavedtoGameMenuStateChangeStarter);
   addEvent(creditsBackButtonid, 'click', creditsBackButtonStateChangeStarter, undefined);
   addEvent(gameMenuBackButtonid, 'click', gameMenutoMainMenuButtonStateChangeStarter, undefined);
+  addEvent(gameMenuMusicButtonid, 'click', musicButtonStateChangeStarter, undefined);
+  addEvent(gameMenuSoundButtonid, 'click', soundButtonStateChangeStarter, undefined);
 
   setInterval(function () {console.log(store.getState())}, 1000);
 
