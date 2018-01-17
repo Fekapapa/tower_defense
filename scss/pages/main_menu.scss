@@ -86,7 +86,6 @@
   position: absolute;
   margin-top: 8px;
   width: 28px;
-  z-index: 1;
   &:hover {
     background-image: $main-menu-music-hover-bg;
   }
@@ -100,7 +99,6 @@
   position: absolute;
   margin-top: 10px;
   width: 28px;
-  z-index: 1;
   &:hover {
     background-image: $main-menu-music-disabled-hover-bg;
   }
@@ -113,7 +111,6 @@
   position: absolute;
   margin-top: 8px;
   width: 31px;
-  z-index: 1;
   &:hover {
     background-image: $main-menu-sound-hover-bg;
   }
@@ -127,7 +124,6 @@
   position: absolute;
   margin-top: 11px;
   width: 27px;
-  z-index: 1;
   &:hover {
     background-image: $main-menu-sound-disabled-hover-bg;
     height: 25px;
