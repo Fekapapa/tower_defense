@@ -16,3 +16,18 @@
     background-image: $credits-back-hover-bg;
   }
 }
+
+.credits-text {
+  color: rgb(10, 10, 10);
+  font-size: 18px;
+  font-weight: bold;
+  margin: auto;
+  margin-top: 175px;
+  max-width: 70%;
+  text-align: justify;
+}
+
+.credits-signature {
+  margin-left: 400px;
+  text-align: left;
+}

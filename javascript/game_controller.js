@@ -16,6 +16,7 @@ const GameLogic = (function() {
   const SFX_OFF = 'SFX_OFF';
   const GAME_LOAD = 'GAME_LOAD';
   const GAME_SAVE = 'GAME_SAVE';
+  const UNUSED_SAVESLOT = 'UNUSED_SAVESLOT';
   const GAME_DELETE = 'GAME_DELETE';
   const GAME_DELCONF = 'GAME_DELCONF';
   const GET_GAMEDATA = 'GET_GAMEDATA';
@@ -24,11 +25,15 @@ const GameLogic = (function() {
   const BATTLEPANEL_OFF = 'BATTLEPANEL_OFF';
   const BATTLE_ON = 'BATTLE_ON';
 
-  // Audio tags and source declaration
+  // Audio tags declaration and source declaration
   const mainAudioMusic = document.getElementById('main-audio-music');
   const mainAudioSfxPrimary = document.getElementById('main-audio-sfx-primary');
   const mainAudioSfxSecondary = document.getElementById('main-audio-sfx-secondary');
   const mainAudioSfxTertiary = document.getElementById('main-audio-sfx-tertiary');
+
+  // Audio source declaration
+  const mainMenuMusicSource = '../assets/sound/KRO_main_menu2.mp3';
+  const gameMenuMusicSource = '../assets/sound/KRO_game_menu.mp3';
   const menuHoverSfxSource = '../assets/sound/sfx/button_hover2.mp3';
   const menuClickSfxSource = '../assets/sound/sfx/button_click.mp3';
   const preloaderSfxSource = '../assets/sound/sfx/preloader.mp3';
@@ -127,7 +132,7 @@ const GameLogic = (function() {
   const mainMenuAnimatedElementList = [mainMenuArmorgamesImageid, mainMenuIronhideImageid, mainMenuStartImageid, mainMenuCreditsImageid];
 
   // This function is the Reducer function for Redux
-  function reducer (state, action) {
+  function reducer(state, action) {
 
     if (typeof state === 'undefined') {
       state = {
@@ -136,7 +141,8 @@ const GameLogic = (function() {
         musicStatus: 'OFF',
         currentMusicSource: false,
         sfxStatus: 'OFF',
-        currentSfxSource: false
+        currentSfxSource: false,
+        activeGameState: {}
       };
       return state
     }
@@ -180,6 +186,11 @@ const GameLogic = (function() {
                 savedData: action.payload.savedData,
                 lastAction: GAME_SAVE
               })
+      case 'UNUSED_SAVESLOT':
+        return Object.assign({}, state, {
+                saveSlottoInit: action.payload.saveSlottoInit,
+                lastAction: UNUSED_SAVESLOT
+              })
       case 'GAME_DELETE':
         return Object.assign({}, state, {
                 gameSlot: action.payload.gameSlot,
@@ -221,7 +232,7 @@ const GameLogic = (function() {
   }
 
   // This function starts the music on/off states
-  function musicButtonStateChangeStarter () {
+  function musicButtonStateChangeStarter() {
     if (store.getState().musicStatus == 'OFF') {
       store.dispatch( {
         type: MUSIC_ON,
@@ -245,7 +256,7 @@ const GameLogic = (function() {
   }
 
   // This function starts the SFX sound on/off states
-  function soundButtonStateChangeStarter () {
+  function soundButtonStateChangeStarter() {
     if (store.getState().sfxStatus == 'OFF') {
       store.dispatch( {
         type: SFX_ON,
@@ -267,7 +278,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the pre-menu play button state start (enters to main menu, set both SFX and music on)
-  function preMenuPlayButtonStateChangeStarter () {
+  function preMenuPlayButtonStateChangeStarter() {
     store.dispatch( {
       type: MENU_CHANGE,
       payload: {
@@ -279,7 +290,7 @@ const GameLogic = (function() {
       type: MUSIC_ON,
       payload: {
         status: 'ON',
-        src: "../assets/sound/KRO_main_menu2.mp3"
+        src: mainMenuMusicSource
       }
     });
     store.dispatch( {
@@ -291,7 +302,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the main menu credits button state change (enters to credits page)
-  function mainMenuCreditsButtonStateChangeStarter () {
+  function mainMenuCreditsButtonStateChangeStarter() {
     store.dispatch( {
       type: MENU_CHANGE,
       payload: {
@@ -302,7 +313,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the main menu start button state change (enters to load-saved pseudo page)
-  function mainMenuStartButtonStateChangeStarter () {
+  function mainMenuStartButtonStateChangeStarter() {
     store.dispatch( {
       type: MENU_CHANGE,
       payload: {
@@ -313,7 +324,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the load-saved menu close button state change (goes back to main menu)
-  function loadSavedMenuCloseButtonStateChangeStarter () {
+  function loadSavedMenuCloseButtonStateChangeStarter() {
     store.dispatch( {
       type: MENU_CHANGE,
       payload: {
@@ -324,7 +335,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the load-saved menu gameslot delete button state change (lead to gameslot delete confirmation)
-  function loadSavedMenuGameslotDeleteStateChangeStarter (value) {
+  function loadSavedMenuGameslotDeleteStateChangeStarter(value) {
     store.dispatch( {
       type: GAME_DELETE,
       payload: {
@@ -334,7 +345,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the load-saved menu gameslot delete confirmation button state changey (delete saved game slot if confirmed)
-  function loadSavedMenuGameslotDelconfStateChangeStarter (value) {
+  function loadSavedMenuGameslotDelconfStateChangeStarter(value) {
     store.dispatch( {
       type: GAME_DELCONF,
       payload: {
@@ -344,7 +355,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the load-saved menu new game button state change (creates an empty save slot)
-  function saveGameStateChangeStarter () {
+  function saveGameStateChangeStarter() {
     store.dispatch( {
       type: GAME_SAVE,
       payload: {
@@ -355,7 +366,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the credits page back button state change (goes back to main menu)
-  function creditsBackButtonStateChangeStarter () {
+  function creditsBackButtonStateChangeStarter() {
     store.dispatch( {
       type: MENU_CHANGE,
       payload: {
@@ -366,7 +377,7 @@ const GameLogic = (function() {
   }
 
   // This function handles load game state
-  function loadGameStateChangeStarter () {
+  function loadGameStateChangeStarter() {
     store.dispatch( {
       type: GAME_LOAD,
       payload: {
@@ -375,8 +386,18 @@ const GameLogic = (function() {
     });
   }
 
+  // This function handles the unused gamelost creation state change
+  function loadSavedMenuGameslotUnusedStateChangeStarter(value) {
+    store.dispatch( {
+      type: UNUSED_SAVESLOT,
+      payload: {
+        saveSlottoInit: value
+      }
+    });
+  }
+
   // This function handles the load-saved menu to game menu state change
-  function loadsavedtoGameMenuStateChangeStarter (value) {
+  function loadsavedtoGameMenuStateChangeStarter(value) {
     store.dispatch( {
       type: MENU_CHANGE,
       payload: {
@@ -395,7 +416,7 @@ const GameLogic = (function() {
         type: MUSIC_ON,
         payload: {
           status: 'ON',
-          src: "../assets/sound/KRO_game_menu.mp3"
+          src: gameMenuMusicSource
         }
       });
     } else {
@@ -403,7 +424,7 @@ const GameLogic = (function() {
         type: MUSIC_OFF,
         payload: {
           status: 'OFF',
-          src: "../assets/sound/KRO_game_menu.mp3"
+          src: gameMenuMusicSource
         }
       });
     }
@@ -411,7 +432,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the game menu to main menu state change (goes back to main menu)
-  function gameMenutoMainMenuButtonStateChangeStarter () {
+  function gameMenutoMainMenuButtonStateChangeStarter() {
     store.dispatch( {
       type: MENU_CHANGE,
       payload: {
@@ -424,7 +445,7 @@ const GameLogic = (function() {
         type: MUSIC_ON,
         payload: {
           status: 'ON',
-          src: "../assets/sound/KRO_main_menu2.mp3"
+          src: mainMenuMusicSource
         }
       });
     } else {
@@ -432,14 +453,14 @@ const GameLogic = (function() {
         type: MUSIC_OFF,
         payload: {
           status: 'OFF',
-          src: "../assets/sound/KRO_main_menu2.mp3"
+          src: mainMenuMusicSource
         }
       });
     }
   }
 
   // This function handles the saved game loading to the current (active) game session state change
-  function currentGameDataLoaderStateChangeStarter () {
+  function currentGameDataLoaderStateChangeStarter() {
     if (store.getState().activeSlot == 1) {
       store.dispatch( {
         type: GAMEDATA_LOADED,
@@ -467,7 +488,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the game menu battle panel ON state change
-  function gameMenuBattlePanelOnStateChangeStarter (map) {
+  function gameMenuBattlePanelOnStateChangeStarter(map) {
     store.dispatch( {
       type: BATTLEPANEL_ON,
       payload: {
@@ -477,14 +498,14 @@ const GameLogic = (function() {
   }
 
   // This function handles the game menu battle panel OFF state change
-  function gameMenuBattlePanelOffStateChangeStarter () {
+  function gameMenuBattlePanelOffStateChangeStarter() {
     store.dispatch( {
       type: BATTLEPANEL_OFF
     });
   }
 
   // This function handles the game menu battle panel battle start (to battle) state change
-  function gameMenutoBattleMapStateChangeStarter () {
+  function gameMenutoBattleMapStateChangeStarter() {
     store.dispatch( {
       type: MENU_CHANGE,
       payload: {
@@ -503,7 +524,7 @@ const GameLogic = (function() {
         type: MUSIC_ON,
         payload: {
           status: 'ON',
-          src: "../assets/sound/KRO_main_menu2.mp3"
+          src: mainMenuMusicSource
         }
       });
     } else {
@@ -511,30 +532,32 @@ const GameLogic = (function() {
         type: MUSIC_OFF,
         payload: {
           status: 'OFF',
-          src: "../assets/sound/KRO_main_menu2.mp3"
+          src: mainMenuMusicSource
         }
       });
     }
   }
 
   // This function handles the load-saved menu new game button functionality (creates an empty save slot)
-  function loadSavedMenuGameslotUnusedFunctionality (value) {
-    const emptySaveParameters = {
-      isUsed: true,
-      stars: 0,
-      shields: 0,
-      fists: 0
-    }
+  function loadSavedMenuGameslotUnusedFunctionality() {
+    if (store.getState().lastAction == 'UNUSED_SAVESLOT') {
+      const emptySaveParameters = {
+        isUsed: true,
+        stars: 0,
+        shields: 0,
+        fists: 0
+      }
 
-    if (value == 1) {
-      savedData.slot1 = emptySaveParameters;
-    } else if (value == 2) {
-      savedData.slot2 = emptySaveParameters;
-    } else if (value == 3) {
-      savedData.slot3 = emptySaveParameters;
-    }
+      if (store.getState().saveSlottoInit == 1) {
+        savedData.slot1 = emptySaveParameters;
+      } else if (store.getState().saveSlottoInit == 2) {
+        savedData.slot2 = emptySaveParameters;
+      } else if (store.getState().saveSlottoInit == 3) {
+        savedData.slot3 = emptySaveParameters;
+      }
 
-    saveGameStateChangeStarter();
+      saveGameStateChangeStarter();
+    }
   }
 
   // This function adds the event listeners to the html elements
@@ -553,7 +576,7 @@ const GameLogic = (function() {
   }
 
   // This function creates empty save slots on the local storage (if the game starts first)
-  function gameslotsInitilaizer () {
+  function gameslotsInitilaizer() {
     if (localStorage.getItem('kr_xp_save') == undefined) {
       savedData = {};
       savedData.slot1 = {
@@ -574,7 +597,7 @@ const GameLogic = (function() {
   }
 
   // This function draws the music and sound icons according to ON/OFF statement
-  function soundIconDrawer () {
+  function soundIconDrawer() {
     if (store.getState().currentPage != 'GAME_MENU') {
       if (store.getState().musicStatus == 'OFF') {
         mainMenuMusicButtonid.classList.remove('main-menu-music-button');
@@ -614,7 +637,7 @@ const GameLogic = (function() {
   }
 
   // This function draws the used gameslots inner elements
-  function gameslotSubElementDrawer () {
+  function gameslotSubElementDrawer() {
     if (store.getState().currentPage == 'LOAD_SAVED') {
       if (savedData.slot1.isUsed == true) {
         loadSavedGameslot1Stars.innerHTML = store.getState().savedData.slot1.stars.toString() + '/77';
@@ -635,7 +658,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the music play or pause
-  function mainMusicController () {
+  function mainMusicController() {
     if (store.getState().currentMusicSource && store.getState().lastAction == MUSIC_ON) {
       mainAudioMusic.setAttribute('src', store.getState().currentMusicSource);
       mainAudioMusic.play();
@@ -648,7 +671,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the SFX sounds on the 3 SFX only audio tags
-  function mainSfxController (source) {
+  function mainSfxController(source) {
     if (store.getState().sfxStatus == 'ON') {
       sfxHelper += 1;
       if ((sfxHelper % 3) == 0) {
@@ -667,7 +690,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the game save to the local storage
-  function saveGame () {
+  function saveGame() {
     if (store.getState().lastAction == 'GAME_SAVE' && store.getState().currentPage == 'LOAD_SAVED') {
       localStorage.setItem('kr_xp_save', JSON.stringify(store.getState().savedData));
       savedData = JSON.parse(localStorage.getItem('kr_xp_save'));
@@ -679,7 +702,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the delete gameslot confrimtaion if it is yes
-  function loadSavedMenuDeleteConfirmationTrue () {
+  function loadSavedMenuDeleteConfirmationTrue() {
     if (store.getState().lastAction == GAME_DELCONF && store.getState().deleteConfirmation == true) {
       const tempSavedData = store.getState().savedData;
 
@@ -704,7 +727,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the delete gameslot confrimtaion if it is no
-  function loadSavedMenuDeleteConfirmationFalse () {
+  function loadSavedMenuDeleteConfirmationFalse() {
     if (store.getState().lastAction == GAME_DELCONF && store.getState().deleteConfirmation == false || store.getState().lastAction == GAME_DELETE) {
       if (store.getState().gameSlot == 1) {
         loadSavedMenuGameslot1Delconfid.classList.toggle('hidden');
@@ -719,7 +742,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the main menu to load-saved menu change
-  function mainMenutoLoadSavedMenu () {
+  function mainMenutoLoadSavedMenu() {
     if (store.getState().previousPage == 'MAIN_MENU' && store.getState().currentPage == 'LOAD_SAVED') {
       mainMenuCreditsButtonid.classList.remove('main-menu-credits-button');
       mainMenuStartButtonid.classList.remove('main-menu-start-button');
@@ -753,14 +776,14 @@ const GameLogic = (function() {
   }
 
   // This function handles the load saved menu game slot delete state
-  function loadSavedMenuGameslotDeleteHandler () {
+  function loadSavedMenuGameslotDeleteHandler() {
     if (store.getState().lastAction == 'GAME_DELETE') {
       loadSavedMenuGameslotDisplayHandler();
     }
   }
 
   // This function handles the load-saved menu to main menu change
-  function loadSavedMenutoMainMenu () {
+  function loadSavedMenutoMainMenu() {
     if (store.getState().previousPage == 'LOAD_SAVED' && store.getState().currentPage == 'MAIN_MENU') {
       mainMenuCreditsImageid.classList.replace('main-menu-credits-image-reverse', 'main-menu-credits-image-ls');
       mainMenuStartImageid.classList.replace('main-menu-start-image-reverse', 'main-menu-start-image-ls');
@@ -793,7 +816,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the main menu not from load-saved menu change (main menu from pre menu or credits)
-  function mainMenuNotfromLoadSavedMenu () {
+  function mainMenuNotfromLoadSavedMenu() {
     if (store.getState().currentPage == 'MAIN_MENU' && store.getState().previousPage !== 'LOAD_SAVED') {
       setTimeout(function(){
         try {
@@ -806,7 +829,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the pre menu to main menu change
-  function preMenutoMainMenu () {
+  function preMenutoMainMenu() {
     if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage == 'PRE_MENU' && store.getState().currentPage == 'MAIN_MENU') {
       mainSfxController(preloaderSfxSource);
       preloaderStarter();
@@ -825,7 +848,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the main menu to game change
-  function loadSavedtoGameMenu () {
+  function loadSavedtoGameMenu() {
     if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage == 'LOAD_SAVED' && store.getState().currentPage == 'GAME_MENU') {
       mainSfxController(preloaderSfxSource);
       preloaderStarter();
@@ -836,9 +859,11 @@ const GameLogic = (function() {
         gameMenu.classList.remove('pagehide');
       }, 600);
 
-      setTimeout(function(){
-        gameMenuStarthereTextid.classList.remove('nodisplay');
-      }, 2200);
+      if (store.getState().activeGameState.isMap1Completed != true) {
+        setTimeout(function(){
+          gameMenuStarthereTextid.classList.remove('nodisplay');
+        }, 2200);
+      }
 
       gameMenuStartableid.classList.remove('nodisplay');
       gameMenuBattlepointer1id.classList.remove('nodisplay');
@@ -849,7 +874,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the main menu to game change
-  function gameMenutoMainMenu () {
+  function gameMenutoMainMenu() {
     if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage == 'GAME_MENU' && store.getState().currentPage == 'MAIN_MENU') {
       mainSfxController(preloaderSfxSource);
       preloaderStarter();
@@ -859,7 +884,9 @@ const GameLogic = (function() {
         mainMenu.classList.remove('pagehide');
         gameMenuStartableid.classList.add('nodisplay');
         gameMenuBattlepointer1id.classList.add('nodisplay');
-        gameMenuStarthereTextid.classList.add('nodisplay');
+        if (store.getState().activeGameState.isMap1Completed != true) {
+          gameMenuStarthereTextid.classList.add('nodisplay');
+        }
       }, 600);
 
       setTimeout(function(){
@@ -883,7 +910,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the credits to main menu change
-  function CreditstoMainMenu () {
+  function CreditstoMainMenu() {
     if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage == 'CREDITS' && store.getState().currentPage == 'MAIN_MENU') {
       mainSfxController(preloaderSfxSource);
       preloaderStarter();
@@ -915,7 +942,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the main menu to credits change
-  function mainMenutoCredits () {
+  function mainMenutoCredits() {
     if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage == 'MAIN_MENU' && store.getState().currentPage == 'CREDITS') {
       mainSfxController(preloaderSfxSource);
       preloaderStarter();
@@ -935,7 +962,7 @@ const GameLogic = (function() {
   }
 
   // This function handles restarts the preloader animation
-  function preloaderStarter () {
+  function preloaderStarter() {
     // Reload the preloader animation
     preloaderContainerid.classList.remove('hidden');
     preloaderLeftsideid.classList.remove('preloader-leftside');
@@ -947,7 +974,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the load saved menu gameslot dispaly changes
-  function loadSavedMenuGameslotDisplayHandler () {
+  function loadSavedMenuGameslotDisplayHandler() {
     if (savedData.slot1.isUsed == true) {
       loadSavedMenuGameslot1Unusedid.classList.add('hidden');
       loadSavedMenuGameslot1Usedid.classList.remove('hidden');
@@ -987,21 +1014,21 @@ const GameLogic = (function() {
   }
 
   // This function initiates the saved game loading to the current (active) game session
-  function currentGameDataLoadingHandler () {
+  function currentGameDataLoadingHandler() {
     if (store.getState().lastAction == 'GET_GAMEDATA') {
       currentGameDataLoaderStateChangeStarter();
     }
   }
 
   // This function handles the drawing of the game menu startable text
-  function gameMenuStartableDrawer () {
+  function gameMenuStartableDrawer() {
     if (store.getState().currentPage == 'GAME_MENU' && store.getState().lastAction == 'GAMEDATA_LOADED') {
       gameMenuStartableStarsid.innerHTML = store.getState().activeGameState.stars.toString() + '/77';
     }
   }
 
   // This function handles the drawing of the game menu battlepanel ON statement
-  function gameMenuBattlePanelDrawer () {
+  function gameMenuBattlePanelDrawer() {
     if (store.getState().lastAction == 'BATTLEPANEL_ON') {
       gameMenuStarthereTextid.classList.add('nodisplay');
       gameMenuBattleStartPanel1id.classList.remove('nodisplay');
@@ -1010,7 +1037,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the drawing of the game menu battlepanel OFF statement
-  function gameMenuBattlePanelDeleter () {
+  function gameMenuBattlePanelDeleter() {
     if (store.getState().lastAction == 'BATTLEPANEL_OFF') {
       gameMenuBattleStartPanel1id.classList.add('game-menu-battle-start-panel-fadeout');
       gameMenuDarkLayerid.classList.add('game-menu-dark-layer-fadeout');
@@ -1025,7 +1052,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the game menu to battle map
-  function gameMenutoBattleMap () {
+  function gameMenutoBattleMap() {
     if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage == 'GAME_MENU' && store.getState().currentPage == 'BATTLE_MAP') {
       mainSfxController(preloaderSfxSource);
       preloaderStarter();
@@ -1039,7 +1066,7 @@ const GameLogic = (function() {
   }
 
   // This function handles sound and display rendering according to the actual statement
-  function render () {
+  function render() {
     mainMusicController();
     soundIconDrawer();
     gameslotSubElementDrawer();
@@ -1049,6 +1076,7 @@ const GameLogic = (function() {
     mainMenutoLoadSavedMenu();
     loadSavedMenutoMainMenu();
     mainMenuNotfromLoadSavedMenu();
+    loadSavedMenuGameslotUnusedFunctionality();
     loadSavedtoGameMenu();
     gameMenutoMainMenu();
     currentGameDataLoadingHandler();
@@ -1078,9 +1106,9 @@ const GameLogic = (function() {
   addEvent(loadSavedMenuGameslot3Delconfnoid, 'click', loadSavedMenuGameslotDelconfStateChangeStarter, false);
 
 // These three events should come from the event state change, not from directly by click. Fix needed.
-  addEvent(loadSavedMenuGameslot1Unusedid, 'click', loadSavedMenuGameslotUnusedFunctionality, 1);
-  addEvent(loadSavedMenuGameslot2Unusedid, 'click', loadSavedMenuGameslotUnusedFunctionality, 2);
-  addEvent(loadSavedMenuGameslot3Unusedid, 'click', loadSavedMenuGameslotUnusedFunctionality, 3);
+  addEvent(loadSavedMenuGameslot1Unusedid, 'click', loadSavedMenuGameslotUnusedStateChangeStarter, 1);
+  addEvent(loadSavedMenuGameslot2Unusedid, 'click', loadSavedMenuGameslotUnusedStateChangeStarter, 2);
+  addEvent(loadSavedMenuGameslot3Unusedid, 'click', loadSavedMenuGameslotUnusedStateChangeStarter, 3);
 
   addEvent(loadSavedMenuGameslot1Unusedid, 'click', loadsavedtoGameMenuStateChangeStarter, 1);
   addEvent(loadSavedMenuGameslot2Unusedid, 'click', loadsavedtoGameMenuStateChangeStarter, 2);

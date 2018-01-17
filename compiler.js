@@ -1,5 +1,7 @@
 'use strict'
 
+// THIS FILE IS CURRENTLY NOT USED IN THE PROJECT
+
 // CONFIG START
 
 const inputFiles = [
