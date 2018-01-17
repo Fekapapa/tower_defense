@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>XPWebTech</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="xp_webtech_krf_stylesheet.css">
+    <script src="https://unpkg.com/redux@latest/dist/redux.min.js"></script>
+  </head>
+  <body class="landing_page_body">
+    <audio id="main-audio-music" loop src="" type="audio/mpeg"></audio>
+    <audio id="main-audio-sfx-primary" src="" type="audio/mpeg"></audio>
+    <audio id="main-audio-sfx-secondary" src="" type="audio/mpeg"></audio>
+    <audio id="main-audio-sfx-tertiary" src="" type="audio/mpeg"></audio>
+
+    <div class="main-title-container">
+      <h2 class="main-title">An Experimetnal Web Technologies experiment.</h2>
+    </div>
+
+    <div class="main-container" oncontextmenu="return false;">
+      <div id="game-frame">
+
+        <!-- PRE-MENU -->
+
+        <div id="pre-menu-id" class="pre-menu-background">
+          <div class="pre-menu-play-button" id="pre-menu-play-buttonid"></div>
+          <a class="pre-menu-ironhide-button" target="_blank" href="https://www.ironhidegames.com/?ref=KRFRONTIERS"></a>
+          <a class="pre-menu-armorgames-button" target="_blank" href="https://armorgames.com/?ref=KRFRONTIERS"></a>
+          <a class="pre-menu-playonmobile-button" target="_blank" href="http://getmobile.kingdomrushfrontiers.com/"></a>
+        </div>
+
+        <!-- MAIN-MENU -->
+
+        <div id="main-menu-id" class="main-menu-container pagehide">
+          <div id="main-menu-start-buttonid"></div>
+          <div id="main-menu-credits-buttonid"></div>
+          <a id="main-menu-playonmobile-buttonid" class="main-menu-playonmobile-button nodisplay" target="_blank" href="http://getmobile.kingdomrushfrontiers.com/"></a>
+          <a id="main-menu-twitter-buttonid" class="main-menu-twitter-button" target="_blank" href="https://twitter.com/ironhidegames"></a>
+          <a id="main-menu-facebook-buttonid" class="main-menu-facebook-button" target="_blank" href="https://www.facebook.com/ironhidegames/"></a>
+          <a id="main-menu-ironhide-buttonid" class="main-menu-ironhide-button" target="_blank" href="https://www.ironhidegames.com/?ref=KRFRONTIERS"></a>
+          <a id="main-menu-armorgames-buttonid" class="main-menu-armorgames-button" target="_blank" href="https://armorgames.com/?ref=KRFRONTIERS"></a>
+          <div id="main-menu-music-buttonid" class="main-menu-music-button"></div>
+          <div id="main-menu-armorgames-imageid" class="main-menu-armorgames-image nodisplay"></div>
+          <div id="main-menu-ironhide-imageid" class="main-menu-ironhide-image nodisplay"></div>
+          <div id="main-menu-sound-buttonid" class="main-menu-sound-button"></div>
+          <div class="main-menu-chained-container">
+            <div id="main-menu-start-imageid" class="main-menu-start-image nodisplay"></div>
+            <div id="main-menu-credits-imageid" class="main-menu-credits-image nodisplay"></div>
+          </div>
+
+          <!-- LOAD-SAVED MENU -->
+
+          <div id="load-saved-menuid" class="load-saved-menu-start">
+            <div id="load-saved-menu-gameslot-1-unused-id" class="load-saved-menu-gameslot-1-unused"></div>
+            <div id="load-saved-menu-gameslot-1-used-id" class="load-saved-menu-gameslot-1-used">
+              <div class="load-saved-menu-gameslot-firstrow">Slot 1</div>
+              <div class="load-saved-menu-gameslot-secondrow">
+                <span class="load-saved-menu-gameslot-staricon"></span>
+                <span id="gameslot-1-stars" class="load-saved-menu-gameslot-text"></span>
+                <span class="load-saved-menu-gameslot-shieldicon"></span>
+                <span id="gameslot-1-shields" class="load-saved-menu-gameslot-text"></span>
+                <span class="load-saved-menu-gameslot-fisticon"></span>
+                <span id="gameslot-1-fists" class="load-saved-menu-gameslot-text"></span>
+              </div>
+            </div>
+            <div id="load-saved-menu-gameslot-2-unused-id" class="load-saved-menu-gameslot-2-unused"></div>
+            <div id="load-saved-menu-gameslot-2-used-id" class="load-saved-menu-gameslot-2-used">
+              <div class="load-saved-menu-gameslot-firstrow">Slot 2</div>
+              <div class="load-saved-menu-gameslot-secondrow">
+                <span class="load-saved-menu-gameslot-staricon"></span>
+                <span id="gameslot-2-stars" class="load-saved-menu-gameslot-text"></span>
+                <span class="load-saved-menu-gameslot-shieldicon"></span>
+                <span id="gameslot-2-shields" class="load-saved-menu-gameslot-text"></span>
+                <span class="load-saved-menu-gameslot-fisticon"></span>
+                <span id="gameslot-2-fists" class="load-saved-menu-gameslot-text"></span>
+              </div>
+            </div>
+            <div id="load-saved-menu-gameslot-3-unused-id" class="load-saved-menu-gameslot-3-unused"></div>
+            <div id="load-saved-menu-gameslot-3-used-id" class="load-saved-menu-gameslot-3-used">
+              <div class="load-saved-menu-gameslot-firstrow">Slot 3</div>
+              <div class="load-saved-menu-gameslot-secondrow">
+                <span class="load-saved-menu-gameslot-staricon"></span>
+                <span id="gameslot-3-stars" class="load-saved-menu-gameslot-text"></span>
+                <span class="load-saved-menu-gameslot-shieldicon"></span>
+                <span id="gameslot-3-shields" class="load-saved-menu-gameslot-text"></span>
+                <span class="load-saved-menu-gameslot-fisticon"></span>
+                <span id="gameslot-3-fists" class="load-saved-menu-gameslot-text"></span>
+              </div>
+            </div>
+            <div id="load-saved-menu-close-buttonid" class="load-saved-menu-close-button"></div>
+            <div id="load-saved-menu-gameslot-1-used-hover-id" class="load-saved-menu-gameslot-1-used-hover"></div>
+            <div id="load-saved-menu-gameslot-2-used-hover-id" class="load-saved-menu-gameslot-2-used-hover"></div>
+            <div id="load-saved-menu-gameslot-3-used-hover-id" class="load-saved-menu-gameslot-3-used-hover"></div>
+            <div id="load-saved-menu-gameslot-1-delete-id" class="load-saved-menu-gameslot-1-delete"></div>
+            <div id="load-saved-menu-gameslot-2-delete-id" class="load-saved-menu-gameslot-2-delete"></div>
+            <div id="load-saved-menu-gameslot-3-delete-id" class="load-saved-menu-gameslot-3-delete"></div>
+            <div id="load-saved-menu-gameslot-1-delconf-id" class="load-saved-menu-gameslot-1-delconf hidden">
+              <div class="load-saved-menu-gameslot-delconf-text">Delete Slot?</div>
+              <div id="load-saved-menu-gameslot-1-delconfyes-id" class="load-saved-menu-gameslot-delconfyes"></div>
+              <div id="load-saved-menu-gameslot-1-delconfno-id" class="load-saved-menu-gameslot-delconfno"></div>
+            </div>
+            <div id="load-saved-menu-gameslot-2-delconf-id" class="load-saved-menu-gameslot-2-delconf hidden">
+              <div class="load-saved-menu-gameslot-delconf-text">Delete Slot?</div>
+              <div id="load-saved-menu-gameslot-2-delconfyes-id" class="load-saved-menu-gameslot-delconfyes"></div>
+              <div id="load-saved-menu-gameslot-2-delconfno-id" class="load-saved-menu-gameslot-delconfno"></div>
+            </div>
+            <div id="load-saved-menu-gameslot-3-delconf-id" class="load-saved-menu-gameslot-3-delconf hidden">
+              <div class="load-saved-menu-gameslot-delconf-text">Delete Slot?</div>
+              <div id="load-saved-menu-gameslot-3-delconfyes-id" class="load-saved-menu-gameslot-delconfyes"></div>
+              <div id="load-saved-menu-gameslot-3-delconfno-id" class="load-saved-menu-gameslot-delconfno"></div>
+            </div>
+          </div>
+          <div id="load-saved-menu-actions-containerid" class="load-saved-menu-actions-containerid hidden">
+            <div id="load-saved-menu-localsave-helpid" class="load-saved-menu-localsave-help"></div>
+            <div class="load-saved-menu-localsave-help-info">
+              <p class="load-saved-menu-localsave-help-info-header">Local Slot</p>
+              <p class="load-saved-menu-localsave-help-info-text">Save your progress on your computer.<br><br>Your savegame can be lost if cookies on your computer are deleted.<p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CREDITS -->
+
+        <div id="credits-id" class="credits-main-container pagehide">
+          <div id="credits-back-buttonid" class="credits-back-button"></div>
+          <div class="credits-text">
+            <span>
+              This is an Experimental HTML 5 tower defense game based on the famous browser game Kingdom Rush: Frontiers made by Ironhide Studios.
+              <br>
+              <br>
+              Ironhide Studios created every assets for this game experiment including the graphics, the msuic, and the SFX sound. Ironhide Studios own the copyright of this assets.
+              <br>
+              <br>
+              I have created this game alone. Create the game means only the creation of game logic for this experimental game and I have implemented the Ironhide Studios assets into the HTML 5 (CSS, Javascript) programming languages. Therefore, every credit goes for the Ironhide Studios.
+              <br>
+            </span>
+            <span class="credits-signature">Ferenc Hartmann</span>
+            <br>
+            <span class="credits-signature">17.01.2018</span>
+          </div>
+        </div>
+
+        <!-- GAME MENU -->
+
+        <div id="game-menu-id" class="game-menu-main-container pagehide">
+          <div id="game-menu-startableid" class="game-menu-startable nodisplay">
+            <span id="game-menu-startable-starsid" class="game-menu-startable-stars"></span>
+          </div>
+          <div id="game-menu-battlepointer-1-id" class="game-menu-battlepointer nodisplay"></div>
+          <div id="game-menu-back-buttonid" class="game-menu-back-button"></div>
+          <div id="game-menu-starthere-textid" class="game-menu-starthere-text nodisplay"></div>
+          <div id="game-menu-music-buttonid" class="game-menu-music-button"></div>
+          <div id="game-menu-sound-buttonid" class="game-menu-sound-button"></div>
+          <div class="game-menu-feature-coming-soon-hero-hover"></div>
+          <div class="game-menu-feature-coming-soon-hero-info">
+            <p class="game-menu-feature-coming-soon-info-header">Hero Feature Under Development</p>
+            <p class="game-menu-feature-coming-soon-info-text">Don't worry! Feature coming soon...<p>
+          </div>
+          <div class="game-menu-feature-coming-soon-upgrades-hover"></div>
+          <div class="game-menu-feature-coming-soon-upgrades-info">
+            <p class="game-menu-feature-coming-soon-info-header">Upgrades Feature Under Development</p>
+            <p class="game-menu-feature-coming-soon-info-text">Don't worry! Feature coming soon...<p>
+          </div>
+          <div class="game-menu-feature-coming-soon-encyclopedia-hover"></div>
+          <div class="game-menu-feature-coming-soon-encyclopedia-info">
+            <p class="game-menu-feature-coming-soon-info-header">Encyclopedia Feature Under Development</p>
+            <p class="game-menu-feature-coming-soon-info-text">Don't worry! Feature coming soon...<p>
+          </div>
+          <div class="game-menu-feature-coming-soon-achievements-hover"></div>
+          <div class="game-menu-feature-coming-soon-achievements-info">
+            <p class="game-menu-feature-coming-soon-info-header">Achievements Feature Under Development</p>
+            <p class="game-menu-feature-coming-soon-info-text">Don't worry! Feature coming soon...<p>
+          </div>
+          <div id="game-menu-dark-layerid" class="game-menu-dark-layer nodisplay"></div>
+          <div id="game-menu-battle-start-panel-1id" class="game-menu-battle-start-panel-1 nodisplay">
+            <div id="game-menu-battle-start-panel-closeid" class="game-menu-battle-start-panel-close"></div>
+            <div id="game-menu-battle-start-panel-tobattleid" class="game-menu-battle-start-panel-tobattle"></div>
+          </div>
+        </div>
+
+        <!-- BATTLE MAP 1 -->
+
+        <div id="battle-map-1-id" class="battle-map-1 pagehide">This is Battle Map 1
+        </div>
+
+      </div>
+      <div id="preloader-containerid" class="preloader-container hidden">
+        <div id="preloader-leftsideid" class="preloader-leftside"></div>
+        <div id="preloader-rightsideid" class="preloader-rightside"></div>
+      </div>
+    </div>
+  </body>
+  <script src="xp_webtech_krf_game_controller.js"></script>
+</html>
