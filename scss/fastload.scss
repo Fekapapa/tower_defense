@@ -1,0 +1,25 @@
+@charset 'UTF-8';
+
+// fastload.scss: Home and premenu scss, this loads first.
+
+// 1. Fonts
+// 2. Deafaults
+// 3. Home and premenu images
+// 4. Home and Premenu page styles
+
+// 1. Fonts
+@import
+  'global/fonts';
+
+// 2. Defaults
+@import
+  'global/defaults';
+
+// 3. Home and premenu images
+@import
+  'base64_images/fastload_images.scss';
+
+// 4. Home and Premenu page styles
+@import
+  'pages/home',
+  'pages/pre_menu';

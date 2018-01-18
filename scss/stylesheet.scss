@@ -1,33 +1,28 @@
 @charset 'UTF-8';
 
-// tower_defense.scss
+// stylesheet.scss: Including all scss excpet the fastload.scss components
+
+// fastload.scss content: home.scss, premenu.scss, fonst.scss, defaults.scss, and the home and premenu base64 images
 
 // 1. Fonts
-// 2. Defaults
-// 3. Mixins
-// 4. Images
-// 5. Pages
+// 2. Mixins
+// 3. Images
+// 4. Pages
 
 // 1. Fonts
 @import
   'global/fonts';
 
-// 2. Default global styles
-@import
-  'global/defaults';
-
-// 3. Mixins
+// 2. Mixins
 @import
   'global/mixins';
 
-// 4. Base64 images
+// 3. Base64 images
 @import
   'base64_images/images';
 
-// 5. Page styles
+// 4. Page styles
 @import
-  'pages/home',
-  'pages/pre_menu',
   'pages/main_menu',
   'pages/credits',
   'pages/load_saved_menu',

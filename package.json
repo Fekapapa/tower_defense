@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "node compiler.js",
     "sass": "sass ./scss/stylesheet.scss ./manual_build/xp_webtech_krf_stylesheet.css",
+    "sass fast": "sass ./scss/fastload.scss ./manual_build/xp_webtech_krf_fastload.css",
     "server": "http-server",
     "build": "run-s compile sass server"
   },
