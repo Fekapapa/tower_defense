@@ -32,11 +32,11 @@ const GameLogic = (function() {
   const mainAudioSfxTertiary = document.getElementById('main-audio-sfx-tertiary');
 
   // Audio source declaration
-  const mainMenuMusicSource = '../assets/sound/KRO_main_menu2.mp3';
-  const gameMenuMusicSource = '../assets/sound/KRO_game_menu.mp3';
-  const menuHoverSfxSource = '../assets/sound/sfx/button_hover2.mp3';
-  const menuClickSfxSource = '../assets/sound/sfx/button_click.mp3';
-  const preloaderSfxSource = '../assets/sound/sfx/preloader.mp3';
+  const mainMenuMusicSource = 'xp_webtech_krf_KRO_main_menu2.mp3';
+  const gameMenuMusicSource = 'xp_webtech_krf_KRO_game_menu.mp3';
+  const menuHoverSfxSource = 'xp_webtech_krf_button_hover2.mp3';
+  const menuClickSfxSource = 'xp_webtech_krf_button_click.mp3';
+  const preloaderSfxSource = 'xp_webtech_krf_preloader.mp3';
 
   // Pseudo pages container's declaration
   const preMenu = document.getElementById('pre-menu-id');
@@ -154,7 +154,7 @@ const GameLogic = (function() {
       name: 'Archer Tower',
       range: 100,
       range_name: 'short',
-      fire_rate: 750
+      fire_rate: 750,
       fire_rate_name: 'average'
     }
   }
@@ -167,35 +167,35 @@ const GameLogic = (function() {
     waves: {
       wave_1: {
         delay: 0,
-        unit_name: desert_thug,
+        unit: enemyUnits.desert_thug,
         quantity: 6
       },
       wave_2: {
         delay: 0,
-        unit_name: desert_thug,
+        unit: enemyUnits.desert_thug,
         quantity: 10
       },
       wave_3: {
         delay: 0,
-        unit_name: desert_thug,
+        unit: enemyUnits.desert_thug,
         quantity: 14
       },
       wave_4: {
         delay: 0,
-        unit_name: desert_thug,
+        unit: enemyUnits.desert_thug,
         quantity: 20
       },
       wave_5: {
         delay: 0,
-        unit_name: desert_thug,
+        unit: enemyUnits.desert_thug,
         quantity: 24
       },
       wave_6: {
         delay: 0,
-        unit_name: desert_thug,
+        unit: enemyUnits.desert_thug,
         quantity: 30
       }
-    }
+    },
     towers: {
       tower_slot_1: {
         isTowerBuilt: false,
@@ -213,7 +213,7 @@ const GameLogic = (function() {
       },
       tower_slot_3: {
         isTowerBuilt: true,
-        towerType: archer_2,
+        towerType: towerTypes.archer_1,
         towerPositionX: 0,
         towerPositionY: 0,
         isTowerReadytoFire: false
@@ -262,7 +262,7 @@ const GameLogic = (function() {
       },
       tower_slot_10: {
         isTowerBuilt: false,
-        towerType: archer_2,
+        towerType: towerTypes.archer_1,
         towerPositionX: 0,
         towerPositionY: 0,
         isTowerReadytoFire: false
@@ -290,7 +290,7 @@ const GameLogic = (function() {
     const cssInjector = document.createElement('link');
     cssInjector.rel = "stylesheet";
     cssInjector.href = "xp_webtech_krf_stylesheet.css";
-    window.onload = document.head.appendChild(cssInjector);
+    document.head.appendChild(cssInjector);
   }
 
   // This function is the Reducer function for Redux

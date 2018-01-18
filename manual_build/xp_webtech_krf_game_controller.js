@@ -39,7 +39,6 @@ const GameLogic = (function() {
   const preloaderSfxSource = 'xp_webtech_krf_preloader.mp3';
 
   // Pseudo pages container's declaration
-  const iframeid = document.getElementById('game-frame');
   const preMenu = document.getElementById('pre-menu-id');
   const mainMenu = document.getElementById('main-menu-id');;
   const credits = document.getElementById('credits-id');;
@@ -130,6 +129,169 @@ const GameLogic = (function() {
 
   // These elements on the main menu animated a lot of times
   const mainMenuAnimatedElementList = [mainMenuArmorgamesImageid, mainMenuIronhideImageid, mainMenuStartImageid, mainMenuCreditsImageid];
+
+  // Declaration of the enemy units properties
+  const enemyUnits = {
+    desert_thug : {
+      armor: 0,
+      life_cost: 1,
+      magic_armor: 0,
+      max_health: 50,
+      min_damage: 2,
+      max_damage: 6,
+      name: 'desert thug',
+      speed: 'average'
+    }
+  }
+
+  // Declaration of the towers properties
+  const towerTypes = {
+    archer_1 : {
+      cost: 70,
+      damage_type: 'physical',
+      min_damage: 4,
+      max_damage: 6,
+      name: 'Archer Tower',
+      range: 100,
+      range_name: 'short',
+      fire_rate: 750,
+      fire_rate_name: 'average'
+    }
+  }
+
+  // Declaration of the 1st battle map initial statement
+  const battleMap1ActiveState = {
+    gold: 300,
+    life: 20,
+    waves_quantity: 6,
+    waves: {
+      wave_1: {
+        delay: 0,
+        unit: enemyUnits.desert_thug,
+        quantity: 6
+      },
+      wave_2: {
+        delay: 0,
+        unit: enemyUnits.desert_thug,
+        quantity: 10
+      },
+      wave_3: {
+        delay: 0,
+        unit: enemyUnits.desert_thug,
+        quantity: 14
+      },
+      wave_4: {
+        delay: 0,
+        unit: enemyUnits.desert_thug,
+        quantity: 20
+      },
+      wave_5: {
+        delay: 0,
+        unit: enemyUnits.desert_thug,
+        quantity: 24
+      },
+      wave_6: {
+        delay: 0,
+        unit: enemyUnits.desert_thug,
+        quantity: 30
+      }
+    },
+    towers: {
+      tower_slot_1: {
+        isTowerBuilt: false,
+        towerType: undefined,
+        towerPositionX: 0,
+        towerPositionY: 0,
+        isTowerReadytoFire: false
+      },
+      tower_slot_2: {
+        isTowerBuilt: false,
+        towerType: undefined,
+        towerPositionX: 0,
+        towerPositionY: 0,
+        isTowerReadytoFire: false
+      },
+      tower_slot_3: {
+        isTowerBuilt: true,
+        towerType: towerTypes.archer_1,
+        towerPositionX: 0,
+        towerPositionY: 0,
+        isTowerReadytoFire: false
+      },
+      tower_slot_4: {
+        isTowerBuilt: false,
+        towerType: undefined,
+        towerPositionX: 0,
+        towerPositionY: 0,
+        isTowerReadytoFire: false
+      },
+      tower_slot_5: {
+        isTowerBuilt: false,
+        towerType: undefined,
+        towerPositionX: 0,
+        towerPositionY: 0,
+        isTowerReadytoFire: false
+      },
+      tower_slot_6: {
+        isTowerBuilt: false,
+        towerType: undefined,
+        towerPositionX: 0,
+        towerPositionY: 0,
+        isTowerReadytoFire: false
+      },
+      tower_slot_7: {
+        isTowerBuilt: false,
+        towerType: undefined,
+        towerPositionX: 0,
+        towerPositionY: 0,
+        isTowerReadytoFire: false
+      },
+      tower_slot_8: {
+        isTowerBuilt: false,
+        towerType: undefined,
+        towerPositionX: 0,
+        towerPositionY: 0,
+        isTowerReadytoFire: false
+      },
+      tower_slot_9: {
+        isTowerBuilt: false,
+        towerType: undefined,
+        towerPositionX: 0,
+        towerPositionY: 0,
+        isTowerReadytoFire: false
+      },
+      tower_slot_10: {
+        isTowerBuilt: false,
+        towerType: towerTypes.archer_1,
+        towerPositionX: 0,
+        towerPositionY: 0,
+        isTowerReadytoFire: false
+      },
+      tower_slot_11: {
+        isTowerBuilt: false,
+        towerType: undefined,
+        towerPositionX: 0,
+        towerPositionY: 0,
+        isTowerReadytoFire: false
+      },
+      tower_slot_12: {
+        isTowerBuilt: false,
+        towerType: undefined,
+        towerPositionX: 0,
+        towerPositionY: 0,
+        isTowerReadytoFire: false
+      }
+    }
+  }
+
+  // This function loads the main stylesheet.css file at the end of page loading. Fastload.css loads at the begining of page load.
+  function cssInjectorFunction() {
+    console.log('run')
+    const cssInjector = document.createElement('link');
+    cssInjector.rel = "stylesheet";
+    cssInjector.href = "xp_webtech_krf_stylesheet.css";
+    document.head.appendChild(cssInjector);
+  }
 
   // This function is the Reducer function for Redux
   function reducer(state, action) {
@@ -1086,6 +1248,7 @@ const GameLogic = (function() {
     gameMenutoBattleMap();
   }
 
+  cssInjectorFunction();
   gameslotsInitilaizer();
   addEvent(mouseOverList, 'mouseover', mainSfxController, menuHoverSfxSource);
   addEvent(mouseClickList, 'click', mainSfxController, menuClickSfxSource);
