@@ -3,7 +3,6 @@
   <head>
     <title>XPWebTech</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="xp_webtech_krf_stylesheet_home_premenu.css">
     <link rel="stylesheet" href="xp_webtech_krf_stylesheet.css">
     <script src="https://unpkg.com/redux@latest/dist/redux.min.js"></script>
   </head>
@@ -188,4 +187,11 @@
     </div>
   </body>
   <script src="xp_webtech_krf_game_controller.js"></script>
+  <script>
+    var linkElement = document.createElement("link");
+    linkElement.rel = "stylesheet";
+    linkElement.href = "xp_webtech_krf_stylesheet_home_premenu.css";
+
+    window.onload = document.head.appendChild(linkElement);
+  </script>
 </html>
