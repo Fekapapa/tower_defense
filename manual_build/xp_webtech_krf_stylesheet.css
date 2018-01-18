@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Gochihand-Regular";
-  src: url("xp_webtech_krf_GochiHand-Regular.ttf"); }
+  src: url("../assets/fonts/gochihand/GochiHand-Regular.ttf"); }
 * {
   margin: 0;
   padding: 0; }
@@ -31,11 +31,11 @@ body {
   display: none; }
 
 .main-title-container {
-  height: 75px;
+  height: 70px;
   text-align: center; }
 
 .main-title {
-  margin: 20px 0; }
+  line-height: 70px; }
 
 .preloader-leftside {
   animation: preloader-leftside 1s forwards;
@@ -994,11 +994,11 @@ body {
 .game-menu-feature-coming-soon-hero-hover:hover + .game-menu-feature-coming-soon-hero-info, .game-menu-feature-coming-soon-upgrades-hover:hover + .game-menu-feature-coming-soon-upgrades-info, .game-menu-feature-coming-soon-encyclopedia-hover:hover + .game-menu-feature-coming-soon-encyclopedia-info, .game-menu-feature-coming-soon-achievements-hover:hover + .game-menu-feature-coming-soon-achievements-info {
   background-color: rgba(0, 0, 0, 0.8);
   display: inline-block;
-  height: 95px;
-  margin-left: 155px;
+  height: 80px;
+  margin-left: 113px;
   position: relative;
-  top: 414px;
-  width: 243px; }
+  top: 429px;
+  width: 285px; }
 
 .game-menu-feature-coming-soon-info-header {
   color: #fafafa;
@@ -1018,10 +1018,10 @@ body {
     margin-left: 461px; }
 
 .game-menu-feature-coming-soon-upgrades-info {
-  margin-left: 243px; }
+  margin-left: 202px; }
 
 .game-menu-feature-coming-soon-upgrades-hover:hover + .game-menu-feature-coming-soon-upgrades-info {
-  margin-left: 243px; }
+  margin-left: 202px; }
 
 .game-menu-feature-coming-soon-encyclopedia-hover {
   margin-left: 550px;
@@ -1031,10 +1031,10 @@ body {
     width: 88px; }
 
 .game-menu-feature-coming-soon-encyclopedia-info {
-  margin-left: 332px; }
+  margin-left: 291px; }
 
 .game-menu-feature-coming-soon-encyclopedia-hover:hover + .game-menu-feature-coming-soon-encyclopedia-info {
-  margin-left: 332px; }
+  margin-left: 291px; }
 
 .game-menu-feature-coming-soon-achievements-hover {
   margin-left: 649px;
@@ -1044,10 +1044,10 @@ body {
     width: 88px; }
 
 .game-menu-feature-coming-soon-achievements-info {
-  margin-left: 431px; }
+  margin-left: 389px; }
 
 .game-menu-feature-coming-soon-achievements-hover:hover + .game-menu-feature-coming-soon-achievements-info {
-  margin-left: 431px; }
+  margin-left: 389px; }
 
 .game-menu-battle-start-panel-1 {
   animation: game-menu-battle-start-panel 0.4s forwards;
@@ -1134,4 +1134,4 @@ body {
   color: white;
   line-height: 600px; }
 
-/*# sourceMappingURL=stylesheet.css.map */
+/*# sourceMappingURL=xp_webtech_krf_stylesheet.css.map */

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "node compiler.js",
-    "sass": "sass ./scss/stylesheet.scss ./css/stylesheet.css",
+    "sass": "sass ./scss/stylesheet.scss ./manual_build/xp_webtech_krf_stylesheet.css",
     "server": "http-server",
     "build": "run-s compile sass server"
   },
