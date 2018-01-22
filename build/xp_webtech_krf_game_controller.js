@@ -286,12 +286,11 @@ const GameLogic = (function() {
 
   // This function loads the main stylesheet.css file at the end of page loading. Fastload.css loads at the begining of page load.
   function cssInjectorFunction() {
+    console.log('run')
     const cssInjector = document.createElement('link');
     cssInjector.rel = "stylesheet";
     cssInjector.href = "xp_webtech_krf_stylesheet.css";
-    setTimeout(function(){
-      document.head.appendChild(cssInjector);
-    }, 10);
+    document.head.appendChild(cssInjector);
   }
 
   // This function is the Reducer function for Redux

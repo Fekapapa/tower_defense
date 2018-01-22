@@ -4,24 +4,19 @@
 
 // fastload.scss content: home.scss, premenu.scss, fonst.scss, defaults.scss, and the home and premenu base64 images
 
-// 1. Fonts
-// 2. Mixins
-// 3. Images
-// 4. Pages
+// 1. Mixins
+// 2. Images
+// 3. Pages
 
-// 1. Fonts
-@import
-  'global/fonts';
-
-// 2. Mixins
+// 1. Mixins
 @import
   'global/mixins';
 
-// 3. Base64 images
+// 2. Base64 images
 @import
   'base64_images/images';
 
-// 4. Page styles
+// 3. Page styles
 @import
   'pages/main_menu',
   'pages/credits',

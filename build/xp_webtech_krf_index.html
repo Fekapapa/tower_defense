@@ -4,29 +4,27 @@
     <title>XPWebTech</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="xp_webtech_krf_fastload.css">
-    <script type="text/javascript" src="xp_webtech_krf_redux_3_7_2.min.js" defer></script>
-    <script type="text/javascript" src="xp_webtech_krf_game_controller.js" defer></script>
   </head>
   <body class="landing_page_body">
-    <audio id="main-audio-music" loop src=""></audio>
-    <audio id="main-audio-sfx-primary" src=""></audio>
-    <audio id="main-audio-sfx-secondary" src=""></audio>
-    <audio id="main-audio-sfx-tertiary" src=""></audio>
+    <audio id="main-audio-music" loop src="" type="audio/mpeg"></audio>
+    <audio id="main-audio-sfx-primary" src="" type="audio/mpeg"></audio>
+    <audio id="main-audio-sfx-secondary" src="" type="audio/mpeg"></audio>
+    <audio id="main-audio-sfx-tertiary" src="" type="audio/mpeg"></audio>
 
     <div class="main-title-container">
-      <h2 class="main-title">An experimetnal HTML 5 game development by Ferenc Hartmann</h2>
+      <h2 class="main-title">An Experimetnal Web Technologies experiment.</h2>
     </div>
 
     <div class="main-container" oncontextmenu="return false;">
-      <div id="Canvas">
+      <div id="game-frame">
 
         <!-- PRE-MENU -->
 
         <div id="pre-menu-id" class="pre-menu-background">
           <div class="pre-menu-play-button" id="pre-menu-play-buttonid"></div>
-          <a class="pre-menu-ironhide-button" rel="noopener" href="https://www.ironhidegames.com/?ref=KRFRONTIERS"></a>
-          <a class="pre-menu-armorgames-button" rel="noopener" href="https://armorgames.com/?ref=KRFRONTIERS"></a>
-          <a class="pre-menu-playonmobile-button" rel="noopener" href="http://getmobile.kingdomrushfrontiers.com/"></a>
+          <a class="pre-menu-ironhide-button" target="_blank" href="https://www.ironhidegames.com/?ref=KRFRONTIERS"></a>
+          <a class="pre-menu-armorgames-button" target="_blank" href="https://armorgames.com/?ref=KRFRONTIERS"></a>
+          <a class="pre-menu-playonmobile-button" target="_blank" href="http://getmobile.kingdomrushfrontiers.com/"></a>
         </div>
 
         <!-- MAIN-MENU -->
@@ -34,11 +32,11 @@
         <div id="main-menu-id" class="main-menu-container pagehide">
           <div id="main-menu-start-buttonid"></div>
           <div id="main-menu-credits-buttonid"></div>
-          <a id="main-menu-playonmobile-buttonid" class="main-menu-playonmobile-button nodisplay" rel="noopener" href="http://getmobile.kingdomrushfrontiers.com/"></a>
-          <a id="main-menu-twitter-buttonid" class="main-menu-twitter-button" rel="noopener" href="https://twitter.com/ironhidegames"></a>
-          <a id="main-menu-facebook-buttonid" class="main-menu-facebook-button" rel="noopener" href="https://www.facebook.com/ironhidegames/"></a>
-          <a id="main-menu-ironhide-buttonid" class="main-menu-ironhide-button" rel="noopener" href="https://www.ironhidegames.com/?ref=KRFRONTIERS"></a>
-          <a id="main-menu-armorgames-buttonid" class="main-menu-armorgames-button" rel="noopener" href="https://armorgames.com/?ref=KRFRONTIERS"></a>
+          <a id="main-menu-playonmobile-buttonid" class="main-menu-playonmobile-button nodisplay" target="_blank" href="http://getmobile.kingdomrushfrontiers.com/"></a>
+          <a id="main-menu-twitter-buttonid" class="main-menu-twitter-button" target="_blank" href="https://twitter.com/ironhidegames"></a>
+          <a id="main-menu-facebook-buttonid" class="main-menu-facebook-button" target="_blank" href="https://www.facebook.com/ironhidegames/"></a>
+          <a id="main-menu-ironhide-buttonid" class="main-menu-ironhide-button" target="_blank" href="https://www.ironhidegames.com/?ref=KRFRONTIERS"></a>
+          <a id="main-menu-armorgames-buttonid" class="main-menu-armorgames-button" target="_blank" href="https://armorgames.com/?ref=KRFRONTIERS"></a>
           <div id="main-menu-music-buttonid" class="main-menu-music-button"></div>
           <div id="main-menu-armorgames-imageid" class="main-menu-armorgames-image nodisplay"></div>
           <div id="main-menu-ironhide-imageid" class="main-menu-ironhide-image nodisplay"></div>
@@ -125,7 +123,10 @@
           <div id="credits-back-buttonid" class="credits-back-button"></div>
           <div class="credits-text">
             <span>
-              This is an Experimental HTML 5 tower defense game based on the famous browser game Kingdom Rush: Frontiers made by Ironhide Studios. Ironhide Studios created every assets for this game experiment including the graphics, the music, and the SFX sound. Ironhide Studios own the copyright of this assets.
+              This is an Experimental HTML 5 tower defense game based on the famous browser game Kingdom Rush: Frontiers made by Ironhide Studios.
+              <br>
+              <br>
+              Ironhide Studios created every assets for this game experiment including the graphics, the msuic, and the SFX sound. Ironhide Studios own the copyright of this assets.
               <br>
               <br>
               I have created this game alone. Create the game means only the creation of game logic for this experimental game and I have implemented the Ironhide Studios assets into the HTML 5 (CSS, Javascript) programming languages. Therefore, every credit goes for the Ironhide Studios.
@@ -187,4 +188,6 @@
       </div>
     </div>
   </body>
+  <script src="xp_webtech_krf_redux_3_7_2.min.js"></script>
+  <script src="xp_webtech_krf_game_controller.js"></script>
 </html>
