@@ -158,10 +158,6 @@
     position: absolute;
     width: 78px;
     &:hover {
-      background: $game-menu-black-pointer-arrow-bg;
-      background-repeat: no-repeat;
-      background-position-x: 20px;
-      background-position-y: 0px;
       height: 74px;
       margin-left: 373px;
       margin-top: 504px;
@@ -174,27 +170,49 @@
 }
 
 .game-menu-feature-coming-soon-hero-hover:hover + .game-menu-feature-coming-soon-hero-info, .game-menu-feature-coming-soon-upgrades-hover:hover + .game-menu-feature-coming-soon-upgrades-info, .game-menu-feature-coming-soon-encyclopedia-hover:hover + .game-menu-feature-coming-soon-encyclopedia-info, .game-menu-feature-coming-soon-achievements-hover:hover + .game-menu-feature-coming-soon-achievements-info {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-image: $game-menu-black-pointer-arrow-bg;
+  background-repeat: no-repeat;
+  background-position-x: right;
+  background-position-y: bottom;
   display: inline-block;
-  height: 80px;
-  margin-left: 113px;
+  float: right;
   position: relative;
   top: 429px;
-  width: 285px;
+}
+
+.game-menu-feature-coming-soon-hero-hover:hover + .game-menu-feature-coming-soon-hero-info {
+  margin-right: 400px;
+}
+
+.game-menu-feature-coming-soon-upgrades-hover:hover + .game-menu-feature-coming-soon-upgrades-info {
+  margin-right: 320px;
+}
+
+.game-menu-feature-coming-soon-encyclopedia-hover:hover + .game-menu-feature-coming-soon-encyclopedia-info {
+  margin-right: 230px;
+}
+
+.game-menu-feature-coming-soon-achievements-hover:hover + .game-menu-feature-coming-soon-achievements-info {
+  margin-right: 125px;
 }
 
 .game-menu-feature-coming-soon-info-header {
+  background-color: rgba(0, 0, 0, 0.8);
   color: rgb(250, 250, 250);
   font-size: 14px;
-  margin: 10px;
+  margin-right: 6px;
+  padding: 10px;
+  padding-bottom: 5px;
 }
 
 .game-menu-feature-coming-soon-info-text {
+  background-color: rgba(0, 0, 0, 0.8);
   color: rgb(254, 225, 1);
   font-size: 14px;
-  margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-bottom: 6px;
+  margin-right: 6px;
+  padding: 10px;
+  padding-top: 5px;
 }
 
 .game-menu-feature-coming-soon-upgrades-hover {

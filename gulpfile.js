@@ -5,7 +5,7 @@
 let gulp = require('gulp'),
     rename = require('gulp-rename'),
     sass = require("gulp-sass"),
-    cleanCSS = require('gulp-clean-css'),
+    // cleanCSS = require('gulp-clean-css'),
     webserver = require('gulp-webserver');
 
 // ///////////////////////////////////////////////
@@ -26,7 +26,7 @@ gulp.task('style', function() {
   gulp.src('scss/*.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(rename({prefix:'xp_webtech_krf_'}))
-    .pipe(cleanCSS())
+    // .pipe(cleanCSS())
     .pipe(gulp.dest('build'));
 });
 
