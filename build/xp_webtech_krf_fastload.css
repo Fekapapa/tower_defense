@@ -122,6 +122,7 @@ body {
   overflow-x: hidden; }
 
 .main-container {
+  background-color: black;
   margin: auto;
   margin-bottom: 25px;
   max-height: 600px;

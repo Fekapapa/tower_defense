@@ -45,6 +45,7 @@ const GameLogic = (function() {
   const mainMenu = document.getElementById('main-menu-id');;
   const credits = document.getElementById('credits-id');;
   const gameMenu = document.getElementById('game-menu-id');;
+  const prologue = document.getElementById('prologue-id');;
   const battleMap1 = document.getElementById('battle-map-1-id');;
 
   // Premenu and preloader elements declaration
@@ -124,9 +125,16 @@ const GameLogic = (function() {
   const gameMenuBattleStartPanelLockedModeShieldsid = document.getElementById('game-menu-battle-start-panel-locked-mode-shieldsid');
   const gameMenuBattleStartPanelLockedModeStarsid = document.getElementById('game-menu-battle-start-panel-locked-mode-starsid');
 
-
   // Credits elements declaration
   const creditsBackButtonid = document.getElementById('credits-back-buttonid');
+
+  // Prologue elements declaration
+  const prologueComic1id = document.getElementById('prologue-comic-1id');
+  const prologueComic2id = document.getElementById('prologue-comic-2id');
+  const prologueComic3id = document.getElementById('prologue-comic-3id');
+  const prologueComic4id = document.getElementById('prologue-comic-4id');
+  const prologueComic5id = document.getElementById('prologue-comic-5id');
+  const prologueComicClickid = document.getElementById('prologue-comic-clickid');
 
   // Elements in this list have mouse over sound effect
   const mouseOverList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuCloseButtonid, loadSavedMenuLocalsaveHelpid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid, gameMenuBattlepointer1id, gameMenuBattleStartPanelCloseid, gameMenuBattleStartPanelTobattleid, gameMenuBattleStartPanelLockedModeShieldsid, gameMenuBattleStartPanelLockedModeStarsid];
@@ -729,6 +737,51 @@ const GameLogic = (function() {
     }
   }
 
+  // This function handles the game menu battle panel battle start (to battle) state change when first time playing
+  function gameMenutoPrologueStateChangeStarter() {
+    store.dispatch( {
+      type: MENU_CHANGE,
+      payload: {
+        currentPage: 'PROLOGUE',
+        previousPage: 'GAME_MENU'
+      }
+    });
+  }
+
+  // This function handles the prologue to battle map state change
+  function prologuetoBattleMapStateChangeStarter() {
+    store.dispatch( {
+      type: MENU_CHANGE,
+      payload: {
+        currentPage: 'BATTLE_MAP',
+        previousPage: 'PROLOGUE'
+      }
+    });
+    store.dispatch( {
+      type: BATTLE_ON,
+      payload: {
+        battleState: 'BATTLE_ON'
+      }
+    });
+    if (store.getState().musicStatus == 'ON') {
+      store.dispatch( {
+        type: MUSIC_ON,
+        payload: {
+          status: 'ON',
+          src: mainMenuMusicSource
+        }
+      });
+    } else {
+      store.dispatch( {
+        type: MUSIC_OFF,
+        payload: {
+          status: 'OFF',
+          src: mainMenuMusicSource
+        }
+      });
+    }
+  }
+
   // This function handles the load-saved menu new game button functionality (creates an empty save slot)
   function loadSavedMenuGameslotUnusedFunctionality() {
     if (store.getState().lastAction == 'UNUSED_SAVESLOT') {
@@ -851,6 +904,9 @@ const GameLogic = (function() {
 
   // This function handles the music play or pause
   function mainMusicController() {
+    if (store.getState().previousPage == 'GAME_MENU' && store.getState().currentPage == 'PROLOGUE') {
+      mainAudioMusic.pause();
+    }
     if (store.getState().currentMusicSource && store.getState().lastAction == MUSIC_ON) {
       mainAudioMusic.setAttribute('src', store.getState().currentMusicSource);
       mainAudioMusic.play();
@@ -1243,7 +1299,7 @@ const GameLogic = (function() {
     }
   }
 
-  // This function handles the game menu to battle map
+  // This function handles the game menu to battle map action
   function gameMenutoBattleMap() {
     if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage == 'GAME_MENU' && store.getState().currentPage == 'BATTLE_MAP') {
       mainSfxController(preloaderSfxSource);
@@ -1274,6 +1330,55 @@ const GameLogic = (function() {
     }
   }
 
+  // This function handles the display of the difficulty chooser on the game menu battlepanel
+  function isFirstTimePlay() {
+    if (store.getState().activeGameState.stars == 0) {
+      gameMenutoPrologueStateChangeStarter();
+    } else {
+      gameMenutoBattleMapStateChangeStarter();
+    }
+  }
+
+  // This function handles the game menu to prologue action
+  function gameMenutoPrologue() {
+    if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage == 'GAME_MENU' && store.getState().currentPage == 'PROLOGUE') {
+      mainSfxController(preloaderSfxSource);
+      preloaderStarter();
+
+      setTimeout(function(){
+        gameMenuBattlePanelDeleter();
+        gameMenu.classList.add('pagehide');
+        prologue.classList.remove('pagehide');
+        prologueComic1id.classList.add('prologue-comic-1');
+        prologueComic2id.classList.add('prologue-comic-2');
+        prologueComic3id.classList.add('prologue-comic-3');
+        prologueComic4id.classList.add('prologue-comic-4');
+        prologueComic5id.classList.add('prologue-comic-5');
+        prologueComicClickid.classList.add('prologue-comic-click');
+      }, 600);
+
+      setTimeout(function(){
+        addEvent(prologue, 'click', prologuetoBattleMapStateChangeStarter, undefined);
+      }, 9600);
+    }
+  }
+
+
+  // This function handles the prologue to battle map action
+  function prologuetoBattleMap() {
+    if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage == 'PROLOGUE' && store.getState().currentPage == 'BATTLE_MAP') {
+      prologue.classList.add('prologue-fade-out');
+      battleMap1.classList.add('battle-map-1-fade-in');
+
+      setTimeout(function(){
+        gameMenuBattlePanelDeleter();
+        prologue.classList.add('pagehide');
+        battleMap1.classList.remove('pagehide');
+      }, 600);
+
+    }
+  }
+
   // This function handles sound and display rendering according to the actual statement
   function render() {
     mainMusicController();
@@ -1294,6 +1399,8 @@ const GameLogic = (function() {
     gameMenuBattlePanelDeleter();
     gameMenutoBattleMap();
     gameMenuBattlePanelDifficultyChoose();
+    gameMenutoPrologue();
+    prologuetoBattleMap();
   }
 
   cssInjectorFunction();
@@ -1330,7 +1437,7 @@ const GameLogic = (function() {
   addEvent(gameMenuSoundButtonid, 'click', soundButtonStateChangeStarter, undefined);
   addEvent(gameMenuBattlepointer1id, 'click', gameMenuBattlePanelOnStateChangeStarter, 1);
   addEvent(gameMenuBattleStartPanelCloseid, 'click', gameMenuBattlePanelOffStateChangeStarter, undefined);
-  addEvent(gameMenuBattleStartPanelTobattleid, 'click', gameMenutoBattleMapStateChangeStarter, undefined);
+  addEvent(gameMenuBattleStartPanelTobattleid, 'click', isFirstTimePlay, undefined);
   addEvent(gameMenuBattleStartPanelChooseDifficultyCasualid, 'click', gameMenuBattlePanelDifficultyStateChangeStarter, 'CASUAL');
   addEvent(gameMenuBattleStartPanelChooseDifficultyNormalid, 'click', gameMenuBattlePanelDifficultyStateChangeStarter, 'NORMAL');
   addEvent(gameMenuBattleStartPanelChooseDifficultyVeteranid, 'click', gameMenuBattlePanelDifficultyStateChangeStarter, 'VETERAN');
