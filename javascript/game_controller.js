@@ -7,6 +7,7 @@ const GameLogic = (function() {
   store.subscribe(render);
   let savedData;
   let sfxHelper = 0;
+  let activeGameState = {};
 
   // Redux action types
   const MENU_CHANGE = 'MENU_CHANGE';
@@ -24,6 +25,7 @@ const GameLogic = (function() {
   const BATTLEPANEL_ON = 'BATTLEPANEL_ON';
   const BATTLEPANEL_OFF = 'BATTLEPANEL_OFF';
   const BATTLE_ON = 'BATTLE_ON';
+  const DIFFICULTY_CHANGE = 'DIFFICULTY_CHANGE';
 
   // Audio tags declaration and source declaration
   const mainAudioMusic = document.getElementById('main-audio-music');
@@ -114,12 +116,20 @@ const GameLogic = (function() {
   const gameMenuBattleStartPanelCloseid = document.getElementById('game-menu-battle-start-panel-closeid');
   const gameMenuBattleStartPanelTobattleid = document.getElementById('game-menu-battle-start-panel-tobattleid');
   const gameMenuDarkLayerid = document.getElementById('game-menu-dark-layerid');
+  const gameMenuBattleStartPanelChooseDifficultyid = document.getElementById('game-menu-battle-start-panel-choose-difficultyid');
+  const gameMenuBattleStartPanelChooseDifficultyCasualid = document.getElementById('game-menu-battle-start-panel-choose-difficulty-casualid');
+  const gameMenuBattleStartPanelChooseDifficultyNormalid = document.getElementById('game-menu-battle-start-panel-choose-difficulty-normalid');
+  const gameMenuBattleStartPanelChooseDifficultyVeteranid = document.getElementById('game-menu-battle-start-panel-choose-difficulty-veteranid');
+  const gameMenuBattleStartPanelActualDifficultyid = document.getElementById('game-menu-battle-start-panel-actual-difficultyid');
+  const gameMenuBattleStartPanelLockedModeShieldsid = document.getElementById('game-menu-battle-start-panel-locked-mode-shieldsid');
+  const gameMenuBattleStartPanelLockedModeStarsid = document.getElementById('game-menu-battle-start-panel-locked-mode-starsid');
+
 
   // Credits elements declaration
   const creditsBackButtonid = document.getElementById('credits-back-buttonid');
 
   // Elements in this list have mouse over sound effect
-  const mouseOverList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuCloseButtonid, loadSavedMenuLocalsaveHelpid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid, gameMenuBattlepointer1id, gameMenuBattleStartPanelCloseid, gameMenuBattleStartPanelTobattleid];
+  const mouseOverList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuCloseButtonid, loadSavedMenuLocalsaveHelpid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid, gameMenuBattlepointer1id, gameMenuBattleStartPanelCloseid, gameMenuBattleStartPanelTobattleid, gameMenuBattleStartPanelLockedModeShieldsid, gameMenuBattleStartPanelLockedModeStarsid];
 
   // Elements in this list have mouse click sound effect
   const mouseClickList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid, gameMenuBattlepointer1id, gameMenuBattleStartPanelCloseid, gameMenuBattleStartPanelTobattleid];
@@ -286,7 +296,6 @@ const GameLogic = (function() {
 
   // This function loads the main stylesheet.css file at the end of page loading. Fastload.css loads at the begining of page load.
   function cssInjectorFunction() {
-    console.log('run')
     const cssInjector = document.createElement('link');
     cssInjector.rel = "stylesheet";
     cssInjector.href = "xp_webtech_krf_stylesheet.css";
@@ -387,6 +396,11 @@ const GameLogic = (function() {
         return Object.assign({}, state, {
                 battleState: action.payload.battleState,
                 lastAction: BATTLE_ON
+              })
+      case 'DIFFICULTY_CHANGE':
+        return Object.assign({}, state, {
+                activeGameState: action.payload.activeGameState,
+                lastAction: DIFFICULTY_CHANGE
               })
       default:
         return state
@@ -624,6 +638,7 @@ const GameLogic = (function() {
   // This function handles the saved game loading to the current (active) game session state change
   function currentGameDataLoaderStateChangeStarter() {
     if (store.getState().activeSlot == 1) {
+      activeGameState = store.getState().savedData.slot1;
       store.dispatch( {
         type: GAMEDATA_LOADED,
         payload: {
@@ -632,6 +647,7 @@ const GameLogic = (function() {
       });
     }
     if (store.getState().activeSlot == 2) {
+      activeGameState = store.getState().savedData.slot2;
       store.dispatch( {
         type: GAMEDATA_LOADED,
         payload: {
@@ -640,6 +656,7 @@ const GameLogic = (function() {
       });
     }
     if (store.getState().activeSlot == 3) {
+      activeGameState = store.getState().savedData.slot3;
       store.dispatch( {
         type: GAMEDATA_LOADED,
         payload: {
@@ -663,6 +680,18 @@ const GameLogic = (function() {
   function gameMenuBattlePanelOffStateChangeStarter() {
     store.dispatch( {
       type: BATTLEPANEL_OFF
+    });
+  }
+
+  // This function handles the game difficulty state change
+  function gameMenuBattlePanelDifficultyStateChangeStarter(value) {
+    activeGameState.difficulty = value;
+
+    store.dispatch( {
+      type: DIFFICULTY_CHANGE,
+      payload: {
+        activeGameState: activeGameState
+      }
     });
   }
 
@@ -707,7 +736,8 @@ const GameLogic = (function() {
         isUsed: true,
         stars: 0,
         shields: 0,
-        fists: 0
+        fists: 0,
+        difficulty: 'NORMAL'
       }
 
       if (store.getState().saveSlottoInit == 1) {
@@ -1227,6 +1257,23 @@ const GameLogic = (function() {
     }
   }
 
+  // This function handles the display of the difficulty chooser on the game menu battlepanel
+  function gameMenuBattlePanelDifficultyChoose() {
+    if (store.getState().lastAction == DIFFICULTY_CHANGE) {
+      gameMenuBattleStartPanelChooseDifficultyid.checked = false;
+      gameMenuBattleStartPanelActualDifficultyid.classList = ['game-menu-battle-start-panel-actual-difficulty'];
+      if (store.getState().activeGameState.difficulty == 'CASUAL') {
+        gameMenuBattleStartPanelActualDifficultyid.classList.add('game-menu-battle-start-panel-actual-difficulty-casual');
+      }
+      if (store.getState().activeGameState.difficulty == 'NORMAL') {
+        gameMenuBattleStartPanelActualDifficultyid.classList.add('game-menu-battle-start-panel-actual-difficulty-normal');
+      }
+      if (store.getState().activeGameState.difficulty == 'VETERAN') {
+        gameMenuBattleStartPanelActualDifficultyid.classList.add('game-menu-battle-start-panel-actual-difficulty-veteran');
+      }
+    }
+  }
+
   // This function handles sound and display rendering according to the actual statement
   function render() {
     mainMusicController();
@@ -1246,6 +1293,7 @@ const GameLogic = (function() {
     gameMenuBattlePanelDrawer();
     gameMenuBattlePanelDeleter();
     gameMenutoBattleMap();
+    gameMenuBattlePanelDifficultyChoose();
   }
 
   cssInjectorFunction();
@@ -1283,6 +1331,9 @@ const GameLogic = (function() {
   addEvent(gameMenuBattlepointer1id, 'click', gameMenuBattlePanelOnStateChangeStarter, 1);
   addEvent(gameMenuBattleStartPanelCloseid, 'click', gameMenuBattlePanelOffStateChangeStarter, undefined);
   addEvent(gameMenuBattleStartPanelTobattleid, 'click', gameMenutoBattleMapStateChangeStarter, undefined);
+  addEvent(gameMenuBattleStartPanelChooseDifficultyCasualid, 'click', gameMenuBattlePanelDifficultyStateChangeStarter, 'CASUAL');
+  addEvent(gameMenuBattleStartPanelChooseDifficultyNormalid, 'click', gameMenuBattlePanelDifficultyStateChangeStarter, 'NORMAL');
+  addEvent(gameMenuBattleStartPanelChooseDifficultyVeteranid, 'click', gameMenuBattlePanelDifficultyStateChangeStarter, 'VETERAN');
 
   setInterval(function () {console.log(store.getState())}, 1000);
 
