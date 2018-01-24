@@ -8,6 +8,8 @@ const GameLogic = (function() {
   let savedData;
   let sfxHelper = 0;
   let activeGameState = {};
+  let isUserFocusOnThePage = true;
+  let isUserFocusOnTheGame = true;
 
   // Redux action types
   const MENU_CHANGE = 'MENU_CHANGE';
@@ -41,6 +43,7 @@ const GameLogic = (function() {
   const preloaderSfxSource = 'xp_webtech_krf_preloader.mp3';
 
   // Pseudo pages container's declaration
+  const pseudoCanvas = document.getElementById('pseudo-canvas');
   const preMenu = document.getElementById('pre-menu-id');
   const mainMenu = document.getElementById('main-menu-id');;
   const credits = document.getElementById('credits-id');;
@@ -53,6 +56,10 @@ const GameLogic = (function() {
   const preloaderLeftsideid = document.getElementById('preloader-leftsideid');
   const preloaderRightsideid = document.getElementById('preloader-rightsideid');
   const preMenuPlayButtonid = document.getElementById('pre-menu-play-buttonid');
+
+  // Game pause elements declaration
+  const battleMapGamePauseid = document.getElementById('battle-map-game-pauseid');
+  const landingPageBody = document.getElementById('landing_page_bodyid');
 
   // Main menu elements declaration
   const mainMenuCreditsButtonid = document.getElementById('main-menu-credits-buttonid');
@@ -135,6 +142,9 @@ const GameLogic = (function() {
   const prologueComic4id = document.getElementById('prologue-comic-4id');
   const prologueComic5id = document.getElementById('prologue-comic-5id');
   const prologueComicClickid = document.getElementById('prologue-comic-clickid');
+
+  // Battle map 1 elements declaration
+  const battleMap1id = document.getElementById('battle-map-1-id');
 
   // Elements in this list have mouse over sound effect
   const mouseOverList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuCloseButtonid, loadSavedMenuLocalsaveHelpid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid, gameMenuBattlepointer1id, gameMenuBattleStartPanelCloseid, gameMenuBattleStartPanelTobattleid, gameMenuBattleStartPanelLockedModeShieldsid, gameMenuBattleStartPanelLockedModeStarsid];
@@ -1359,10 +1369,9 @@ const GameLogic = (function() {
 
       setTimeout(function(){
         addEvent(prologue, 'click', prologuetoBattleMapStateChangeStarter, undefined);
-      }, 9600);
+      }, 8600);
     }
   }
-
 
   // This function handles the prologue to battle map action
   function prologuetoBattleMap() {
@@ -1376,6 +1385,44 @@ const GameLogic = (function() {
         battleMap1.classList.remove('pagehide');
       }, 600);
 
+    }
+  }
+
+  // This function handles the click outside the game -> pause the game event
+  function pageBodyClicked() {
+    isUserFocusOnTheGame = false;
+  }
+
+  // This function handles the click inside the game -> continue the game event
+  function pauseElementClicked() {
+    isUserFocusOnTheGame = true;
+    event.stopPropagation();
+  }
+
+  // This function checks if the user focus is on the game
+  function checkFocus() {
+    if (store.getState().battleState == 'BATTLE_ON') {
+      if(document.hasFocus()) {
+        isUserFocusOnThePage = true;
+      } else {
+        isUserFocusOnThePage = false;
+        isUserFocusOnTheGame = false;
+      }
+      if(isUserFocusOnThePage == true && isUserFocusOnTheGame == true) {
+        battleMapGamePauseid.classList.add('pagehide');
+      } else {
+        battleMapGamePauseid.classList.remove('pagehide');
+      }
+    }
+  }
+
+  // This function adds event listeners at battle start
+  function battleStartEventAdding() {
+    if (store.getState().lastAction == 'BATTLE_ON') {
+      setTimeout(function(){
+        addEvent(landingPageBody, 'click', pageBodyClicked, undefined);
+        addEvent(battleMapGamePauseid, 'click', pauseElementClicked, undefined);
+      }, 600);
     }
   }
 
@@ -1401,6 +1448,7 @@ const GameLogic = (function() {
     gameMenuBattlePanelDifficultyChoose();
     gameMenutoPrologue();
     prologuetoBattleMap();
+    battleStartEventAdding();
   }
 
   cssInjectorFunction();
@@ -1442,6 +1490,7 @@ const GameLogic = (function() {
   addEvent(gameMenuBattleStartPanelChooseDifficultyNormalid, 'click', gameMenuBattlePanelDifficultyStateChangeStarter, 'NORMAL');
   addEvent(gameMenuBattleStartPanelChooseDifficultyVeteranid, 'click', gameMenuBattlePanelDifficultyStateChangeStarter, 'VETERAN');
 
+  setInterval( checkFocus, 100 );
   setInterval(function () {console.log(store.getState())}, 1000);
 
 return {}
