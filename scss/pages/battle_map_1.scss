@@ -1,12 +1,8 @@
 .battle-map-1 {
-  background-color: rgb(100, 100, 100);
+  background-image: $battle-map-1-bg;
   height: 600px;
   margin: auto;
   width: 800px;
-  text-align: center;
-  font-size: 24px;
-  color: white;
-  line-height: 600px;
 }
 
 .battle-map-1-fade-in {
@@ -20,4 +16,82 @@
 @keyframes battle-map-1-fade-in {
   0% { opacity: 0; }
   100% { opacity: 1; }
+}
+
+.battle-map-1-build-here-text {
+  background-image: $battle-map-1-build-here-text-bg;
+  height: 49px;
+  margin-left: 413px;
+  margin-top: 212px;
+  position: absolute;
+  width: 140px;
+}
+
+.battle-map-1-start-here-text {
+  background-image: $battle-map-1-start-battle-text-bg;
+  height: 46px;
+  margin-left: 666px;
+  margin-top: 497px;
+  position: absolute;
+  width: 128px;
+}
+
+.battle-map-1-tower-slot-1 {
+  margin-left: 367px;
+  margin-top: 85px;
+}
+
+.battle-map-1-tower-slot-2 {
+  margin-left: 179px;
+  margin-top: 143px;
+}
+
+.battle-map-1-tower-slot-3 {
+  margin-left: 135px;
+  margin-top: 194px;
+}
+
+.battle-map-1-tower-slot-4 {
+  margin-left: 320px;
+  margin-top: 200px;
+}
+
+.battle-map-1-tower-slot-5 {
+  margin-left: 400px;
+  margin-top: 199px;
+}
+
+.battle-map-1-tower-slot-6 {
+  margin-left: 281px;
+  margin-top: 263px;
+}
+
+.battle-map-1-tower-slot-7 {
+  margin-left: 447px;
+  margin-top: 262px;
+}
+
+.battle-map-1-tower-slot-8 {
+  margin-left: 316px;
+  margin-top: 318px;
+}
+
+.battle-map-1-tower-slot-9 {
+  margin-left: 402px;
+  margin-top: 318px;
+}
+
+.battle-map-1-tower-slot-10 {
+  margin-left: 595px;
+  margin-top: 318px;
+}
+
+.battle-map-1-tower-slot-11 {
+  margin-left: 172px;
+  margin-top: 384px;
+}
+
+.battle-map-1-tower-slot-12 {
+  margin-left: 358px;
+  margin-top: 431px;
 }

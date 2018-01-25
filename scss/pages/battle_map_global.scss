@@ -1,0 +1,93 @@
+.battle-map-footer {
+  background-image: $battle-map-footer-bg;
+  bottom: 0;
+  height: 70px;
+  position: absolute;
+  width: 800px;
+}
+
+.battle-map-info-panel {
+  background-image: $battle-map-info-panel-bg;
+  height: 55px;
+  margin-left: 10px;
+  margin-top: 10px;
+  position: absolute;
+  width: 156px;
+}
+
+.battle-map-pause-button {
+  background-image: $battle-map-pause-bg;
+  cursor: pointer;
+  height: 32px;
+  margin-left: 705px;
+  margin-top: 10px;
+  position: absolute;
+  width: 35px;
+  &:hover {
+  background-image: $battle-map-pause-hover-bg;
+    height: 31px;
+    margin-left: 704px;
+    margin-top: 10px;
+    width: 36px;
+  }
+}
+
+.battle-map-options-button {
+  background-image: $battle-map-options-bg;
+  cursor: pointer;
+  height: 33px;
+  margin-left: 750px;
+  margin-top: 10px;
+  position: absolute;
+  width: 35px;
+  &:hover {
+  background-image: $battle-map-options-hover-bg;
+    height: 33px;
+    margin-left: 749px;
+    margin-top: 10px;
+    width: 37px;
+  }
+}
+
+.battle-map-info-panel-health-text {
+  color: rgb(220, 220, 200);
+  font-size: 16px;
+  line-height: 26px;
+  margin-left: 45px;
+  margin-top: 3px;
+  position: absolute;
+  width: 17px;
+}
+
+.battle-map-info-panel-gold-text {
+  color: rgb(220, 220, 200);
+  font-size: 16px;
+  line-height: 26px;
+  margin-left: 100px;
+  margin-top: 3px;
+  position: absolute;
+  width: 24px;
+}
+
+.battle-map-info-panel-wave-text {
+  color: rgb(220, 220, 200);
+  font-size: 12px;
+  line-height: 20px;
+  margin-left: 58px;
+  margin-top: 31px;
+  position: absolute;
+  text-transform: uppercase;
+  width: 58px;
+}
+
+.battle-map-tower-build-place {
+  cursor: pointer;
+  height: 47px;
+  position: absolute;
+  width: 75px;
+  &:hover {
+    background-image: $battle-map-buildplace-hover-bg;
+    height: 47px;
+    width: 75px;
+  }
+}
