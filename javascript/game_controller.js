@@ -28,6 +28,8 @@ const GameLogic = (function() {
   const BATTLEPANEL_OFF = 'BATTLEPANEL_OFF';
   const BATTLE_ON = 'BATTLE_ON';
   const DIFFICULTY_CHANGE = 'DIFFICULTY_CHANGE';
+  const PLAYPAUSE_CHANGE = 'PLAYPAUSE_CHANGE';
+  const AUTOPAUSE_CHANGE = 'AUTOPAUSE_CHANGE';
 
   // Audio tags declaration and source declaration
   const mainAudioMusic = document.getElementById('main-audio-music');
@@ -331,7 +333,9 @@ const GameLogic = (function() {
         currentMusicSource: false,
         sfxStatus: 'OFF',
         currentSfxSource: false,
-        activeGameState: {}
+        activeGameState: {},
+        isGamePaused: false,
+        autoPause: 'ON'
       };
       return state
     }
@@ -419,6 +423,16 @@ const GameLogic = (function() {
         return Object.assign({}, state, {
                 activeGameState: action.payload.activeGameState,
                 lastAction: DIFFICULTY_CHANGE
+              })
+      case 'PLAYPAUSE_CHANGE':
+        return Object.assign({}, state, {
+                isGamePaused: action.payload.isGamePaused,
+                lastAction: PLAYPAUSE_CHANGE
+              })
+      case 'AUTOPAUSE_CHANGE':
+        return Object.assign({}, state, {
+                autoPause: action.payload.autoPause,
+                lastAction: AUTOPAUSE_CHANGE
               })
       default:
         return state
@@ -790,6 +804,28 @@ const GameLogic = (function() {
         }
       });
     }
+  }
+
+  // This function handles the pause game state change
+  function pauseGameStateChangeStarter() {
+    store.dispatch( {
+      type: PLAYPAUSE_CHANGE,
+      payload: {
+        isGamePaused: true,
+        lastAction: PLAYPAUSE_CHANGE
+      }
+    });
+  }
+
+  // This function handles the resume game state change
+  function resumeGameStateChangeStarter() {
+    store.dispatch( {
+      type: PLAYPAUSE_CHANGE,
+      payload: {
+        isGamePaused: false,
+        lastAction: PLAYPAUSE_CHANGE
+      }
+    });
   }
 
   // This function handles the load-saved menu new game button functionality (creates an empty save slot)
@@ -1401,7 +1437,7 @@ const GameLogic = (function() {
 
   // This function checks if the user focus is on the game
   function checkFocus() {
-    if (store.getState().battleState == 'BATTLE_ON') {
+    if (store.getState().battleState == 'BATTLE_ON' && store.getState().autoPause == 'ON') {
       if(document.hasFocus()) {
         isUserFocusOnThePage = true;
       } else {
@@ -1409,10 +1445,24 @@ const GameLogic = (function() {
         isUserFocusOnTheGame = false;
       }
       if(isUserFocusOnThePage == true && isUserFocusOnTheGame == true) {
-        battleMapGamePauseid.classList.add('pagehide');
+        resumeGameStateChangeStarter();
       } else {
-        battleMapGamePauseid.classList.remove('pagehide');
+        pauseGameStateChangeStarter();
       }
+    }
+  }
+
+  // This function handles the pause game display change
+  function pauseGame() {
+    if (store.getState().isGamePaused == true) {
+      battleMapGamePauseid.classList.remove('pagehide');
+    }
+  }
+
+  // This function handles the pause game display change
+  function resumeGame() {
+    if (store.getState().isGamePaused == false) {
+      battleMapGamePauseid.classList.add('pagehide');
     }
   }
 
@@ -1449,6 +1499,8 @@ const GameLogic = (function() {
     gameMenutoPrologue();
     prologuetoBattleMap();
     battleStartEventAdding();
+    pauseGame();
+    resumeGame();
   }
 
   cssInjectorFunction();
