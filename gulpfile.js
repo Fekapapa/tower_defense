@@ -5,8 +5,8 @@
 let gulp = require('gulp'),
     rename = require('gulp-rename'),
     sass = require("gulp-sass"),
-    // cleanCSS = require('gulp-clean-css'),
     webserver = require('gulp-webserver');
+    plumber = require('gulp-plumber'),
 
 // ///////////////////////////////////////////////
 // File move and prefix Task
@@ -14,6 +14,7 @@ let gulp = require('gulp'),
 
 gulp.task('mover', function() {
   gulp.src(['javascript/game_controller.js', 'javascript/redux_3_7_2.min.js', 'index.html', 'assets/fonts/gochihand/*.ttf', 'assets/sound/music/*.mp3', 'assets/sound/sfx/*.mp3'])
+    .pipe(plumber())
     .pipe(rename({prefix:'xp_webtech_krf_'}))
     .pipe(gulp.dest('build'));
 });
@@ -24,9 +25,9 @@ gulp.task('mover', function() {
 
 gulp.task('style', function() {
   gulp.src('scss/*.scss')
+    .pipe(plumber())
     .pipe(sass().on('error', sass.logError))
     .pipe(rename({prefix:'xp_webtech_krf_'}))
-    // .pipe(cleanCSS())
     .pipe(gulp.dest('build'));
 });
 
