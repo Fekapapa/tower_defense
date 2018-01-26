@@ -962,6 +962,12 @@ const GameLogic = (function() {
       mainAudioMusic.setAttribute('src', '');
       mainAudioMusic.currentTime = 0;
     }
+    if (store.getState().lastAction == 'PLAYPAUSE_CHANGE' && store.getState().musicStatus == 'ON' && store.getState().isGamePaused == true) {
+      mainAudioMusic.pause();
+    }
+    if (store.getState().lastAction == 'PLAYPAUSE_CHANGE' && store.getState().musicStatus == 'ON' && store.getState().isGamePaused == false) {
+      mainAudioMusic.play();
+    }
   }
 
   // This function handles the SFX sounds on the 3 SFX only audio tags
