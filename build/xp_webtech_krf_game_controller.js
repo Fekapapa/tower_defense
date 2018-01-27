@@ -38,8 +38,9 @@ const GameLogic = (function() {
   const mainAudioSfxTertiary = document.getElementById('main-audio-sfx-tertiary');
 
   // Audio source declaration
-  const mainMenuMusicSource = 'xp_webtech_krf_KRO_main_menu2.mp3';
-  const gameMenuMusicSource = 'xp_webtech_krf_KRO_game_menu.mp3';
+  const mainMenuMusicSource = 'xp_webtech_krf_krf_mainmenu_theme.mp3';
+  const gameMenuMusicSource = 'xp_webtech_krf_krf_gamemenu_theme.mp3';
+  const battleMap1MusicSource = 'xp_webtech_krf_krf_battlemap1_theme.mp3';
   const menuHoverSfxSource = 'xp_webtech_krf_button_hover2.mp3';
   const menuClickSfxSource = 'xp_webtech_krf_button_click.mp3';
   const preloaderSfxSource = 'xp_webtech_krf_preloader.mp3';
@@ -315,12 +316,12 @@ const GameLogic = (function() {
   }
 
   // This function loads the main stylesheet.css file at the end of page loading. Fastload.css loads at the begining of page load.
-  function cssInjectorFunction() {
-    const cssInjector = document.createElement('link');
-    cssInjector.rel = "stylesheet";
-    cssInjector.href = "xp_webtech_krf_stylesheet.css";
-    document.head.appendChild(cssInjector);
-  }
+  // function cssInjectorFunction() {
+  //   const cssInjector = document.createElement('link');
+  //   cssInjector.rel = "stylesheet";
+  //   cssInjector.href = "xp_webtech_krf_stylesheet.css";
+  //   document.head.appendChild(cssInjector);
+  // }
 
   // This function is the Reducer function for Redux
   function reducer(state, action) {
@@ -747,7 +748,7 @@ const GameLogic = (function() {
         type: MUSIC_ON,
         payload: {
           status: 'ON',
-          src: mainMenuMusicSource
+          src: battleMap1MusicSource
         }
       });
     } else {
@@ -755,7 +756,7 @@ const GameLogic = (function() {
         type: MUSIC_OFF,
         payload: {
           status: 'OFF',
-          src: mainMenuMusicSource
+          src: battleMap1MusicSource
         }
       });
     }
@@ -770,6 +771,23 @@ const GameLogic = (function() {
         previousPage: 'GAME_MENU'
       }
     });
+    if (store.getState().musicStatus == 'ON') {
+      store.dispatch( {
+        type: MUSIC_ON,
+        payload: {
+          status: 'ON',
+          src: battleMap1MusicSource
+        }
+      });
+    } else {
+      store.dispatch( {
+        type: MUSIC_OFF,
+        payload: {
+          status: 'OFF',
+          src: battleMap1MusicSource
+        }
+      });
+    }
   }
 
   // This function handles the prologue to battle map state change
@@ -787,23 +805,6 @@ const GameLogic = (function() {
         battleState: 'BATTLE_ON'
       }
     });
-    if (store.getState().musicStatus == 'ON') {
-      store.dispatch( {
-        type: MUSIC_ON,
-        payload: {
-          status: 'ON',
-          src: mainMenuMusicSource
-        }
-      });
-    } else {
-      store.dispatch( {
-        type: MUSIC_OFF,
-        payload: {
-          status: 'OFF',
-          src: mainMenuMusicSource
-        }
-      });
-    }
   }
 
   // This function handles the pause game state change
@@ -1509,7 +1510,7 @@ const GameLogic = (function() {
     resumeGame();
   }
 
-  cssInjectorFunction();
+  // cssInjectorFunction();
   gameslotsInitilaizer();
   addEvent(mouseOverList, 'mouseover', mainSfxController, menuHoverSfxSource);
   addEvent(mouseClickList, 'click', mainSfxController, menuClickSfxSource);
