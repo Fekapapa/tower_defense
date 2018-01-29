@@ -1,27 +1,49 @@
 .battle-map-footer {
+  animation: battle-map-footer 0.2s forwards;
+  animation-delay: 1s;
+  animation-timing-function: ease-out;
   background-image: $battle-map-footer-bg;
   bottom: 0;
   height: 70px;
   position: absolute;
+  transform: translateY(70px);
   width: 800px;
 }
 
+@keyframes battle-map-footer {
+  0% { transform: translateY(70px); }
+  100% { transform: translateY(0); }
+}
+
 .battle-map-info-panel {
+  animation: battle-map-info-panel 0.2s forwards;
+  animation-delay: 1s;
+  animation-timing-function: ease-out;
   background-image: $battle-map-info-panel-bg;
   height: 55px;
   margin-left: 10px;
   margin-top: 10px;
   position: absolute;
+  transform: translateY(-65px);
   width: 156px;
 }
 
+@keyframes battle-map-info-panel {
+  0% { transform: translateY(-65px); }
+  100% { transform: translateY(0); }
+}
+
 .battle-map-pause-button {
+  animation: battle-map-pause-button 0.2s forwards;
+  animation-delay: 1s;
+  animation-timing-function: ease-out;
   background-image: $battle-map-pause-bg;
   cursor: pointer;
   height: 32px;
   margin-left: 705px;
   margin-top: 10px;
   position: absolute;
+  transform: translateY(-42px);
   width: 35px;
   &:hover {
   background-image: $battle-map-pause-hover-bg;
@@ -32,13 +54,22 @@
   }
 }
 
+@keyframes battle-map-pause-button {
+  0% { transform: translateY(-42px); }
+  100% { transform: translateY(0); }
+}
+
 .battle-map-options-button {
+  animation: battle-map-options-button 0.2s forwards;
+  animation-delay: 1s;
+  animation-timing-function: ease-out;
   background-image: $battle-map-options-bg;
   cursor: pointer;
   height: 33px;
   margin-left: 750px;
   margin-top: 10px;
   position: absolute;
+  transform: translateY(-44px);
   width: 35px;
   &:hover {
   background-image: $battle-map-options-hover-bg;
@@ -47,6 +78,11 @@
     margin-top: 10px;
     width: 37px;
   }
+}
+
+@keyframes battle-map-options-button {
+  0% { transform: translateY(-44px); }
+  100% { transform: translateY(0); }
 }
 
 .battle-map-info-panel-health-text {

@@ -136,3 +136,15 @@
   50% { transform: scale(1.03, 1.03); }
   100% { transform: scale(0.97, 0.97); }
 }
+
+.delayed-animation {
+  animation: delayed-animation 3s forwards;
+  animation-timing-function: ease-out;
+  animation-delay: 1.5s;
+  opacity: 0;
+}
+
+@keyframes delayed-animation {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
