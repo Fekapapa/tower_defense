@@ -91,3 +91,16 @@
     width: 75px;
   }
 }
+
+.battle-map-startgame {
+  cursor: pointer;
+  height: 37px;
+  width: 44px;
+  margin-left: 737px;
+  margin-top: 552px;
+  position: absolute;
+  z-index: 2;
+  &:hover {
+    background-image: $battle-map-start-button-hover-bg;
+  }
+}

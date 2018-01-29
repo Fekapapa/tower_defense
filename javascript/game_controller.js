@@ -148,6 +148,30 @@ const GameLogic = (function() {
 
   // Battle map 1 elements declaration
   const battleMap1id = document.getElementById('battle-map-1-id');
+  const battleMapInfoPanelid = document.getElementById('battle-map-info-panelid');
+  const battleMapInfoPanelHealthTextid = document.getElementById('battle-map-info-panel-health-textid');
+  const battleMapInfoPanelGoldTextid = document.getElementById('battle-map-info-panel-gold-textid');
+  const battleMapInfoPanelWaveTextid = document.getElementById('battle-map-info-panel-wave-textid');
+  const battleMapPauseButtonid = document.getElementById('battle-map-pause-buttonid');
+  const battleMapOptionsButtonid = document.getElementById('battle-map-options-buttonid');
+  const battleMap1BuildHereTextid = document.getElementById('battle-map-1-build-here-textid');
+  const battleMap1StartHereTextid = document.getElementById('battle-map-1-start-here-textid');
+  const battleMap1TowerSlot1id = document.getElementById('battle-map-1-tower-slot-1id');
+  const battleMap1TowerSlot2id = document.getElementById('battle-map-1-tower-slot-2id');
+  const battleMap1TowerSlot3id = document.getElementById('battle-map-1-tower-slot-3id');
+  const battleMap1TowerSlot4id = document.getElementById('battle-map-1-tower-slot-4id');
+  const battleMap1TowerSlot5id = document.getElementById('battle-map-1-tower-slot-5id');
+  const battleMap1TowerSlot6id = document.getElementById('battle-map-1-tower-slot-6id');
+  const battleMap1TowerSlot7id = document.getElementById('battle-map-1-tower-slot-7id');
+  const battleMap1TowerSlot8id = document.getElementById('battle-map-1-tower-slot-8id');
+  const battleMap1TowerSlot9id = document.getElementById('battle-map-1-tower-slot-9id');
+  const battleMap1TowerSlot10id = document.getElementById('battle-map-1-tower-slot-10id');
+  const battleMap1TowerSlot11id = document.getElementById('battle-map-1-tower-slot-11id');
+  const battleMap1TowerSlot12id = document.getElementById('battle-map-1-tower-slot-12id');
+  const battleMap1Wavestart1id = document.getElementById('battle-map-1-wavestart-1id');
+  const battleMap1Wavestart2id = document.getElementById('battle-map-1-wavestart-2id');
+  const battleMap1Startgameid = document.getElementById('battle-map-1-startgameid');
+  const battleMapFooterid = document.getElementById('battle-map-footerid');
 
   // Elements in this list have mouse over sound effect
   const mouseOverList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuCloseButtonid, loadSavedMenuLocalsaveHelpid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid, gameMenuBattlepointer1id, gameMenuBattleStartPanelCloseid, gameMenuBattleStartPanelTobattleid, gameMenuBattleStartPanelLockedModeShieldsid, gameMenuBattleStartPanelLockedModeStarsid];
@@ -315,13 +339,12 @@ const GameLogic = (function() {
     }
   }
 
-  // This function loads the main stylesheet.css file at the end of page loading. Fastload.css loads at the begining of page load.
-  // function cssInjectorFunction() {
-  //   const cssInjector = document.createElement('link');
-  //   cssInjector.rel = "stylesheet";
-  //   cssInjector.href = "xp_webtech_krf_stylesheet.css";
-  //   document.head.appendChild(cssInjector);
-  // }
+  function cssInjectorFunction() {
+    const cssInjector = document.createElement('link');
+    cssInjector.rel = "stylesheet";
+    cssInjector.href = "xp_webtech_krf_stylesheet.css";
+    document.head.appendChild(cssInjector);
+  }
 
   // This function is the Reducer function for Redux
   function reducer(state, action) {
@@ -568,7 +591,7 @@ const GameLogic = (function() {
     store.dispatch( {
       type: GAME_SAVE,
       payload: {
-        savedData
+        savedData: savedData
       }
     });
     saveGame();
@@ -590,7 +613,7 @@ const GameLogic = (function() {
     store.dispatch( {
       type: GAME_LOAD,
       payload: {
-        savedData
+        savedData: savedData
       }
     });
   }
@@ -961,7 +984,12 @@ const GameLogic = (function() {
     if (store.getState().musicStatus == 'OFF') {
       mainAudioMusic.pause();
       mainAudioMusic.setAttribute('src', '');
-      mainAudioMusic.currentTime = 0;
+
+      //IE 11 polyfill audioplayer hack
+      if (!isNaN(mainAudioMusic.duration)) {
+        mainAudioMusic.currentTime = 0;
+      }
+
     }
     if (store.getState().lastAction == 'PLAYPAUSE_CHANGE' && store.getState().musicStatus == 'ON' && store.getState().isGamePaused == true) {
       mainAudioMusic.pause();
@@ -1047,8 +1075,12 @@ const GameLogic = (function() {
     if (store.getState().previousPage == 'MAIN_MENU' && store.getState().currentPage == 'LOAD_SAVED') {
       mainMenuCreditsButtonid.classList.remove('main-menu-credits-button');
       mainMenuStartButtonid.classList.remove('main-menu-start-button');
+
+      // in IE 11 element.classList = [] doesn't work. So I manully empty the classList.
       mainMenuAnimatedElementList.forEach(function(element) {
-        element.classList = [];
+        for (let i = 0; i <= element.classList.length; i++) {
+          element.classList.remove(element.classList[0]);
+        }
       });
 
       mainMenuArmorgamesImageid.classList.add('main-menu-armorgames-image-reverse');
@@ -1196,8 +1228,12 @@ const GameLogic = (function() {
       }, 1400);
 
       mainMenuPlayonmobileButtonid.classList.remove('nodisplay');
+
+      // in IE 11 element.classList = [] doesn't work. So I manully empty the classList.
       mainMenuAnimatedElementList.forEach(function(element) {
-        element.classList = [];
+        for (let i = 0; i <= element.classList.length; i++) {
+          element.classList.remove(element.classList[0]);
+        }
       });
 
       loadSavedMenuid.classList.remove('load-saved-menu');
@@ -1231,8 +1267,12 @@ const GameLogic = (function() {
         element.classList.add('nodisplay');
       });
       mainMenuPlayonmobileButtonid.classList.remove('nodisplay');
+
+      // in IE 11 element.classList = [] doesn't work. So I manully empty the classList.
       mainMenuAnimatedElementList.forEach(function(element) {
-        element.classList = [];
+        for (let i = 0; i <= element.classList.length; i++) {
+          element.classList.remove(element.classList[0]);
+        }
       });
 
       mainMenuArmorgamesImageid.classList.add('main-menu-armorgames-image');

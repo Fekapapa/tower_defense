@@ -19,6 +19,8 @@
 }
 
 .battle-map-1-build-here-text {
+  animation: battle-map-1-pulse-text 0.3s infinite;
+  animation-timing-function: ease-out;
   background-image: $battle-map-1-build-here-text-bg;
   height: 49px;
   margin-left: 413px;
@@ -29,6 +31,8 @@
 }
 
 .battle-map-1-start-here-text {
+  animation: battle-map-1-pulse-text 0.3s infinite;
+  animation-timing-function: ease-out;
   background-image: $battle-map-1-start-battle-text-bg;
   height: 46px;
   margin-left: 666px;
@@ -95,4 +99,40 @@
 .battle-map-1-tower-slot-12 {
   margin-left: 358px;
   margin-top: 431px;
+}
+
+.battle-map-1-wavestart-1 {
+  animation: battle-map-1-pulse-wave 0.6s infinite;
+  animation-timing-function: ease-out;
+  background-image: $battle-map-wavestarter-bg;
+  cursor: pointer;
+  height: 38px;
+  margin-left: 733px;
+  margin-top: 248px;
+  position: absolute;
+  width: 53px;
+}
+
+.battle-map-1-wavestart-2 {
+  animation: battle-map-1-pulse-wave 0.6s infinite;
+  animation-timing-function: ease-out;
+  background-image: $battle-map-wavestarter-bg;
+  cursor: pointer;
+  height: 38px;
+  margin-left: 733px;
+  margin-top: 289px;
+  position: absolute;
+  width: 53px;
+}
+
+@keyframes battle-map-1-pulse-text {
+  0% { transform: scale(0.97, 0.97); }
+  50% { transform: scale(1, 1); }
+  100% { transform: scale(0.97, 0.97); }
+}
+
+@keyframes battle-map-1-pulse-wave {
+  0% { transform: scale(0.97, 0.97); }
+  50% { transform: scale(1.03, 1.03); }
+  100% { transform: scale(0.97, 0.97); }
 }
