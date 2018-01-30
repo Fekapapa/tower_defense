@@ -142,7 +142,7 @@
 }
 
 .battle-map-tower-build-menu {
-  animation: battle-map-tower-build-menu 0.2s forwards;
+  animation: battle-map-tower-build-menu 0.15s forwards;
   animation-timing-function: ease-out;
   height: 128px;
   width: 125px;
@@ -150,13 +150,23 @@
   margin-top: -40px;
   margin-left: -27px;
   position: absolute;
-  transform: scale(0.8);
+  transform: scale(0.4);
   z-index: 10;
 }
 
 @keyframes battle-map-tower-build-menu {
-  0% { transform: scale(0.6); }
+  0% { transform: scale(0.4); }
   100% { transform: scale(1); }
+}
+
+.battle-map-tower-build-menu-close {
+  height: 128px;
+  width: 125px;
+  background-image: $battle-map-build-menu-bg;
+  margin-top: -40px;
+  margin-left: -27px;
+  position: absolute;
+  z-index: 9;
 }
 
 .battle-map-tower-build-place-clicked {
@@ -168,11 +178,18 @@
 }
 
 .battle-map-build-menu-disappear {
-  animation: battle-map-build-menu-disappear 0.2s forwards;
+  animation: battle-map-build-menu-disappear 0.15s forwards;
   animation-timing-function: linear;
 }
 
 @keyframes battle-map-build-menu-disappear {
   0% { transform: scale(1); }
-  100% { transform: scale(0.6); }
+  100% { transform: scale(0.4); }
+}
+
+.battle-map-tower-build-menu-innerbox-cost {
+  color: white;
+  margin-left: 14px;
+  margin-top: 30px;
+  font-size: 14px;
 }
