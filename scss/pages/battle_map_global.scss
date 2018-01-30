@@ -140,3 +140,39 @@
     background-image: $battle-map-start-button-hover-bg;
   }
 }
+
+.battle-map-tower-build-menu {
+  animation: battle-map-tower-build-menu 0.2s forwards;
+  animation-timing-function: ease-out;
+  height: 128px;
+  width: 125px;
+  background-image: $battle-map-build-menu-bg;
+  margin-top: -40px;
+  margin-left: -27px;
+  position: absolute;
+  transform: scale(0.8);
+  z-index: 10;
+}
+
+@keyframes battle-map-tower-build-menu {
+  0% { transform: scale(0.6); }
+  100% { transform: scale(1); }
+}
+
+.battle-map-tower-build-place-clicked {
+  background-image: $battle-map-buildplace-hover-bg;
+  cursor: pointer;
+  height: 47px;
+  position: absolute;
+  width: 75px;
+}
+
+.battle-map-build-menu-disappear {
+  animation: battle-map-build-menu-disappear 0.2s forwards;
+  animation-timing-function: linear;
+}
+
+@keyframes battle-map-build-menu-disappear {
+  0% { transform: scale(1); }
+  100% { transform: scale(0.6); }
+}

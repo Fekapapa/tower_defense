@@ -10,6 +10,7 @@ const GameLogic = (function() {
   let activeGameState = {};
   let isUserFocusOnThePage = true;
   let isUserFocusOnTheGame = true;
+  let currentTowerSlot;
 
   // Redux action types
   const MENU_CHANGE = 'MENU_CHANGE';
@@ -30,6 +31,8 @@ const GameLogic = (function() {
   const DIFFICULTY_CHANGE = 'DIFFICULTY_CHANGE';
   const PLAYPAUSE_CHANGE = 'PLAYPAUSE_CHANGE';
   const AUTOPAUSE_CHANGE = 'AUTOPAUSE_CHANGE';
+  const TOWER_CLICKED = 'TOWER_CLICKED';
+  const TOWER_UNCLICKED = 'TOWER_UNCLICKED';
 
   // Audio tags declaration and source declaration
   const mainAudioMusic = document.getElementById('main-audio-music');
@@ -172,6 +175,9 @@ const GameLogic = (function() {
   const battleMap1Wavestart2id = document.getElementById('battle-map-1-wavestart-2id');
   const battleMap1Startgameid = document.getElementById('battle-map-1-startgameid');
   const battleMapFooterid = document.getElementById('battle-map-footerid');
+  const battleMap1Wavestartid = document.getElementById('battle-map-1-wavestartid');
+  const battleMap1BuildHereTextContainerid = document.getElementById('battle-map-1-build-here-text-containerid');
+  const battleMap1StartHereTextContainerid = document.getElementById('battle-map-1-start-here-text-containerid');
 
   // Elements in this list have mouse over sound effect
   const mouseOverList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuCloseButtonid, loadSavedMenuLocalsaveHelpid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid, gameMenuBattlepointer1id, gameMenuBattleStartPanelCloseid, gameMenuBattleStartPanelTobattleid, gameMenuBattleStartPanelLockedModeShieldsid, gameMenuBattleStartPanelLockedModeStarsid, battleMap1TowerSlot1id, battleMap1TowerSlot2id, battleMap1TowerSlot3id, battleMap1TowerSlot4id, battleMap1TowerSlot5id, battleMap1TowerSlot6id, battleMap1TowerSlot7id, battleMap1TowerSlot8id, battleMap1TowerSlot9id, battleMap1TowerSlot10id, battleMap1TowerSlot11id, battleMap1TowerSlot12id, battleMapPauseButtonid, battleMapOptionsButtonid, battleMap1Wavestart1id, battleMap1Wavestart2id, battleMap1Startgameid];
@@ -184,6 +190,9 @@ const GameLogic = (function() {
 
   // These elements on the main menu animated a lot of times
   const mainMenuAnimatedElementList = [mainMenuArmorgamesImageid, mainMenuIronhideImageid, mainMenuStartImageid, mainMenuCreditsImageid];
+
+  // These elements on the battle map 1 tower places
+  const battleMap1TowerPlaceList = [battleMap1TowerSlot1id, battleMap1TowerSlot2id, battleMap1TowerSlot3id, battleMap1TowerSlot4id, battleMap1TowerSlot5id, battleMap1TowerSlot6id, battleMap1TowerSlot7id, battleMap1TowerSlot8id, battleMap1TowerSlot9id, battleMap1TowerSlot10id, battleMap1TowerSlot11id, battleMap1TowerSlot12id];
 
   // Declaration of the enemy units properties
   const enemyUnits = {
@@ -216,8 +225,9 @@ const GameLogic = (function() {
 
   // Declaration of the 1st battle map initial statement
   const battleMap1ActiveState = {
-    gold: 300,
+    gold: 500,
     life: 20,
+    current_wave: 0,
     waves_quantity: 6,
     waves: {
       wave_1: {
@@ -267,8 +277,8 @@ const GameLogic = (function() {
         isTowerReadytoFire: false
       },
       tower_slot_3: {
-        isTowerBuilt: true,
-        towerType: towerTypes.archer_1,
+        isTowerBuilt: false,
+        towerType: undefined,
         towerPositionX: 0,
         towerPositionY: 0,
         isTowerReadytoFire: false
@@ -317,7 +327,7 @@ const GameLogic = (function() {
       },
       tower_slot_10: {
         isTowerBuilt: false,
-        towerType: towerTypes.archer_1,
+        towerType: undefined,
         towerPositionX: 0,
         towerPositionY: 0,
         isTowerReadytoFire: false
@@ -359,7 +369,10 @@ const GameLogic = (function() {
         currentSfxSource: false,
         activeGameState: {},
         isGamePaused: false,
-        autoPause: 'ON'
+        autoPause: 'ON',
+        activeTowerSlot: false,
+        isBuildMenuOpen: false,
+        clickedTowerSlot: false
       };
       return state
     }
@@ -457,6 +470,19 @@ const GameLogic = (function() {
         return Object.assign({}, state, {
                 autoPause: action.payload.autoPause,
                 lastAction: AUTOPAUSE_CHANGE
+              })
+    case 'TOWER_CLICKED':
+      return Object.assign({}, state, {
+              activeTowerSlot: action.payload.activeTowerSlot,
+              clickedTowerSlot: action.payload.clickedTowerSlot,
+              isBuildMenuOpen: action.payload.isBuildMenuOpen,
+              lastAction: TOWER_CLICKED
+            })
+      case 'TOWER_UNCLICKED':
+        return Object.assign({}, state, {
+                activeTowerSlot: action.payload.activeTowerSlot,
+                isBuildMenuOpen: action.payload.isBuildMenuOpen,
+                lastAction: TOWER_UNCLICKED
               })
       default:
         return state
@@ -815,6 +841,15 @@ const GameLogic = (function() {
 
   // This function handles the prologue to battle map state change
   function prologuetoBattleMapStateChangeStarter() {
+    activeGameState.battleMap1ActiveState = battleMap1ActiveState;
+
+    store.dispatch( {
+      type: DIFFICULTY_CHANGE,
+      payload: {
+        activeGameState: activeGameState
+      }
+    });
+
     store.dispatch( {
       type: MENU_CHANGE,
       payload: {
@@ -825,12 +860,13 @@ const GameLogic = (function() {
     store.dispatch( {
       type: BATTLE_ON,
       payload: {
-        battleState: 'BATTLE_ON'
+        battleState: 'BATTLE_ON',
+        activeGameState: activeGameState
       }
     });
   }
 
-  // This function handles the pause game state change
+  // This function handles the autopause game state change
   function pauseGameStateChangeStarter() {
     store.dispatch( {
       type: PLAYPAUSE_CHANGE,
@@ -848,6 +884,29 @@ const GameLogic = (function() {
       payload: {
         isGamePaused: false,
         lastAction: PLAYPAUSE_CHANGE
+      }
+    });
+  }
+
+  // This function handles the battle map tower place clicked state change
+  function battleMapTowerPlaceClickedStateChangeStarter(towerPlaceNumber, clickedTowerSlot) {
+    store.dispatch( {
+      type: TOWER_CLICKED,
+      payload: {
+        activeTowerSlot: towerPlaceNumber,
+        clickedTowerSlot: clickedTowerSlot,
+        isBuildMenuOpen: true,
+      }
+    });
+  }
+
+  // This function handles the battle map build menu close state change
+  function closeTowerBuildMenuStateChangeStarter() {
+    store.dispatch( {
+      type: TOWER_UNCLICKED,
+      payload: {
+        activeTowerSlot: false,
+        isBuildMenuOpen: false,
       }
     });
   }
@@ -888,6 +947,15 @@ const GameLogic = (function() {
     if (value != undefined && elements.length == undefined) {
       elements.addEventListener(event, function() { functionality(value) });
     }
+  }
+
+  // This function adds the event listeners to the tower places on the battle map
+  function addEventtoTowerPlaces(towerPlaceList) {
+    towerPlaceList.forEach(function(element) {
+      element.addEventListener('click', battleMapTowerPlaceClickInvoker, {
+        once: true,
+      });
+    });
   }
 
   // This function creates empty save slots on the local storage (if the game starts first)
@@ -1459,8 +1527,21 @@ const GameLogic = (function() {
   // This function handles the prologue to battle map action
   function prologuetoBattleMap() {
     if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage == 'PROLOGUE' && store.getState().currentPage == 'BATTLE_MAP') {
+      battleMapInfoPanelHealthTextid.innerHTML = store.getState().activeGameState.battleMap1ActiveState.life;
+      battleMapInfoPanelGoldTextid.innerHTML = store.getState().activeGameState.battleMap1ActiveState.gold;
+      battleMapInfoPanelWaveTextid.innerHTML = 'wave ' + store.getState().activeGameState.battleMap1ActiveState.current_wave + '/'
+      + store.getState().activeGameState.battleMap1ActiveState.waves_quantity;
+
       prologue.classList.add('prologue-fade-out');
       battleMap1.classList.add('battle-map-1-fade-in');
+
+      battleMapInfoPanelid.classList.remove('nodisplay');
+      battleMapPauseButtonid.classList.remove('nodisplay');
+      battleMapOptionsButtonid.classList.remove('nodisplay');
+      battleMapFooterid.classList.remove('nodisplay');
+      battleMap1Wavestartid.classList.remove('nodisplay');
+      battleMap1BuildHereTextContainerid.classList.remove('nodisplay');
+      battleMap1StartHereTextContainerid.classList.remove('nodisplay');
 
       setTimeout(function(){
         gameMenuBattlePanelDeleter();
@@ -1482,9 +1563,14 @@ const GameLogic = (function() {
     event.stopPropagation();
   }
 
+  // This function prevents the click inside the game to pause the game
+  function preventGamePause() {
+    event.stopPropagation();
+  }
+
   // This function checks if the user focus is on the game
   function checkFocus() {
-    if (store.getState().battleState == 'BATTLE_ON' && store.getState().autoPause == 'ON') {
+    if (store.getState().battleState == 'BATTLE_ON' && store.getState().autoPause == 'ON' && store.getState().manualPaused != 'ON') {
       if(document.hasFocus()) {
         isUserFocusOnThePage = true;
       } else {
@@ -1517,9 +1603,55 @@ const GameLogic = (function() {
   function battleStartEventAdding() {
     if (store.getState().lastAction == 'BATTLE_ON') {
       setTimeout(function(){
+        addEvent(battleMap1, 'click', preventGamePause, undefined);
         addEvent(landingPageBody, 'click', pageBodyClicked, undefined);
         addEvent(battleMapGamePauseid, 'click', pauseElementClicked, undefined);
+        addEvent(battleMapPauseButtonid, 'click', pageBodyClicked, undefined);
       }, 600);
+    }
+  }
+
+  // This function handles the battle map tower palce clicked display change
+  function battleMapTowerPlaceClicked() {
+    if (store.getState().isBuildMenuOpen == true && store.getState().clickedTowerSlot.innerHTML == '') {
+      store.getState().clickedTowerSlot.classList.add('battle-map-tower-build-place-clicked');
+      let buildMenu = document.createElement('div');
+      store.getState().clickedTowerSlot.appendChild(buildMenu);
+      buildMenu.classList.add('battle-map-tower-build-menu');
+      buildMenu.id = 'battle-map-active-tower-slotid';
+    }
+  }
+
+  function closeTowerBuildMenu() {
+    if (store.getState().lastAction == TOWER_UNCLICKED && store.getState().clickedTowerSlot.innerHTML != '' && store.getState().clickedTowerSlot!= false) {
+      console.log('megy')
+      let activeSlotToClose = store.getState().clickedTowerSlot;
+      let buildMenuDisappear = document.getElementById('battle-map-active-tower-slotid');
+      buildMenuDisappear.classList.add('battle-map-build-menu-disappear');
+      setTimeout(function(){
+        activeSlotToClose.classList.remove('battle-map-tower-build-place-clicked');
+        activeSlotToClose.classList.remove('battle-map-build-menu-disappear');
+        activeSlotToClose.innerHTML = '';
+        activeSlotToClose.addEventListener('click', battleMapTowerPlaceClickInvoker, {
+          once: true,
+        });
+      }, 200);
+    }
+  }
+
+  function battleMapTowerPlaceClickInvoker() {
+    if (store.getState().isBuildMenuOpen == false && event.target.innerHTML == ''){
+      let classParts = event.target.classList[0].split('-');
+      let towerPlaceNumber = classParts[classParts.length - 1];
+      event.stopPropagation();
+      battleMapTowerPlaceClickedStateChangeStarter(towerPlaceNumber, event.target);
+    }
+    if (store.getState().isBuildMenuOpen == true && event.target.innerHTML == ''){
+      closeTowerBuildMenuStateChangeStarter();
+      let classParts = event.target.classList[0].split('-');
+      let towerPlaceNumber = classParts[classParts.length - 1];
+      event.stopPropagation();
+      battleMapTowerPlaceClickedStateChangeStarter(towerPlaceNumber, event.target);
     }
   }
 
@@ -1548,6 +1680,8 @@ const GameLogic = (function() {
     battleStartEventAdding();
     pauseGame();
     resumeGame();
+    battleMapTowerPlaceClicked();
+    closeTowerBuildMenu();
   }
 
   // cssInjectorFunction();
@@ -1588,6 +1722,8 @@ const GameLogic = (function() {
   addEvent(gameMenuBattleStartPanelChooseDifficultyCasualid, 'click', gameMenuBattlePanelDifficultyStateChangeStarter, 'CASUAL');
   addEvent(gameMenuBattleStartPanelChooseDifficultyNormalid, 'click', gameMenuBattlePanelDifficultyStateChangeStarter, 'NORMAL');
   addEvent(gameMenuBattleStartPanelChooseDifficultyVeteranid, 'click', gameMenuBattlePanelDifficultyStateChangeStarter, 'VETERAN');
+  addEvent(battleMap1, 'click', closeTowerBuildMenuStateChangeStarter, undefined);
+  addEventtoTowerPlaces(battleMap1TowerPlaceList)
 
   setInterval( checkFocus, 100 );
   setInterval(function () {console.log(store.getState())}, 1000);

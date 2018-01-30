@@ -18,6 +18,11 @@
   100% { opacity: 1; }
 }
 
+.battle-map-1-build-here-text-container {
+  position: absolute;
+  z-index: 2;
+}
+
 .battle-map-1-build-here-text {
   animation: battle-map-1-pulse-text 0.3s infinite;
   animation-timing-function: ease-out;
@@ -27,7 +32,6 @@
   margin-top: 212px;
   position: absolute;
   width: 140px;
-  z-index: 2;
 }
 
 .battle-map-1-start-here-text {
@@ -138,9 +142,9 @@
 }
 
 .delayed-animation {
-  animation: delayed-animation 3s forwards;
+  animation: delayed-animation 0.6s forwards;
   animation-timing-function: ease-out;
-  animation-delay: 1.5s;
+  animation-delay: 1.7s;
   opacity: 0;
 }
 
