@@ -171,7 +171,7 @@
 
 .battle-map-tower-build-place-clicked {
   background-image: $battle-map-buildplace-hover-bg;
-  cursor: pointer;
+  cursor: auto;
   height: 47px;
   position: absolute;
   width: 75px;
@@ -187,9 +187,72 @@
   100% { transform: scale(0.4); }
 }
 
+.battle-map-tower-build-menu-innerbox-1 {
+  height: 58px;
+  margin-left: -4px;
+  margin-top: -3px;
+  width: 53px;
+  position: absolute;
+}
+
+.battle-map-tower-build-menu-innerbox-2 {
+  height: 58px;
+  margin-left: 76px;
+  margin-top: -3px;
+  width: 53px;
+  position: absolute;
+}
+
+.battle-map-tower-build-menu-innerbox-3 {
+  height: 58px;
+  margin-left: -4px;
+  margin-top: 73px;
+  width: 53px;
+  position: absolute;
+}
+
+.battle-map-tower-build-menu-innerbox-4 {
+  height: 58px;
+  margin-left: 76px;
+  margin-top: 73px;
+  position: absolute;
+  width: 53px;
+}
+
+.battle-map-tower-build-menu-innerbox-hover:hover {
+  background-image: $battle-map-buildtype-hover-bg;
+}
+
 .battle-map-tower-build-menu-innerbox-cost {
+  background-image: $battle-map-build-menu-pricetable-bg;
   color: white;
-  margin-left: 14px;
-  margin-top: 30px;
+  cursor: pointer;
   font-size: 14px;
+  height: 18px;
+  line-height: 19px;
+  margin-left: 13px;
+  margin-top: 35px;
+  padding-top: 1px;
+  position: absolute;
+  text-align: center;
+  width: 28px;
+}
+
+.battle-map-tower-build-menu-innerbox-image {
+  cursor: pointer;
+  height: 41px;
+  margin-left: 4px;
+  margin-top: 3px;
+  position: absolute;
+  width: 46px;
+}
+
+.battle-map-tower-build-menu-innerbox-image-locked {
+  background-image: $battle-map-tower-build-locked-bg;
+  cursor: auto;
+  height: 41px;
+  margin-left: 4px;
+  margin-top: 3px;
+  position: absolute;
+  width: 46px;
 }

@@ -181,11 +181,35 @@ const GameLogic = (function() {
   const battleMapActiveBuildMenuid = document.getElementById('battle-map-active-build-menuid');
   const battleMapActiveBuildMenuCloseid = document.getElementById('battle-map-active-build-menu-closeid');
   const battleMapTowerBuildMenuInnerbox1Costid = document.getElementById('battle-map-tower-build-menu-innerbox-1-costid');
+  const battleMapTowerBuildMenuInnerbox2Costid = document.getElementById('battle-map-tower-build-menu-innerbox-2-costid');
+  const battleMapTowerBuildMenuInnerbox3Costid = document.getElementById('battle-map-tower-build-menu-innerbox-3-costid');
+  const battleMapTowerBuildMenuInnerbox4Costid = document.getElementById('battle-map-tower-build-menu-innerbox-4-costid');
   const battleMapTowerBuildMenuInnerbox1CostCloseid = document.getElementById('battle-map-tower-build-menu-innerbox-1-cost-closeid');
+  const battleMapTowerBuildMenuInnerbox2CostCloseid = document.getElementById('battle-map-tower-build-menu-innerbox-2-cost-closeid');
+  const battleMapTowerBuildMenuInnerbox3CostCloseid = document.getElementById('battle-map-tower-build-menu-innerbox-3-cost-closeid');
+  const battleMapTowerBuildMenuInnerbox4CostCloseid = document.getElementById('battle-map-tower-build-menu-innerbox-4-cost-closeid');
+  const battleMapTowerBuildMenuInnerbox1Imageid = document.getElementById('battle-map-tower-build-menu-innerbox-1-imageid');
+  const battleMapTowerBuildMenuInnerbox2Imageid = document.getElementById('battle-map-tower-build-menu-innerbox-2-imageid');
+  const battleMapTowerBuildMenuInnerbox3Imageid = document.getElementById('battle-map-tower-build-menu-innerbox-3-imageid');
+  const battleMapTowerBuildMenuInnerbox4Imageid = document.getElementById('battle-map-tower-build-menu-innerbox-4-imageid');
+  const battleMapTowerBuildMenuInnerbox1ImageCloseid = document.getElementById('battle-map-tower-build-menu-innerbox-1-image-closeid');
+  const battleMapTowerBuildMenuInnerbox2ImageCloseid = document.getElementById('battle-map-tower-build-menu-innerbox-2-image-closeid');
+  const battleMapTowerBuildMenuInnerbox3ImageCloseid = document.getElementById('battle-map-tower-build-menu-innerbox-3-image-closeid');
+  const battleMapTowerBuildMenuInnerbox4ImageCloseid = document.getElementById('battle-map-tower-build-menu-innerbox-4-image-closeid');
+  const battleMapTowerBuildMenuInnerbox1id = document.getElementById('battle-map-tower-build-menu-innerbox-1id');
+  const battleMapTowerBuildMenuInnerbox2id = document.getElementById('battle-map-tower-build-menu-innerbox-2id');
+  const battleMapTowerBuildMenuInnerbox3id = document.getElementById('battle-map-tower-build-menu-innerbox-3id');
+  const battleMapTowerBuildMenuInnerbox4id = document.getElementById('battle-map-tower-build-menu-innerbox-4id');
+  const battleMapTowerBuildMenuInnerbox1Closeid = document.getElementById('battle-map-tower-build-menu-innerbox-1-closeid');
+  const battleMapTowerBuildMenuInnerbox2Closeid = document.getElementById('battle-map-tower-build-menu-innerbox-2-closeid');
+  const battleMapTowerBuildMenuInnerbox3Closeid = document.getElementById('battle-map-tower-build-menu-innerbox-3-closeid');
+  const battleMapTowerBuildMenuInnerbox4Closeid = document.getElementById('battle-map-tower-build-menu-innerbox-4-closeid');
 
 
   // Elements in this list have mouse over sound effect
-  const mouseOverList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuCloseButtonid, loadSavedMenuLocalsaveHelpid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid, gameMenuBattlepointer1id, gameMenuBattleStartPanelCloseid, gameMenuBattleStartPanelTobattleid, gameMenuBattleStartPanelLockedModeShieldsid, gameMenuBattleStartPanelLockedModeStarsid, battleMap1TowerSlot1id, battleMap1TowerSlot2id, battleMap1TowerSlot3id, battleMap1TowerSlot4id, battleMap1TowerSlot5id, battleMap1TowerSlot6id, battleMap1TowerSlot7id, battleMap1TowerSlot8id, battleMap1TowerSlot9id, battleMap1TowerSlot10id, battleMap1TowerSlot11id, battleMap1TowerSlot12id, battleMapPauseButtonid, battleMapOptionsButtonid, battleMap1Wavestart1id, battleMap1Wavestart2id, battleMap1Startgameid];
+  const mouseOverList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuCloseButtonid, loadSavedMenuLocalsaveHelpid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid, gameMenuBattlepointer1id, gameMenuBattleStartPanelCloseid, gameMenuBattleStartPanelTobattleid, gameMenuBattleStartPanelLockedModeShieldsid, gameMenuBattleStartPanelLockedModeStarsid, battleMapPauseButtonid, battleMapOptionsButtonid, battleMap1Wavestart1id, battleMap1Wavestart2id, battleMap1Startgameid];
+
+  const mouseOverListTowerSlots = [battleMap1TowerSlot1id, battleMap1TowerSlot2id, battleMap1TowerSlot3id, battleMap1TowerSlot4id, battleMap1TowerSlot5id, battleMap1TowerSlot6id, battleMap1TowerSlot7id, battleMap1TowerSlot8id, battleMap1TowerSlot9id, battleMap1TowerSlot10id, battleMap1TowerSlot11id, battleMap1TowerSlot12id];
 
   // Elements in this list have mouse click sound effect
   const mouseClickList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid, gameMenuBattlepointer1id, gameMenuBattleStartPanelCloseid, gameMenuBattleStartPanelTobattleid];
@@ -225,6 +249,17 @@ const GameLogic = (function() {
       range_name: 'short',
       fire_rate: 750,
       fire_rate_name: 'average'
+    },
+    mage_1 : {
+      cost: 100,
+      damage_type: 'magic',
+      min_damage: 9,
+      max_damage: 17,
+      name: 'Mages',
+      range: 100,
+      range_name: 'short',
+      fire_rate: 1500,
+      fire_rate_name: 'slow'
     }
   }
 
@@ -234,6 +269,10 @@ const GameLogic = (function() {
     life: 20,
     current_wave: 0,
     waves_quantity: 6,
+    allowed_towers: {
+      archer_1: true,
+      mage_1: true
+    },
     waves: {
       wave_1: {
         delay: 0,
@@ -266,7 +305,7 @@ const GameLogic = (function() {
         quantity: 30
       }
     },
-    towers: {
+    tower_slots: {
       tower_slot_1: {
         isTowerBuilt: false,
         towerType: undefined,
@@ -464,6 +503,7 @@ const GameLogic = (function() {
       case 'DIFFICULTY_CHANGE':
         return Object.assign({}, state, {
                 activeGameState: action.payload.activeGameState,
+                towerTypes: action.payload.towerTypes,
                 lastAction: DIFFICULTY_CHANGE
               })
       case 'PLAYPAUSE_CHANGE':
@@ -851,7 +891,8 @@ const GameLogic = (function() {
     store.dispatch( {
       type: DIFFICULTY_CHANGE,
       payload: {
-        activeGameState: activeGameState
+        activeGameState: activeGameState,
+        towerTypes: towerTypes
       }
     });
 
@@ -1619,18 +1660,86 @@ const GameLogic = (function() {
     }
   }
 
+  // This function handles the battle map tower losts mouse over sound effect. It needed because the evenlistener need to be removed later
+  function mouseOverSfx() {
+    mainSfxController(menuHoverSfxSource);
+  }
+
+  // This function adds event listeners with the mouseOverSfx function to the Battle map tower slot list
+  function addEventTowerSlots() {
+    mouseOverListTowerSlots.forEach(function(element) {
+      element.addEventListener('mouseover', mouseOverSfx);
+    });
+  }
+
   // This function handles the battle map tower palce clicked display change
   function battleMapTowerPlaceClicked() {
     if (store.getState().isBuildMenuOpen == true && store.getState().clickedTowerSlot.innerHTML == '') {
       store.getState().clickedTowerSlot.classList.add('battle-map-tower-build-place-clicked');
-      // let buildMenu = document.createElement('div');
+      store.getState().clickedTowerSlot.removeEventListener('mouseover', mouseOverSfx);
       store.getState().clickedTowerSlot.appendChild(battleMapActiveBuildMenuid);
       battleMapActiveBuildMenuid.classList.remove('nodisplay');
-      battleMapTowerBuildMenuInnerbox1Costid.innerHTML = store.getState().activeGameState.battleMap1ActiveState.life;
+      battleMapTowerBuildMenuInnerbox1Imageid.addEventListener('mouseover', mouseOverSfx);
+      battleMapTowerBuildMenuInnerbox2Imageid.addEventListener('mouseover', mouseOverSfx);
+      battleMapTowerBuildMenuInnerbox3Imageid.addEventListener('mouseover', mouseOverSfx);
+      battleMapTowerBuildMenuInnerbox4Imageid.addEventListener('mouseover', mouseOverSfx);
+
+      if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.archer_1) {
+        battleMapTowerBuildMenuInnerbox1Costid.innerHTML = store.getState().towerTypes.archer_1.cost;
+        battleMapTowerBuildMenuInnerbox1id.classList.add('battle-map-tower-build-menu-innerbox-hover');
+      } else {
+        battleMapTowerBuildMenuInnerbox1Costid.classList.add('nodisplay');
+        battleMapTowerBuildMenuInnerbox1Imageid.classList.add('battle-map-tower-build-menu-innerbox-image-locked');
+      }
+      if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.barracks_1) {
+        battleMapTowerBuildMenuInnerbox2Costid.innerHTML = store.getState().towerTypes.barracks_1.cost;
+        battleMapTowerBuildMenuInnerbox2id.classList.add('battle-map-tower-build-menu-innerbox-hover');
+      } else {
+        battleMapTowerBuildMenuInnerbox2Costid.classList.add('nodisplay');
+        battleMapTowerBuildMenuInnerbox2Imageid.classList.add('battle-map-tower-build-menu-innerbox-image-locked');
+      }
+      if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.mage_1) {
+        battleMapTowerBuildMenuInnerbox3Costid.innerHTML = store.getState().towerTypes.mage_1.cost;
+        battleMapTowerBuildMenuInnerbox3id.classList.add('battle-map-tower-build-menu-innerbox-hover');
+      } else {
+        battleMapTowerBuildMenuInnerbox3Costid.classList.add('nodisplay');
+        battleMapTowerBuildMenuInnerbox3Imageid.classList.add('battle-map-tower-build-menu-innerbox-image-locked');
+      }
+      if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.bombard_1) {
+        battleMapTowerBuildMenuInnerbox4Costid.innerHTML = store.getState().towerTypes.bombard_1.cost;
+        battleMapTowerBuildMenuInnerbox4id.classList.add('battle-map-tower-build-menu-innerbox-hover');
+      } else {
+        battleMapTowerBuildMenuInnerbox4Costid.classList.add('nodisplay');
+        battleMapTowerBuildMenuInnerbox4Imageid.classList.add('battle-map-tower-build-menu-innerbox-image-locked');
+      }
+
       setTimeout(function(){
         store.getState().clickedTowerSlot.appendChild(battleMapActiveBuildMenuCloseid);
         battleMapActiveBuildMenuCloseid.classList.remove('nodisplay');
-        battleMapTowerBuildMenuInnerbox1CostCloseid.innerHTML = store.getState().activeGameState.battleMap1ActiveState.life
+        if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.archer_1) {
+          battleMapTowerBuildMenuInnerbox1CostCloseid.innerHTML = store.getState().towerTypes.archer_1.cost;
+        } else {
+          battleMapTowerBuildMenuInnerbox1CostCloseid.classList.add('nodisplay');
+          battleMapTowerBuildMenuInnerbox1ImageCloseid.classList.add('battle-map-tower-build-menu-innerbox-image-locked');
+        }
+        if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.barracks_1) {
+          battleMapTowerBuildMenuInnerbox2CostCloseid.innerHTML = store.getState().towerTypes.barracks_1.cost;
+        } else {
+          battleMapTowerBuildMenuInnerbox2CostCloseid.classList.add('nodisplay');
+          battleMapTowerBuildMenuInnerbox2ImageCloseid.classList.add('battle-map-tower-build-menu-innerbox-image-locked');
+        }
+        if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.mage_1) {
+          battleMapTowerBuildMenuInnerbox3CostCloseid.innerHTML = store.getState().towerTypes.mage_1.cost;
+        } else {
+          battleMapTowerBuildMenuInnerbox3CostCloseid.classList.add('nodisplay');
+          battleMapTowerBuildMenuInnerbox3ImageCloseid.classList.add('battle-map-tower-build-menu-innerbox-image-locked');
+        }
+        if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.bombard_1) {
+          battleMapTowerBuildMenuInnerbox4CostCloseid.innerHTML = store.getState().towerTypes.bombard_1.cost;
+        } else {
+          battleMapTowerBuildMenuInnerbox4CostCloseid.classList.add('nodisplay');
+          battleMapTowerBuildMenuInnerbox4ImageCloseid.classList.add('battle-map-tower-build-menu-innerbox-image-locked');
+        }
       }, 150);
     }
   }
@@ -1639,13 +1748,13 @@ const GameLogic = (function() {
   function closeTowerBuildMenu() {
     if (store.getState().lastAction == TOWER_UNCLICKED && store.getState().clickedTowerSlot.innerHTML != '' && store.getState().clickedTowerSlot!= false) {
       let activeSlotToClose = store.getState().clickedTowerSlot;
-      // let buildMenuDisappear = document.getElementById('battle-map-active-build-menuid');
       battleMapActiveBuildMenuCloseid.classList.add('battle-map-build-menu-disappear');
       battleMapActiveBuildMenuid.classList.add('nodisplay');
       setTimeout(function(){
         activeSlotToClose.classList.remove('battle-map-tower-build-place-clicked');
         battleMapActiveBuildMenuCloseid.classList.remove('battle-map-build-menu-disappear');
         activeSlotToClose.innerHTML = '';
+        activeSlotToClose.addEventListener('mouseover', mouseOverSfx);
         activeSlotToClose.addEventListener('click', battleMapTowerPlaceClickInvoker, {
           once: true,
         });
@@ -1701,6 +1810,7 @@ const GameLogic = (function() {
 
   // cssInjectorFunction();
   gameslotsInitilaizer();
+  addEventTowerSlots();
   addEvent(mouseOverList, 'mouseover', mainSfxController, menuHoverSfxSource);
   addEvent(mouseClickList, 'click', mainSfxController, menuClickSfxSource);
   addEvent(mainMenuMusicButtonid, 'click', musicButtonStateChangeStarter, undefined);
