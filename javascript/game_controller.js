@@ -33,6 +33,8 @@ const GameLogic = (function() {
   const AUTOPAUSE_CHANGE = 'AUTOPAUSE_CHANGE';
   const TOWER_CLICKED = 'TOWER_CLICKED';
   const TOWER_UNCLICKED = 'TOWER_UNCLICKED';
+  const BUILDBUTTON_CLICKED = 'BUILDBUTTON_CLICKED';
+  const BUILD_START = 'BUILD_START';
 
   // Audio tags declaration and source declaration
   const mainAudioMusic = document.getElementById('main-audio-music');
@@ -516,18 +518,33 @@ const GameLogic = (function() {
                 autoPause: action.payload.autoPause,
                 lastAction: AUTOPAUSE_CHANGE
               })
-    case 'TOWER_CLICKED':
-      return Object.assign({}, state, {
-              activeTowerSlot: action.payload.activeTowerSlot,
-              clickedTowerSlot: action.payload.clickedTowerSlot,
-              isBuildMenuOpen: action.payload.isBuildMenuOpen,
-              lastAction: TOWER_CLICKED
-            })
+      case 'TOWER_CLICKED':
+        return Object.assign({}, state, {
+                activeTowerSlot: action.payload.activeTowerSlot,
+                clickedTowerSlot: action.payload.clickedTowerSlot,
+                isBuildMenuOpen: action.payload.isBuildMenuOpen,
+                lastAction: TOWER_CLICKED
+              })
       case 'TOWER_UNCLICKED':
         return Object.assign({}, state, {
                 activeTowerSlot: action.payload.activeTowerSlot,
                 isBuildMenuOpen: action.payload.isBuildMenuOpen,
                 lastAction: TOWER_UNCLICKED
+              })
+      case 'BUILDBUTTON_CLICKED':
+        return Object.assign({}, state, {
+                towerToBuild: action.payload.towerToBuild,
+                towerSlotToBuild: action.payload.towerSlotToBuild,
+                towerCost: action.payload.towerCost,
+                towerBuildStatus: 'Goldcheck',
+                lastAction: BUILDBUTTON_CLICKED
+              })
+      case 'BUILD_START':
+        return Object.assign({}, state, {
+                towerToBuild: action.payload.towerToBuild,
+                towerSlotToBuild: action.payload.towerSlotToBuild,
+                towerBuildStatus: 'building',
+                lastAction: BUILD_START
               })
       default:
         return state
@@ -953,6 +970,28 @@ const GameLogic = (function() {
       payload: {
         activeTowerSlot: false,
         isBuildMenuOpen: false,
+      }
+    });
+  }
+
+  // This function handles the battle map build menu tower build click state change
+  function battleMapTowerBuildClickedStateChangeStarter(towerType, towerCost) {
+    store.dispatch( {
+      type: BUILDBUTTON_CLICKED,
+      payload: {
+        towerToBuild: towerType,
+        towerCost: towerCost,
+        towerSlotToBuild: store.getState().activeTowerSlot
+      }
+    });
+  }
+
+  // This function handles the battle map build menu tower build state change
+  function battleMapTowerBuildStateChangeStarter(gold) {
+    store.dispatch( {
+      type: BUILD_START,
+      payload: {
+        towerCost: gold
       }
     });
   }
@@ -1762,6 +1801,15 @@ const GameLogic = (function() {
     }
   }
 
+  // This function handles the battle map tower build gold check statement
+  function battleMapTowerBuildGoldCheck() {
+    if (store.getState().lastAction == BUILDBUTTON_CLICKED) {
+      if (store.getState().activeGameState.battleMap1ActiveState.gold >= BUILDBUTTON_CLICKED) {
+      }
+
+    }
+  }
+
   // This function handles the battle map build menu opening logic, it fires the state changes function
   function battleMapTowerPlaceClickInvoker() {
     if (store.getState().isBuildMenuOpen == false && event.target.innerHTML == ''){
@@ -1806,6 +1854,7 @@ const GameLogic = (function() {
     resumeGame();
     battleMapTowerPlaceClicked();
     closeTowerBuildMenu();
+    battleMapTowerBuildGoldCheck();
   }
 
   // cssInjectorFunction();
@@ -1848,6 +1897,10 @@ const GameLogic = (function() {
   addEvent(gameMenuBattleStartPanelChooseDifficultyNormalid, 'click', gameMenuBattlePanelDifficultyStateChangeStarter, 'NORMAL');
   addEvent(gameMenuBattleStartPanelChooseDifficultyVeteranid, 'click', gameMenuBattlePanelDifficultyStateChangeStarter, 'VETERAN');
   addEvent(battleMap1, 'click', closeTowerBuildMenuStateChangeStarter, undefined);
+  addEvent(battleMapTowerBuildMenuInnerbox1Imageid, 'click', battleMapTowerBuildStateChangeStarter, 'archer_1');
+  addEvent(battleMapTowerBuildMenuInnerbox2Imageid, 'click', battleMapTowerBuildStateChangeStarter, 'barracks_1');
+  addEvent(battleMapTowerBuildMenuInnerbox3Imageid, 'click', battleMapTowerBuildStateChangeStarter, 'mage_1');
+  addEvent(battleMapTowerBuildMenuInnerbox4Imageid, 'click', battleMapTowerBuildStateChangeStarter, 'bombard_1');
   addEventtoTowerPlaces(battleMap1TowerPlaceList)
 
   setInterval( checkFocus, 100 );
