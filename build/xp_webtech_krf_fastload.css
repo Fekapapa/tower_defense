@@ -31,6 +31,15 @@ body {
 .nodisplay {
   display: none; }
 
+.pointer {
+  cursor: pointer; }
+
+.stopAnimation {
+  animation-play-state: paused; }
+
+.resumeAnimation {
+  animation-play-state: running; }
+
 .main-title-container {
   height: 70px;
   text-align: center; }

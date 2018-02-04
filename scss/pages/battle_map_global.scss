@@ -226,7 +226,6 @@
 .battle-map-tower-build-menu-innerbox-cost {
   background-image: $battle-map-build-menu-pricetable-bg;
   color: white;
-  cursor: pointer;
   font-size: 14px;
   height: 18px;
   line-height: 19px;
@@ -239,7 +238,6 @@
 }
 
 .battle-map-tower-build-menu-innerbox-image {
-  cursor: pointer;
   height: 41px;
   margin-left: 4px;
   margin-top: 3px;
@@ -255,4 +253,87 @@
   margin-top: 3px;
   position: absolute;
   width: 46px;
+}
+
+.battle-map-tower-under-construction {
+  background-image: $battle-map-building-in-progress-bg;
+  height: 47px;
+  left: 4px;
+  top: -3px;
+  position: absolute;
+  width: 61px;
+  &:hover {
+    background-image: $battle-map-building-in-progress-bg;
+    height: 47px;
+    width: 61px;
+  }
+  &::after {
+    animation: battle-map-tower-under-construction 1s forwards;
+    animation-timing-function: linear;
+    background-color: yellow;
+    border-radius: 2px;
+    box-shadow: inset 0 0 4px #000000, 0 0 3px #000000;
+    content: '';
+    height: 4px;
+    margin-left: 13px;
+    margin-top: 1px;
+    position: absolute;
+    width: 0;
+  }
+}
+
+@keyframes battle-map-tower-under-construction {
+  0% { width: 0; }
+  100% { width: 37px; }
+}
+
+
+.battle-map-archer-1-tower-built {
+  background-image: $battle-map-archer-1-tower-bg;
+  cursor: pointer;
+  height: 52px;
+  left: 6px;
+  top: -9px;
+  position: absolute;
+  width: 61px;
+}
+
+.battle-map-archer-1-tower-built span {
+  display: none;
+}
+
+.battle-map-archer-1-tower-built:hover span {
+  box-shadow: 0px 0px 30px 25px #fff513;
+  display: inherit;
+  height: 8px;
+  left: 23px;
+  top: 22px;
+  position: absolute;
+  width: 12px;
+  z-index: -1;
+}
+
+.battle-map-mage-1-tower-built {
+  background-image: $battle-map-mage-1-tower-bg;
+  cursor: pointer;
+  height: 55px;
+  left: 4px;
+  top: -15px;
+  position: absolute;
+  width: 65px;
+}
+
+.battle-map-mage-1-tower-built span {
+  display: none;
+}
+
+.battle-map-mage-1-tower-built:hover span {
+  box-shadow: 0px 0px 30px 25px #fff513;
+  display: inherit;
+  height: 10px;
+  left: 25px;
+  top: 23px;
+  position: absolute;
+  width: 15px;
+  z-index: -1;
 }

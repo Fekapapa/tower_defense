@@ -11,6 +11,8 @@ const GameLogic = (function() {
   let isUserFocusOnThePage = true;
   let isUserFocusOnTheGame = true;
   let currentTowerSlot;
+  let tempGlobalTowerSlotToBuild;
+  let tempGlobalTowerTypeToBuild;
 
   // Redux action types
   const MENU_CHANGE = 'MENU_CHANGE';
@@ -35,6 +37,7 @@ const GameLogic = (function() {
   const TOWER_UNCLICKED = 'TOWER_UNCLICKED';
   const BUILDBUTTON_CLICKED = 'BUILDBUTTON_CLICKED';
   const BUILD_START = 'BUILD_START';
+  const TOWERBUILD_FINISHED = 'TOWERBUILD_FINISHED';
 
   // Audio tags declaration and source declaration
   const mainAudioMusic = document.getElementById('main-audio-music');
@@ -308,7 +311,7 @@ const GameLogic = (function() {
       }
     },
     tower_slots: {
-      tower_slot_1: {
+      'tower_slot_1': {
         isTowerBuilt: false,
         towerType: undefined,
         towerPositionX: 0,
@@ -535,15 +538,16 @@ const GameLogic = (function() {
         return Object.assign({}, state, {
                 towerToBuild: action.payload.towerToBuild,
                 towerSlotToBuild: action.payload.towerSlotToBuild,
-                towerCost: action.payload.towerCost,
-                towerBuildStatus: 'Goldcheck',
                 lastAction: BUILDBUTTON_CLICKED
+              })
+      case 'TOWERBUILD_FINISHED':
+        return Object.assign({}, state, {
+                activeGameState: action.payload.activeGameState,
+                lastAction: TOWERBUILD_FINISHED
               })
       case 'BUILD_START':
         return Object.assign({}, state, {
-                towerToBuild: action.payload.towerToBuild,
-                towerSlotToBuild: action.payload.towerSlotToBuild,
-                towerBuildStatus: 'building',
+                activeGameState: action.payload.activeGameState,
                 lastAction: BUILD_START
               })
       default:
@@ -975,12 +979,11 @@ const GameLogic = (function() {
   }
 
   // This function handles the battle map build menu tower build click state change
-  function battleMapTowerBuildClickedStateChangeStarter(towerType, towerCost) {
+  function battleMapTowerBuildClickedStateChangeStarter(towerType) {
     store.dispatch( {
       type: BUILDBUTTON_CLICKED,
       payload: {
         towerToBuild: towerType,
-        towerCost: towerCost,
         towerSlotToBuild: store.getState().activeTowerSlot
       }
     });
@@ -988,10 +991,28 @@ const GameLogic = (function() {
 
   // This function handles the battle map build menu tower build state change
   function battleMapTowerBuildStateChangeStarter(gold) {
+    let tempGamestate = store.getState().activeGameState;
+    tempGamestate.battleMap1ActiveState.gold = gold;
+
     store.dispatch( {
       type: BUILD_START,
       payload: {
-        towerCost: gold
+        activeGameState: tempGamestate
+      }
+    });
+  }
+
+  // This function handles the tower built state change
+  function battleMapTowerBuildFinishedStateChangeStarter(tempActualTower, tempTowerTypeToBuild) {
+    let tempActiveGameState = store.getState().activeGameState;
+    activeGameState.battleMap1ActiveState.tower_slots[tempActualTower].isTowerBuilt = true;
+    activeGameState.battleMap1ActiveState.tower_slots[tempActualTower].isTowerReadytoFire = true;
+    activeGameState.battleMap1ActiveState.tower_slots[tempActualTower].towerType = tempTowerTypeToBuild;
+
+    store.dispatch( {
+      type: TOWERBUILD_FINISHED,
+      payload: {
+        activeGameState: activeGameState,
       }
     });
   }
@@ -1605,6 +1626,7 @@ const GameLogic = (function() {
 
       setTimeout(function(){
         addEvent(prologue, 'click', prologuetoBattleMapStateChangeStarter, undefined);
+        prologue.classList.add('pointer');
       }, 8600);
     }
   }
@@ -1612,6 +1634,7 @@ const GameLogic = (function() {
   // This function handles the prologue to battle map action
   function prologuetoBattleMap() {
     if (store.getState().lastAction == MENU_CHANGE && store.getState().previousPage == 'PROLOGUE' && store.getState().currentPage == 'BATTLE_MAP') {
+      let tempTowerName;
       battleMapInfoPanelHealthTextid.innerHTML = store.getState().activeGameState.battleMap1ActiveState.life;
       battleMapInfoPanelGoldTextid.innerHTML = store.getState().activeGameState.battleMap1ActiveState.gold;
       battleMapInfoPanelWaveTextid.innerHTML = 'wave ' + store.getState().activeGameState.battleMap1ActiveState.current_wave + '/'
@@ -1627,6 +1650,23 @@ const GameLogic = (function() {
       battleMap1Wavestartid.classList.remove('nodisplay');
       battleMap1BuildHereTextContainerid.classList.remove('nodisplay');
       battleMap1StartHereTextContainerid.classList.remove('nodisplay');
+
+      if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.archer_1) {
+        tempTowerName = store.getState().towerTypes.archer_1.name;
+        addEvent(battleMapTowerBuildMenuInnerbox1Imageid, 'click', battleMapTowerBuildClickedStateChangeStarter, tempTowerName);
+      }
+      if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.barracks_1) {
+        tempTowerName = store.getState().towerTypes.barracks_1.name;
+        addEvent(battleMapTowerBuildMenuInnerbox2Imageid, 'click', battleMapTowerBuildClickedStateChangeStarter, tempTowerName);
+      }
+      if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.mage_1) {
+        tempTowerName = store.getState().towerTypes.mage_1.name;
+        addEvent(battleMapTowerBuildMenuInnerbox3Imageid, 'click', battleMapTowerBuildClickedStateChangeStarter, tempTowerName);
+      }
+      if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.bombard_1) {
+        tempTowerName = store.getState().towerTypes.bombard_1.name;
+        addEvent(battleMapTowerBuildMenuInnerbox4Imageid, 'click', battleMapTowerBuildClickedStateChangeStarter, tempTowerName);
+      }
 
       setTimeout(function(){
         gameMenuBattlePanelDeleter();
@@ -1713,7 +1753,7 @@ const GameLogic = (function() {
 
   // This function handles the battle map tower palce clicked display change
   function battleMapTowerPlaceClicked() {
-    if (store.getState().isBuildMenuOpen == true && store.getState().clickedTowerSlot.innerHTML == '') {
+    if (store.getState().isBuildMenuOpen == true && store.getState().clickedTowerSlot.innerHTML == '<span></span>') {
       store.getState().clickedTowerSlot.classList.add('battle-map-tower-build-place-clicked');
       store.getState().clickedTowerSlot.removeEventListener('mouseover', mouseOverSfx);
       store.getState().clickedTowerSlot.appendChild(battleMapActiveBuildMenuid);
@@ -1725,28 +1765,44 @@ const GameLogic = (function() {
 
       if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.archer_1) {
         battleMapTowerBuildMenuInnerbox1Costid.innerHTML = store.getState().towerTypes.archer_1.cost;
-        battleMapTowerBuildMenuInnerbox1id.classList.add('battle-map-tower-build-menu-innerbox-hover');
+        if (store.getState().activeGameState.battleMap1ActiveState.gold >= store.getState().towerTypes.archer_1.cost) {
+          battleMapTowerBuildMenuInnerbox1id.classList.add('battle-map-tower-build-menu-innerbox-hover');
+          battleMapTowerBuildMenuInnerbox1Imageid.classList.add('pointer');
+          battleMapTowerBuildMenuInnerbox1Costid.classList.add('pointer');
+        }
       } else {
         battleMapTowerBuildMenuInnerbox1Costid.classList.add('nodisplay');
         battleMapTowerBuildMenuInnerbox1Imageid.classList.add('battle-map-tower-build-menu-innerbox-image-locked');
       }
       if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.barracks_1) {
         battleMapTowerBuildMenuInnerbox2Costid.innerHTML = store.getState().towerTypes.barracks_1.cost;
-        battleMapTowerBuildMenuInnerbox2id.classList.add('battle-map-tower-build-menu-innerbox-hover');
+        if (store.getState().activeGameState.battleMap1ActiveState.gold >= store.getState().towerTypes.barracks_1.cost) {
+          battleMapTowerBuildMenuInnerbox2id.classList.add('battle-map-tower-build-menu-innerbox-hover');
+          battleMapTowerBuildMenuInnerbox2Imageid.classList.add('pointer');
+          battleMapTowerBuildMenuInnerbox2Costid.classList.add('pointer');
+        }
       } else {
         battleMapTowerBuildMenuInnerbox2Costid.classList.add('nodisplay');
         battleMapTowerBuildMenuInnerbox2Imageid.classList.add('battle-map-tower-build-menu-innerbox-image-locked');
       }
       if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.mage_1) {
         battleMapTowerBuildMenuInnerbox3Costid.innerHTML = store.getState().towerTypes.mage_1.cost;
-        battleMapTowerBuildMenuInnerbox3id.classList.add('battle-map-tower-build-menu-innerbox-hover');
+        if (store.getState().activeGameState.battleMap1ActiveState.gold >= store.getState().towerTypes.mage_1.cost) {
+          battleMapTowerBuildMenuInnerbox3id.classList.add('battle-map-tower-build-menu-innerbox-hover');
+          battleMapTowerBuildMenuInnerbox3Imageid.classList.add('pointer');
+          battleMapTowerBuildMenuInnerbox3Costid.classList.add('pointer');
+        }
       } else {
         battleMapTowerBuildMenuInnerbox3Costid.classList.add('nodisplay');
         battleMapTowerBuildMenuInnerbox3Imageid.classList.add('battle-map-tower-build-menu-innerbox-image-locked');
       }
       if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.bombard_1) {
         battleMapTowerBuildMenuInnerbox4Costid.innerHTML = store.getState().towerTypes.bombard_1.cost;
-        battleMapTowerBuildMenuInnerbox4id.classList.add('battle-map-tower-build-menu-innerbox-hover');
+        if (store.getState().activeGameState.battleMap1ActiveState.gold >= store.getState().towerTypes.bombard_1.cost) {
+          battleMapTowerBuildMenuInnerbox4id.classList.add('battle-map-tower-build-menu-innerbox-hover');
+          battleMapTowerBuildMenuInnerbox4Imageid.classList.add('pointer');
+          battleMapTowerBuildMenuInnerbox4Costid.classList.add('pointer');
+        }
       } else {
         battleMapTowerBuildMenuInnerbox4Costid.classList.add('nodisplay');
         battleMapTowerBuildMenuInnerbox4Imageid.classList.add('battle-map-tower-build-menu-innerbox-image-locked');
@@ -1785,14 +1841,27 @@ const GameLogic = (function() {
 
   // This function handles the battle map build menu closing display
   function closeTowerBuildMenu() {
-    if (store.getState().lastAction == TOWER_UNCLICKED && store.getState().clickedTowerSlot.innerHTML != '' && store.getState().clickedTowerSlot!= false) {
+    if (store.getState().lastAction == TOWER_UNCLICKED && store.getState().clickedTowerSlot.innerHTML != '<span></span>' && store.getState().clickedTowerSlot!= false) {
+      battleMapTowerBuildMenuInnerbox1id.classList.remove('battle-map-tower-build-menu-innerbox-hover');
+      battleMapTowerBuildMenuInnerbox2id.classList.remove('battle-map-tower-build-menu-innerbox-hover');
+      battleMapTowerBuildMenuInnerbox3id.classList.remove('battle-map-tower-build-menu-innerbox-hover');
+      battleMapTowerBuildMenuInnerbox4id.classList.remove('battle-map-tower-build-menu-innerbox-hover');
+      battleMapTowerBuildMenuInnerbox1Imageid.classList.remove('pointer');
+      battleMapTowerBuildMenuInnerbox1Costid.classList.remove('pointer');
+      battleMapTowerBuildMenuInnerbox2Imageid.classList.remove('pointer');
+      battleMapTowerBuildMenuInnerbox2Costid.classList.remove('pointer');
+      battleMapTowerBuildMenuInnerbox3Imageid.classList.remove('pointer');
+      battleMapTowerBuildMenuInnerbox3Costid.classList.remove('pointer');
+      battleMapTowerBuildMenuInnerbox4Imageid.classList.remove('pointer');
+      battleMapTowerBuildMenuInnerbox4Costid.classList.remove('pointer');
+
       let activeSlotToClose = store.getState().clickedTowerSlot;
       battleMapActiveBuildMenuCloseid.classList.add('battle-map-build-menu-disappear');
       battleMapActiveBuildMenuid.classList.add('nodisplay');
       setTimeout(function(){
         activeSlotToClose.classList.remove('battle-map-tower-build-place-clicked');
         battleMapActiveBuildMenuCloseid.classList.remove('battle-map-build-menu-disappear');
-        activeSlotToClose.innerHTML = '';
+        activeSlotToClose.innerHTML = '<span></span>';
         activeSlotToClose.addEventListener('mouseover', mouseOverSfx);
         activeSlotToClose.addEventListener('click', battleMapTowerPlaceClickInvoker, {
           once: true,
@@ -1801,29 +1870,112 @@ const GameLogic = (function() {
     }
   }
 
-  // This function handles the battle map tower build gold check statement
-  function battleMapTowerBuildGoldCheck() {
-    if (store.getState().lastAction == BUILDBUTTON_CLICKED) {
-      if (store.getState().activeGameState.battleMap1ActiveState.gold >= BUILDBUTTON_CLICKED) {
-      }
-
-    }
-  }
-
   // This function handles the battle map build menu opening logic, it fires the state changes function
   function battleMapTowerPlaceClickInvoker() {
-    if (store.getState().isBuildMenuOpen == false && event.target.innerHTML == ''){
+
+    if (store.getState().isBuildMenuOpen == false && event.target.innerHTML == '<span></span>'){
       let classParts = event.target.classList[0].split('-');
       let towerPlaceNumber = classParts[classParts.length - 1];
       event.stopPropagation();
       battleMapTowerPlaceClickedStateChangeStarter(towerPlaceNumber, event.target);
     }
-    if (store.getState().isBuildMenuOpen == true && event.target.innerHTML == ''){
+    if (store.getState().isBuildMenuOpen == true && event.target.innerHTML == '<span></span>'){
       closeTowerBuildMenuStateChangeStarter();
       let classParts = event.target.classList[0].split('-');
       let towerPlaceNumber = classParts[classParts.length - 1];
       event.stopPropagation();
       battleMapTowerPlaceClickedStateChangeStarter(towerPlaceNumber, event.target);
+    }
+  }
+
+  // This function handles the battle map tower build gold check statement and the new goldamount calculate
+  function battleMapTowerBuildGoldCheck() {
+    if (store.getState().lastAction == BUILDBUTTON_CLICKED) {
+      if (store.getState().towerTypes.archer_1) {
+        if (store.getState().activeGameState.battleMap1ActiveState.gold >= store.getState().towerTypes.archer_1.cost && store.getState().towerToBuild == store.getState().towerTypes.archer_1.name) {
+          let tempGold = store.getState().activeGameState.battleMap1ActiveState.gold - store.getState().towerTypes.archer_1.cost;
+          battleMapTowerBuildStateChangeStarter(tempGold);
+        }
+      }
+      if (store.getState().towerTypes.barracks_1) {
+        if (store.getState().activeGameState.battleMap1ActiveState.gold >= store.getState().towerTypes.barracks_1.cost && store.getState().towerToBuild == store.getState().towerTypes.barracks_1.name) {
+          let tempGold = store.getState().activeGameState.battleMap1ActiveState.gold - store.getState().towerTypes.barracks_1.cost;
+          battleMapTowerBuildStateChangeStarter(tempGold);
+        }
+      }
+      if (store.getState().towerTypes.mage_1) {
+        if (store.getState().activeGameState.battleMap1ActiveState.gold >= store.getState().towerTypes.mage_1.cost && store.getState().towerToBuild == store.getState().towerTypes.mage_1.name) {
+          let tempGold = store.getState().activeGameState.battleMap1ActiveState.gold - store.getState().towerTypes.mage_1.cost;
+          battleMapTowerBuildStateChangeStarter(tempGold);
+        }
+      }
+      if (store.getState().towerTypes.bombard_1) {
+        if (store.getState().activeGameState.battleMap1ActiveState.gold >= store.getState().towerTypes.bombard_1.cost && store.getState().towerToBuild == store.getState().towerTypes.bombard_1.name) {
+          let tempGold = store.getState().activeGameState.battleMap1ActiveState.gold - store.getState().towerTypes.bombard_1.cost;
+          battleMapTowerBuildStateChangeStarter(tempGold);
+        }
+      }
+    }
+  }
+
+  // This function handles the tower build start display changes
+  function battleMapTowerBuild() {
+    if (store.getState().lastAction == BUILD_START) {
+      let tempTowerSlotToBuild = store.getState().towerSlotToBuild;
+      battleMapInfoPanelGoldTextid.innerHTML = store.getState().activeGameState.battleMap1ActiveState.gold;
+
+      setTimeout(function(){
+        battleMap1TowerPlaceList[tempTowerSlotToBuild - 1].classList.add('battle-map-tower-under-construction');
+        battleMap1TowerPlaceList[tempTowerSlotToBuild - 1].addEventListener('animationstart', battleMapTowerBuildStarted);
+      }, 150);
+    }
+  }
+
+  // This function handles the tower build - build animation end display changes
+  function battleMapTowerBuildStarted() {
+    tempGlobalTowerSlotToBuild = store.getState().towerSlotToBuild;
+    tempGlobalTowerTypeToBuild = store.getState().towerToBuild;
+    if(tempGlobalTowerSlotToBuild == 7) {
+      battleMap1BuildHereTextid.classList.add('nodisplay');
+    }
+
+    let tempParameters = [tempGlobalTowerSlotToBuild, tempGlobalTowerTypeToBuild];
+    addEvent(battleMap1TowerPlaceList[tempGlobalTowerSlotToBuild - 1], 'animationend', battleMapTowerBuildFinished, tempParameters);
+  }
+
+  // This function handles the tower build end display and logical changes
+  function battleMapTowerBuildFinished(parameters) {
+    let tempTowerSlotToBuild = parameters[0];
+    let tempTowerTypeToBuild = parameters[1];
+    battleMap1TowerPlaceList[tempTowerSlotToBuild - 1].classList.remove('battle-map-tower-under-construction');
+    let tempActualTower = ('tower_slot_' + tempTowerSlotToBuild);
+    if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.mage_1) {
+      if (tempTowerTypeToBuild == store.getState().towerTypes.archer_1.name) {
+        battleMap1TowerPlaceList[tempTowerSlotToBuild - 1].classList.remove('battle-map-tower-build-place');
+        battleMap1TowerPlaceList[tempTowerSlotToBuild - 1].classList.add('battle-map-archer-1-tower-built');
+        battleMapTowerBuildFinishedStateChangeStarter(tempActualTower, tempTowerTypeToBuild);
+      }
+    }
+    if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.barracks_1) {
+      if (tempTowerTypeToBuild == store.getState().towerTypes.barracks_1.name) {
+        battleMap1TowerPlaceList[tempTowerSlotToBuild - 1].classList.remove('battle-map-tower-build-place');
+        battleMap1TowerPlaceList[tempTowerSlotToBuild - 1].classList.add('battle-map-barracks-1-tower-built');
+        battleMapTowerBuildFinishedStateChangeStarter(tempActualTower, tempTowerTypeToBuild);
+      }
+    }
+    if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.mage_1) {
+      if (tempTowerTypeToBuild == store.getState().towerTypes.mage_1.name) {
+        battleMap1TowerPlaceList[tempTowerSlotToBuild - 1].classList.remove('battle-map-tower-build-place');
+        battleMap1TowerPlaceList[tempTowerSlotToBuild - 1].classList.add('battle-map-mage-1-tower-built');
+        battleMapTowerBuildFinishedStateChangeStarter(tempActualTower, tempTowerTypeToBuild);
+      }
+    }
+    if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.bombard_1) {
+      if (tempTowerTypeToBuild == store.getState().towerTypes.bombard_1.name) {
+        battleMap1TowerPlaceList[tempTowerSlotToBuild - 1].classList.remove('battle-map-tower-build-place');
+        battleMap1TowerPlaceList[tempTowerSlotToBuild - 1].classList.add('battle-map-bombard-1-tower-built');
+        battleMapTowerBuildFinishedStateChangeStarter(tempActualTower, tempTowerTypeToBuild);
+      }
     }
   }
 
@@ -1855,6 +2007,7 @@ const GameLogic = (function() {
     battleMapTowerPlaceClicked();
     closeTowerBuildMenu();
     battleMapTowerBuildGoldCheck();
+    battleMapTowerBuild();
   }
 
   // cssInjectorFunction();
@@ -1897,10 +2050,6 @@ const GameLogic = (function() {
   addEvent(gameMenuBattleStartPanelChooseDifficultyNormalid, 'click', gameMenuBattlePanelDifficultyStateChangeStarter, 'NORMAL');
   addEvent(gameMenuBattleStartPanelChooseDifficultyVeteranid, 'click', gameMenuBattlePanelDifficultyStateChangeStarter, 'VETERAN');
   addEvent(battleMap1, 'click', closeTowerBuildMenuStateChangeStarter, undefined);
-  addEvent(battleMapTowerBuildMenuInnerbox1Imageid, 'click', battleMapTowerBuildStateChangeStarter, 'archer_1');
-  addEvent(battleMapTowerBuildMenuInnerbox2Imageid, 'click', battleMapTowerBuildStateChangeStarter, 'barracks_1');
-  addEvent(battleMapTowerBuildMenuInnerbox3Imageid, 'click', battleMapTowerBuildStateChangeStarter, 'mage_1');
-  addEvent(battleMapTowerBuildMenuInnerbox4Imageid, 'click', battleMapTowerBuildStateChangeStarter, 'bombard_1');
   addEventtoTowerPlaces(battleMap1TowerPlaceList)
 
   setInterval( checkFocus, 100 );
