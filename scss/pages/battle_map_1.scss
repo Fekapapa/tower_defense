@@ -152,3 +152,12 @@
   0% { opacity: 0; }
   100% { opacity: 1; }
 }
+
+.battle-map-center-statue {
+  background-image: $battle-map-1-center-statue-bg;
+  height: 80px;
+  margin-left: 361px;
+  margin-top: 224px;
+  position: absolute;
+  width: 71px;
+}

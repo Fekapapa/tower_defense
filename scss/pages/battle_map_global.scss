@@ -255,15 +255,42 @@
   width: 46px;
 }
 
-.battle-map-tower-under-construction {
-  background-image: $battle-map-building-in-progress-bg;
+.battle-map-archer-tower-under-construction {
+  background-image: $battle-map-archer-building-in-progress-bg;
   height: 47px;
   left: 4px;
   top: -3px;
   position: absolute;
   width: 61px;
   &:hover {
-    background-image: $battle-map-building-in-progress-bg;
+    background-image: $battle-map-archer-building-in-progress-bg;
+    height: 47px;
+    width: 61px;
+  }
+  &::after {
+    animation: battle-map-tower-under-construction 1s forwards;
+    animation-timing-function: linear;
+    background-color: yellow;
+    border-radius: 2px;
+    box-shadow: inset 0 0 4px #000000, 0 0 3px #000000;
+    content: '';
+    height: 4px;
+    margin-left: 13px;
+    margin-top: 1px;
+    position: absolute;
+    width: 0;
+  }
+}
+
+.battle-map-mage-tower-under-construction {
+  background-image: $battle-map-mage-building-in-progress-bg;
+  height: 47px;
+  left: 4px;
+  top: -3px;
+  position: absolute;
+  width: 61px;
+  &:hover {
+    background-image: $battle-map-mage-building-in-progress-bg;
     height: 47px;
     width: 61px;
   }
@@ -286,7 +313,6 @@
   0% { width: 0; }
   100% { width: 37px; }
 }
-
 
 .battle-map-archer-1-tower-built {
   background-image: $battle-map-archer-1-tower-bg;
@@ -350,4 +376,36 @@
   top: 50%;
   width: 200px;
   transform: translateX(-50%) translateY(-50%);
+}
+
+.battle-map-tower-build-menu-innerbox-image-archer-nogold {
+  background-image: $battle-map-build-menu-archer-nogold-bg;
+  height: 41px;
+  margin-left: 4px;
+  margin-top: 3px;
+  position: absolute;
+  width: 46px;
+}
+
+.battle-map-tower-build-menu-innerbox-image-mage-nogold {
+  background-image: $battle-map-build-menu-mage-nogold-bg;
+  height: 41px;
+  margin-left: 4px;
+  margin-top: 3px;
+  position: absolute;
+  width: 46px;
+}
+
+.battle-map-tower-build-menu-innerbox-cost-nogold {
+  background-image: $battle-map-build-menu-pricetable-nogold-bg;
+  color: rgb(200, 200, 200);
+  font-size: 14px;
+  height: 19px;
+  line-height: 19px;
+  margin-left: 13px;
+  margin-top: 35px;
+  padding-top: 1px;
+  position: absolute;
+  text-align: center;
+  width: 28px;
 }
