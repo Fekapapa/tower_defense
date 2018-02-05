@@ -37,10 +37,12 @@ body {
   cursor: pointer;
 }
 
-.stopAnimation {
-    animation-play-state: paused;
+.stopAfterAnimation {
+  &::after {
+    animation-play-state: paused !important;
+  }
 }
 
-.resumeAnimation {
-    animation-play-state: running;
+.resumeAfterAnimation {
+    animation-play-state: running !important;
 }

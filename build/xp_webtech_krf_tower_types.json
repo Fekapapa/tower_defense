@@ -1,0 +1,24 @@
+{
+  "archer_1": {
+    "cost": 70,
+    "damage_type": "physical",
+    "min_damage": 4,
+    "max_damage": 6,
+    "name": "Archer Tower",
+    "range": 100,
+    "range_name": "short",
+    "fire_rate": 750,
+    "fire_rate_name": "average"
+  },
+  "mage_1": {
+    "cost": 100,
+    "damage_type": "magic",
+    "min_damage": 9,
+    "max_damage": 17,
+    "name": "Mages",
+    "range": 100,
+    "range_name": "short",
+    "fire_rate": 1500,
+    "fire_rate_name": "slow"
+  }
+}

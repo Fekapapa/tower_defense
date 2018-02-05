@@ -1,0 +1,12 @@
+{
+  "desert_thug": {
+    "armor": 0,
+    "life_cost": 1,
+    "magic_armor": 0,
+    "max_health": 50,
+    "min_damage": 2,
+    "max_damage": 6,
+    "name": "desert thug",
+    "speed": "average"
+  }
+}

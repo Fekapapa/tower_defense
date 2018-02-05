@@ -1,0 +1,128 @@
+{
+  "gold": 500,
+  "life": 20,
+  "current_wave": 0,
+  "waves_quantity": 6,
+  "allowed_towers": {
+    "archer_1": true,
+    "mage_1": true
+  },
+  "waves": {
+    "wave_1": {
+      "delay": 0,
+      "unit": "desert_thug",
+      "quantity": 6
+    },
+    "wave_2": {
+      "delay": 0,
+      "unit": "desert_thug",
+      "quantity": 10
+    },
+    "wave_3": {
+      "delay": 0,
+      "unit": "desert_thug",
+      "quantity": 14
+    },
+    "wave_4": {
+      "delay": 0,
+      "unit": "desert_thug",
+      "quantity": 20
+    },
+    "wave_5": {
+      "delay": 0,
+      "unit": "desert_thug",
+      "quantity": 24
+    },
+    "wave_6": {
+      "delay": 0,
+      "unit": "desert_thug",
+      "quantity": 30
+    }
+  },
+  "tower_slots": {
+    "tower_slot_1": {
+      "isTowerBuilt": false,
+      "towerType": "undefined",
+      "towerPositionX": 0,
+      "towerPositionY": 0,
+      "isTowerReadytoFire": false
+    },
+    "tower_slot_2": {
+      "isTowerBuilt": false,
+      "towerType": "undefined",
+      "towerPositionX": 0,
+      "towerPositionY": 0,
+      "isTowerReadytoFire": false
+    },
+    "tower_slot_3": {
+      "isTowerBuilt": false,
+      "towerType": "undefined",
+      "towerPositionX": 0,
+      "towerPositionY": 0,
+      "isTowerReadytoFire": false
+    },
+    "tower_slot_4": {
+      "isTowerBuilt": false,
+      "towerType": "undefined",
+      "towerPositionX": 0,
+      "towerPositionY": 0,
+      "isTowerReadytoFire": false
+    },
+    "tower_slot_5": {
+      "isTowerBuilt": false,
+      "towerType": "undefined",
+      "towerPositionX": 0,
+      "towerPositionY": 0,
+      "isTowerReadytoFire": false
+    },
+    "tower_slot_6": {
+      "isTowerBuilt": false,
+      "towerType": "undefined",
+      "towerPositionX": 0,
+      "towerPositionY": 0,
+      "isTowerReadytoFire": false
+    },
+    "tower_slot_7": {
+      "isTowerBuilt": false,
+      "towerType": "undefined",
+      "towerPositionX": 0,
+      "towerPositionY": 0,
+      "isTowerReadytoFire": false
+    },
+    "tower_slot_8": {
+      "isTowerBuilt": false,
+      "towerType": "undefined",
+      "towerPositionX": 0,
+      "towerPositionY": 0,
+      "isTowerReadytoFire": false
+    },
+    "tower_slot_9": {
+      "isTowerBuilt": false,
+      "towerType": "undefined",
+      "towerPositionX": 0,
+      "towerPositionY": 0,
+      "isTowerReadytoFire": false
+    },
+    "tower_slot_10": {
+      "isTowerBuilt": false,
+      "towerType": "undefined",
+      "towerPositionX": 0,
+      "towerPositionY": 0,
+      "isTowerReadytoFire": false
+    },
+    "tower_slot_11": {
+      "isTowerBuilt": false,
+      "towerType": "undefined",
+      "towerPositionX": 0,
+      "towerPositionY": 0,
+      "isTowerReadytoFire": false
+    },
+    "tower_slot_12": {
+      "isTowerBuilt": false,
+      "towerType": "undefined",
+      "towerPositionX": 0,
+      "towerPositionY": 0,
+      "isTowerReadytoFire": false
+    }
+  }
+}
