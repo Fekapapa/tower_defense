@@ -56,6 +56,7 @@ const GameLogic = (function() {
   const towerBuildingSfxSource = 'xp_webtech_krf_tower_building.mp3';
   const archersReadySfxSource = 'xp_webtech_krf_archers_ready.mp3';
   const mageReadySfxSource = 'xp_webtech_krf_mage_ready.mp3';
+  const battlemapLoadedSfxSource = 'xp_webtech_krf_battlemap_loaded.mp3';
 
   // Pseudo pages container's declaration
   const pseudoCanvas = document.getElementById('pseudo-canvas');
@@ -1017,9 +1018,9 @@ const GameLogic = (function() {
 
   // This function handles the music play or pause
   function mainMusicController() {
-    if (store.getState().previousPage == 'GAME_MENU' && store.getState().currentPage == 'PROLOGUE') {
-      mainAudioMusic.pause();
-    }
+    // if (store.getState().previousPage == 'GAME_MENU' && store.getState().currentPage == 'PROLOGUE') {
+    //   mainAudioMusic.pause();
+    // }
     if (store.getState().currentMusicSource && store.getState().lastAction == MUSIC_ON) {
       mainAudioMusic.setAttribute('src', store.getState().currentMusicSource);
       mainAudioMusic.play();
@@ -1555,6 +1556,10 @@ const GameLogic = (function() {
         battleMap1.classList.remove('pagehide');
       }, 600);
 
+      setTimeout(function(){
+        mainSfxController(battlemapLoadedSfxSource);
+      }, 1700);
+
     }
   }
 
@@ -1586,6 +1591,11 @@ const GameLogic = (function() {
         isUserFocusOnThePage = false;
         isUserFocusOnTheGame = false;
       }
+
+
+//This statement calls the whole store in every 100ms!!! Must fix it!!!
+
+
       if(isUserFocusOnThePage == true && isUserFocusOnTheGame == true) {
         resumeGameStateChangeStarter();
       } else {
