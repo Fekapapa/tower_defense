@@ -8,7 +8,7 @@
 }
 
 .preloader-leftside {
-  animation: preloader-leftside 1s forwards;
+  animation: preloader-leftside 1s;
   background-image: $preloader-left-bg;
   display: inline-block;
   height: 600px;
@@ -29,7 +29,7 @@
 }
 
 .preloader-rightside {
-  animation: preloader-rightside 1s forwards;
+  animation: preloader-rightside 1s;
   background-image: $preloader-right-bg;
   display: inline-block;
   height: 600px;

@@ -52,6 +52,10 @@ const GameLogic = (function() {
   const menuHoverSfxSource = 'xp_webtech_krf_button_hover2.mp3';
   const menuClickSfxSource = 'xp_webtech_krf_button_click.mp3';
   const preloaderSfxSource = 'xp_webtech_krf_preloader.mp3';
+  const buildMenuOpenSfxSource = 'xp_webtech_krf_build_menu_open.mp3';
+  const towerBuildingSfxSource = 'xp_webtech_krf_tower_building.mp3';
+  const archersReadySfxSource = 'xp_webtech_krf_archers_ready.mp3';
+  const mageReadySfxSource = 'xp_webtech_krf_mage_ready.mp3';
 
   // Pseudo pages container's declaration
   const pseudoCanvas = document.getElementById('pseudo-canvas');
@@ -155,13 +159,14 @@ const GameLogic = (function() {
   const prologueComicClickid = document.getElementById('prologue-comic-clickid');
 
   // Battle map 1 elements declaration
-  const battleMap1id = document.getElementById('battle-map-1-id');
   const battleMapInfoPanelid = document.getElementById('battle-map-info-panelid');
   const battleMapInfoPanelHealthTextid = document.getElementById('battle-map-info-panel-health-textid');
   const battleMapInfoPanelGoldTextid = document.getElementById('battle-map-info-panel-gold-textid');
   const battleMapInfoPanelWaveTextid = document.getElementById('battle-map-info-panel-wave-textid');
   const battleMapPauseButtonid = document.getElementById('battle-map-pause-buttonid');
   const battleMapOptionsButtonid = document.getElementById('battle-map-options-buttonid');
+  const battleMap1Wavestart1id = document.getElementById('battle-map-1-wavestart-1id');
+  const battleMap1Wavestart2id = document.getElementById('battle-map-1-wavestart-2id');
   const battleMap1BuildHereTextid = document.getElementById('battle-map-1-build-here-textid');
   const battleMap1StartHereTextid = document.getElementById('battle-map-1-start-here-textid');
   const battleMap1TowerSlot1id = document.getElementById('battle-map-1-tower-slot-1id');
@@ -176,8 +181,6 @@ const GameLogic = (function() {
   const battleMap1TowerSlot10id = document.getElementById('battle-map-1-tower-slot-10id');
   const battleMap1TowerSlot11id = document.getElementById('battle-map-1-tower-slot-11id');
   const battleMap1TowerSlot12id = document.getElementById('battle-map-1-tower-slot-12id');
-  const battleMap1Wavestart1id = document.getElementById('battle-map-1-wavestart-1id');
-  const battleMap1Wavestart2id = document.getElementById('battle-map-1-wavestart-2id');
   const battleMap1Startgameid = document.getElementById('battle-map-1-startgameid');
   const battleMapFooterid = document.getElementById('battle-map-footerid');
   const battleMap1Wavestartid = document.getElementById('battle-map-1-wavestartid');
@@ -904,24 +907,27 @@ const GameLogic = (function() {
   }
 
   // This function adds the event listeners to the html elements
-  function addEvent(elements, event, functionality, value) {
+  function addEvent(elements, type, functionality, value) {
     if (value != undefined && elements.length > 1) {
       elements.forEach(function(element) {
-        element.addEventListener(event, function() { functionality(value) });
+        element.addEventListener(type, function() { functionality(value) });
       });
     }
     if (value == undefined) {
-      elements.addEventListener(event, function() { functionality() });
+      elements.addEventListener(type, function() { functionality() });
     }
-    if (value != undefined && elements.length == undefined) {
-      elements.addEventListener(event, function() { functionality(value) });
+    if (value == 'event') {
+      elements.addEventListener(type, function(event) { functionality(event) });
+    }
+    if (value != undefined && value != 'event' && elements.length == undefined) {
+      elements.addEventListener(type, function() { functionality(value) });
     }
   }
 
   // This function adds the event listeners to the tower places on the battle map
   function addEventtoTowerPlaces(towerPlaceList) {
     towerPlaceList.forEach(function(element) {
-      element.addEventListener('click', battleMapTowerPlaceClickInvoker, {
+      element.addEventListener('click', function(event) { battleMapTowerPlaceClickInvoker(event) }, {
         once: true,
       });
     });
@@ -1074,15 +1080,15 @@ const GameLogic = (function() {
 
       if (store.getState().gameSlot == 1) {
         tempSavedData.slot1.isUsed = false;
-        loadSavedMenuGameslot1Delconfid.classList.add('hidden');
+        loadSavedMenuGameslot1Delconfid.classList.add('nodisplay');
       }
       if (store.getState().gameSlot == 2) {
         tempSavedData.slot2.isUsed = false;
-        loadSavedMenuGameslot2Delconfid.classList.add('hidden');
+        loadSavedMenuGameslot2Delconfid.classList.add('nodisplay');
       }
       if (store.getState().gameSlot == 3) {
         tempSavedData.slot3.isUsed = false;
-        loadSavedMenuGameslot3Delconfid.classList.add('hidden');
+        loadSavedMenuGameslot3Delconfid.classList.add('nodisplay');
       }
 
       localStorage.setItem('kr_xp_save', JSON.stringify(tempSavedData));
@@ -1096,13 +1102,13 @@ const GameLogic = (function() {
   function loadSavedMenuDeleteConfirmationFalse() {
     if (store.getState().lastAction == GAME_DELCONF && store.getState().deleteConfirmation == false || store.getState().lastAction == GAME_DELETE) {
       if (store.getState().gameSlot == 1) {
-        loadSavedMenuGameslot1Delconfid.classList.toggle('hidden');
+        loadSavedMenuGameslot1Delconfid.classList.toggle('nodisplay');
       }
       if (store.getState().gameSlot == 2) {
-        loadSavedMenuGameslot2Delconfid.classList.toggle('hidden');
+        loadSavedMenuGameslot2Delconfid.classList.toggle('nodisplay');
       }
       if (store.getState().gameSlot == 3) {
-        loadSavedMenuGameslot3Delconfid.classList.toggle('hidden');
+        loadSavedMenuGameslot3Delconfid.classList.toggle('nodisplay');
       }
     }
   }
@@ -1110,28 +1116,30 @@ const GameLogic = (function() {
   // This function handles the main menu to load-saved menu change
   function mainMenutoLoadSavedMenu() {
     if (store.getState().previousPage == 'MAIN_MENU' && store.getState().currentPage == 'LOAD_SAVED') {
-      mainMenuCreditsButtonid.classList.remove('main-menu-credits-button');
-      mainMenuStartButtonid.classList.remove('main-menu-start-button');
+      mainMenuCreditsButtonid.classList.add('nodisplay');
+      mainMenuStartButtonid.classList.add('nodisplay');
 
-      // in IE 11 element.classList = [] doesn't work. So I manully empty the classList.
-      mainMenuAnimatedElementList.forEach(function(element) {
-        for (let i = 0; i <= element.classList.length; i++) {
-          element.classList.remove(element.classList[0]);
-        }
-      });
+      mainMenuArmorgamesImageid.classList.remove('main-menu-armorgames-image');
+      mainMenuIronhideImageid.classList.remove('main-menu-ironhide-image');
+      mainMenuStartImageid.classList.remove('main-menu-start-image');
+      mainMenuCreditsImageid.classList.remove('main-menu-credits-image');
+      mainMenuArmorgamesImageid.classList.remove('main-menu-armorgames-image-ls');
+      mainMenuIronhideImageid.classList.remove('main-menu-ironhide-image-ls');
+      mainMenuStartImageid.classList.remove('main-menu-start-image-ls');
+      mainMenuCreditsImageid.classList.remove('main-menu-credits-image-ls');
 
       mainMenuArmorgamesImageid.classList.add('main-menu-armorgames-image-reverse');
       mainMenuIronhideImageid.classList.add('main-menu-ironhide-image-reverse');
       mainMenuStartImageid.classList.add('main-menu-start-image-reverse');
       mainMenuCreditsImageid.classList.add('main-menu-credits-image-reverse');
-      mainMenuCreditsButtonid.classList.add('hidden');
-      mainMenuStartButtonid.classList.add('hidden');
+      mainMenuCreditsButtonid.classList.add('nodisplay');
+      mainMenuStartButtonid.classList.add('nodisplay');
 
       loadSavedMenuid.classList.remove('load-saved-menu-start', 'load-saved-menu-reverse');
       loadSavedMenuid.classList.add('load-saved-menu');
 
       setTimeout(function(){
-        try { loadSavedMenuActionsContainerid.classList.remove('hidden') }
+        try { loadSavedMenuActionsContainerid.classList.remove('nodisplay') }
         catch(err) {}
       }, 800);
 
@@ -1160,19 +1168,17 @@ const GameLogic = (function() {
       mainMenuArmorgamesImageid.classList.replace('main-menu-armorgames-image-reverse', 'main-menu-armorgames-image-ls');
       mainMenuIronhideImageid.classList.replace('main-menu-ironhide-image-reverse', 'main-menu-ironhide-image-ls');
 
-      mainMenuCreditsButtonid.classList.remove('hidden');
-      mainMenuStartButtonid.classList.remove('hidden');
-      mainMenuArmorgamesButtonid.classList.remove('hidden');
-      mainMenuIronhideButtonid.classList.remove('hidden');
+      mainMenuArmorgamesButtonid.classList.remove('nodisplay');
+      mainMenuIronhideButtonid.classList.remove('nodisplay');
 
       loadSavedMenuid.classList.remove('load-saved-menu');
       loadSavedMenuid.classList.add('load-saved-menu-reverse');
 
-      loadSavedMenuActionsContainerid.classList.add('hidden');
+      loadSavedMenuActionsContainerid.classList.add('nodisplay');
 
       setTimeout(function(){
-        mainMenuCreditsButtonid.classList.remove('hidden');
-        mainMenuStartButtonid.classList.remove('hidden');
+        mainMenuCreditsButtonid.classList.remove('nodisplay');
+        mainMenuStartButtonid.classList.remove('nodisplay');
       }, 1200);
 
       setTimeout(function(){
@@ -1210,10 +1216,11 @@ const GameLogic = (function() {
         mainMenu.classList.remove('pagehide');
       }, 600);
 
-      mainMenuPlayonmobileButtonid.classList.remove('nodisplay');
-      mainMenuAnimatedElementList.forEach(function(element) {
-        element.classList.remove('nodisplay');
-      });
+      mainMenuPlayonmobileButtonid.classList.add('main-menu-playonmobile-button');
+      mainMenuArmorgamesImageid.classList.add('main-menu-armorgames-image');
+      mainMenuIronhideImageid.classList.add('main-menu-ironhide-image');
+      mainMenuStartImageid.classList.add('main-menu-start-image');
+      mainMenuCreditsImageid.classList.add('main-menu-credits-image');
     }
   }
 
@@ -1224,9 +1231,13 @@ const GameLogic = (function() {
       preloaderStarter();
 
       setTimeout(function(){
-        mainMenuPlayonmobileButtonid.classList.add('nodisplay');
+        mainMenuPlayonmobileButtonid.classList.remove('main-menu-playonmobile-button');
         mainMenu.classList.add('pagehide');
         gameMenu.classList.remove('pagehide');
+        mainMenuArmorgamesImageid.classList.remove('main-menu-armorgames-image-reverse');
+        mainMenuIronhideImageid.classList.remove('main-menu-ironhide-image-reverse');
+        mainMenuStartImageid.classList.remove('main-menu-start-image-reverse');
+        mainMenuCreditsImageid.classList.remove('main-menu-credits-image-reverse');
       }, 600);
 
       if (store.getState().activeGameState.isMap1Completed != true) {
@@ -1235,11 +1246,12 @@ const GameLogic = (function() {
         }, 2200);
       }
 
-      gameMenuStartableid.classList.remove('nodisplay');
-      gameMenuBattlepointer1id.classList.remove('nodisplay');
-      mainMenuAnimatedElementList.forEach(function(element) {
-        element.classList.add('nodisplay');
-      });
+      gameMenuStartableid.classList.add('game-menu-startable');
+      gameMenuBattlepointer1id.classList.add('game-menu-battlepointer');
+      mainMenuArmorgamesImageid.classList.remove('main-menu-armorgames-image');
+      mainMenuIronhideImageid.classList.remove('main-menu-ironhide-image');
+      mainMenuStartImageid.classList.remove('main-menu-start-image');
+      mainMenuCreditsImageid.classList.remove('main-menu-credits-image');
     }
   }
 
@@ -1252,30 +1264,22 @@ const GameLogic = (function() {
       setTimeout(function(){
         gameMenu.classList.add('pagehide');
         mainMenu.classList.remove('pagehide');
-        gameMenuStartableid.classList.add('nodisplay');
-        gameMenuBattlepointer1id.classList.add('nodisplay');
+        gameMenuStartableid.classList.remove('game-menu-startable');
+        gameMenuBattlepointer1id.classList.remove('game-menu-battlepointer');
         if (store.getState().activeGameState.isMap1Completed != true) {
           gameMenuStarthereTextid.classList.add('nodisplay');
         }
       }, 600);
 
       setTimeout(function(){
-        mainMenuCreditsButtonid.classList.remove('hidden');
-        mainMenuStartButtonid.classList.remove('hidden');
+        mainMenuCreditsButtonid.classList.remove('nodisplay');
+        mainMenuStartButtonid.classList.remove('nodisplay');
       }, 1400);
 
-      mainMenuPlayonmobileButtonid.classList.remove('nodisplay');
-
-      // in IE 11 element.classList = [] doesn't work. So I manully empty the classList.
-      mainMenuAnimatedElementList.forEach(function(element) {
-        for (let i = 0; i <= element.classList.length; i++) {
-          element.classList.remove(element.classList[0]);
-        }
-      });
+      mainMenuPlayonmobileButtonid.classList.add('main-menu-playonmobile-button');
 
       loadSavedMenuid.classList.remove('load-saved-menu');
       loadSavedMenuid.classList.add('load-saved-menu-reverse');
-
       mainMenuArmorgamesImageid.classList.add('main-menu-armorgames-image');
       mainMenuIronhideImageid.classList.add('main-menu-ironhide-image');
       mainMenuStartImageid.classList.add('main-menu-start-image');
@@ -1295,23 +1299,11 @@ const GameLogic = (function() {
       }, 600);
 
       setTimeout(function(){
-        mainMenuCreditsButtonid.classList.remove('hidden');
-        mainMenuStartButtonid.classList.remove('hidden');
+        mainMenuCreditsButtonid.classList.remove('nodisplay');
+        mainMenuStartButtonid.classList.remove('nodisplay');
       }, 1400);
 
-      mainMenuPlayonmobileButtonid.classList.add('nodisplay');
-      mainMenuAnimatedElementList.forEach(function(element) {
-        element.classList.add('nodisplay');
-      });
-      mainMenuPlayonmobileButtonid.classList.remove('nodisplay');
-
-      // in IE 11 element.classList = [] doesn't work. So I manully empty the classList.
-      mainMenuAnimatedElementList.forEach(function(element) {
-        for (let i = 0; i <= element.classList.length; i++) {
-          element.classList.remove(element.classList[0]);
-        }
-      });
-
+      mainMenuPlayonmobileButtonid.classList.add('main-menu-playonmobile-button');
       mainMenuArmorgamesImageid.classList.add('main-menu-armorgames-image');
       mainMenuIronhideImageid.classList.add('main-menu-ironhide-image');
       mainMenuStartImageid.classList.add('main-menu-start-image');
@@ -1325,16 +1317,21 @@ const GameLogic = (function() {
       mainSfxController(preloaderSfxSource);
       preloaderStarter();
 
-      mainMenuCreditsButtonid.classList.add('hidden');
-      mainMenuStartButtonid.classList.add('hidden');
+      mainMenuCreditsButtonid.classList.add('nodisplay');
+      mainMenuStartButtonid.classList.add('nodisplay');
 
       setTimeout(function(){
         mainMenu.classList.add('pagehide');
         credits.classList.remove('pagehide');
-        mainMenuPlayonmobileButtonid.classList.add('nodisplay');
-        mainMenuAnimatedElementList.forEach(function(element) {
-          element.classList.add('nodisplay');
-        });
+        mainMenuPlayonmobileButtonid.classList.remove('main-menu-playonmobile-button');
+        mainMenuArmorgamesImageid.classList.remove('main-menu-armorgames-image');
+        mainMenuIronhideImageid.classList.remove('main-menu-ironhide-image');
+        mainMenuStartImageid.classList.remove('main-menu-start-image');
+        mainMenuCreditsImageid.classList.remove('main-menu-credits-image');
+        mainMenuArmorgamesImageid.classList.remove('main-menu-armorgames-image-ls');
+        mainMenuIronhideImageid.classList.remove('main-menu-ironhide-image-ls');
+        mainMenuStartImageid.classList.remove('main-menu-start-image-ls');
+        mainMenuCreditsImageid.classList.remove('main-menu-credits-image-ls');
       }, 600);
     }
   }
@@ -1342,52 +1339,52 @@ const GameLogic = (function() {
   // This function handles restarts the preloader animation
   function preloaderStarter() {
     // Reload the preloader animation
-    preloaderContainerid.classList.remove('hidden');
-    preloaderLeftsideid.classList.remove('preloader-leftside');
-    preloaderRightsideid.classList.remove('preloader-rightside');
-    preloaderLeftsideid.getBoundingClientRect();
-    preloaderRightsideid.getBoundingClientRect();
     preloaderLeftsideid.classList.add('preloader-leftside');
     preloaderRightsideid.classList.add('preloader-rightside');
+
+    setTimeout(function(){
+      preloaderLeftsideid.classList.remove('preloader-leftside');
+      preloaderRightsideid.classList.remove('preloader-rightside');
+    }, 1000);
   }
 
   // This function handles the load saved menu gameslot dispaly changes
   function loadSavedMenuGameslotDisplayHandler() {
     if (savedData.slot1.isUsed == true) {
-      loadSavedMenuGameslot1Unusedid.classList.add('hidden');
-      loadSavedMenuGameslot1Usedid.classList.remove('hidden');
-      loadSavedMenuGameslot1UsedHoverid.classList.remove('hidden');
-      loadSavedMenuGameslot1Deleteid.classList.remove('hidden');
+      loadSavedMenuGameslot1Unusedid.classList.add('nodisplay');
+      loadSavedMenuGameslot1Usedid.classList.remove('nodisplay');
+      loadSavedMenuGameslot1UsedHoverid.classList.remove('nodisplay');
+      loadSavedMenuGameslot1Deleteid.classList.remove('nodisplay');
     }
     if (savedData.slot1.isUsed == false) {
-      loadSavedMenuGameslot1Unusedid.classList.remove('hidden');
-      loadSavedMenuGameslot1Usedid.classList.add('hidden');
-      loadSavedMenuGameslot1UsedHoverid.classList.add('hidden');
-      loadSavedMenuGameslot1Deleteid.classList.add('hidden');
+      loadSavedMenuGameslot1Unusedid.classList.remove('nodisplay');
+      loadSavedMenuGameslot1Usedid.classList.add('nodisplay');
+      loadSavedMenuGameslot1UsedHoverid.classList.add('nodisplay');
+      loadSavedMenuGameslot1Deleteid.classList.add('nodisplay');
     }
     if (savedData.slot2.isUsed == true) {
-      loadSavedMenuGameslot2Unusedid.classList.add('hidden');
-      loadSavedMenuGameslot2Usedid.classList.remove('hidden');
-      loadSavedMenuGameslot2UsedHoverid.classList.remove('hidden');
-      loadSavedMenuGameslot2Deleteid.classList.remove('hidden');
+      loadSavedMenuGameslot2Unusedid.classList.add('nodisplay');
+      loadSavedMenuGameslot2Usedid.classList.remove('nodisplay');
+      loadSavedMenuGameslot2UsedHoverid.classList.remove('nodisplay');
+      loadSavedMenuGameslot2Deleteid.classList.remove('nodisplay');
     }
     if (savedData.slot2.isUsed == false) {
-      loadSavedMenuGameslot2Unusedid.classList.remove('hidden');
-      loadSavedMenuGameslot2Usedid.classList.add('hidden');
-      loadSavedMenuGameslot2UsedHoverid.classList.add('hidden');
-      loadSavedMenuGameslot2Deleteid.classList.add('hidden');
+      loadSavedMenuGameslot2Unusedid.classList.remove('nodisplay');
+      loadSavedMenuGameslot2Usedid.classList.add('nodisplay');
+      loadSavedMenuGameslot2UsedHoverid.classList.add('nodisplay');
+      loadSavedMenuGameslot2Deleteid.classList.add('nodisplay');
     }
     if (savedData.slot3.isUsed == true) {
-      loadSavedMenuGameslot3Unusedid.classList.add('hidden');
-      loadSavedMenuGameslot3Usedid.classList.remove('hidden');
-      loadSavedMenuGameslot3UsedHoverid.classList.remove('hidden');
-      loadSavedMenuGameslot3Deleteid.classList.remove('hidden');
+      loadSavedMenuGameslot3Unusedid.classList.add('nodisplay');
+      loadSavedMenuGameslot3Usedid.classList.remove('nodisplay');
+      loadSavedMenuGameslot3UsedHoverid.classList.remove('nodisplay');
+      loadSavedMenuGameslot3Deleteid.classList.remove('nodisplay');
     }
     if (savedData.slot3.isUsed == false) {
-      loadSavedMenuGameslot3Unusedid.classList.remove('hidden');
-      loadSavedMenuGameslot3Usedid.classList.add('hidden');
-      loadSavedMenuGameslot3UsedHoverid.classList.add('hidden');
-      loadSavedMenuGameslot3Deleteid.classList.add('hidden');
+      loadSavedMenuGameslot3Unusedid.classList.remove('nodisplay');
+      loadSavedMenuGameslot3Usedid.classList.add('nodisplay');
+      loadSavedMenuGameslot3UsedHoverid.classList.add('nodisplay');
+      loadSavedMenuGameslot3Deleteid.classList.add('nodisplay');
     }
   }
 
@@ -1410,6 +1407,7 @@ const GameLogic = (function() {
     if (store.getState().lastAction == 'BATTLEPANEL_ON') {
       gameMenuStarthereTextid.classList.add('nodisplay');
       gameMenuBattleStartPanel1id.classList.remove('nodisplay');
+      gameMenuBattleStartPanel1id.classList.add('game-menu-battle-start-panel-1');
       gameMenuDarkLayerid.classList.remove('nodisplay');
     }
   }
@@ -1422,6 +1420,7 @@ const GameLogic = (function() {
 
       setTimeout(function(){
         gameMenuBattleStartPanel1id.classList.remove('game-menu-battle-start-panel-fadeout');
+        gameMenuBattleStartPanel1id.classList.remove('game-menu-battle-start-panel-1');
         gameMenuDarkLayerid.classList.remove('game-menu-dark-layer-fadeout');
         gameMenuBattleStartPanel1id.classList.add('nodisplay');
         gameMenuDarkLayerid.classList.add('nodisplay');
@@ -1506,13 +1505,16 @@ const GameLogic = (function() {
       prologue.classList.add('prologue-fade-out');
       battleMap1.classList.add('battle-map-1-fade-in');
 
-      battleMapInfoPanelid.classList.remove('nodisplay');
-      battleMapPauseButtonid.classList.remove('nodisplay');
-      battleMapOptionsButtonid.classList.remove('nodisplay');
-      battleMapFooterid.classList.remove('nodisplay');
-      battleMap1Wavestartid.classList.remove('nodisplay');
-      battleMap1BuildHereTextContainerid.classList.remove('nodisplay');
-      battleMap1StartHereTextContainerid.classList.remove('nodisplay');
+      battleMapInfoPanelid.classList.add('battle-map-info-panel');
+      battleMapPauseButtonid.classList.add('battle-map-pause-button');
+      battleMapOptionsButtonid.classList.add('battle-map-options-button');
+      battleMapFooterid.classList.add('battle-map-footer');
+      battleMap1Wavestartid.classList.add('battle-map-1-wavestart-container');
+      battleMap1Wavestartid.classList.add('delayed-animation');
+      battleMap1BuildHereTextContainerid.classList.add('battle-map-1-build-here-text-container');
+      battleMap1BuildHereTextContainerid.classList.add('delayed-animation');
+      battleMap1StartHereTextContainerid.classList.add('battle-map-1-start-here-text-container');
+      battleMap1StartHereTextContainerid.classList.add('delayed-animation');
 
       if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.archer_1) {
         tempTowerName = store.getState().towerTypes.archer_1.name;
@@ -1565,13 +1567,13 @@ const GameLogic = (function() {
   }
 
   // This function handles the click inside the game -> continue the game event
-  function pauseElementClicked() {
+  function pauseElementClicked(event) {
     isUserFocusOnTheGame = true;
     event.stopPropagation();
   }
 
   // This function prevents the click inside the game to pause the game
-  function preventGamePause() {
+  function preventGamePause(event) {
     event.stopPropagation();
   }
 
@@ -1616,9 +1618,9 @@ const GameLogic = (function() {
   function battleStartEventAdding() {
     if (store.getState().lastAction == 'BATTLE_ON') {
       setTimeout(function(){
-        addEvent(battleMap1, 'click', preventGamePause, undefined);
+        addEvent(battleMap1, 'click', preventGamePause, 'event');
         addEvent(landingPageBody, 'click', pageBodyClicked, undefined);
-        addEvent(battleMapGamePauseid, 'click', pauseElementClicked, undefined);
+        addEvent(battleMapGamePauseid, 'click', pauseElementClicked, 'event');
         addEvent(battleMapPauseButtonid, 'click', pageBodyClicked, 'stop');
       }, 600);
     }
@@ -1644,41 +1646,39 @@ const GameLogic = (function() {
   function towerBuildRangeIndicatorRemove() {
     let tempActiveTowerSlot = store.getState().lastClickedTowerSlot;
     battleMap1TowerPlaceList[tempActiveTowerSlot - 1].childNodes[0].classList.remove('battle-map-tower-build-menu-innerbox-1-range-hover');
+
+    if (store.getState().lastAction == BUILDBUTTON_CLICKED) {
+      if (store.getState().towerTypes.archer_1) {
+        if (store.getState().activeGameState.battleMap1ActiveState.gold >= store.getState().towerTypes.archer_1.cost && store.getState().towerToBuild == store.getState().towerTypes.archer_1.name) {
+          let tempGold = store.getState().activeGameState.battleMap1ActiveState.gold - store.getState().towerTypes.archer_1.cost;
+          battleMapTowerBuildStateChangeStarter(tempGold);
+        }
+      }
+      if (store.getState().towerTypes.barracks_1) {
+        if (store.getState().activeGameState.battleMap1ActiveState.gold >= store.getState().towerTypes.barracks_1.cost && store.getState().towerToBuild == store.getState().towerTypes.barracks_1.name) {
+          let tempGold = store.getState().activeGameState.battleMap1ActiveState.gold - store.getState().towerTypes.barracks_1.cost;
+          battleMapTowerBuildStateChangeStarter(tempGold);
+        }
+      }
+      if (store.getState().towerTypes.mage_1) {
+        if (store.getState().activeGameState.battleMap1ActiveState.gold >= store.getState().towerTypes.mage_1.cost && store.getState().towerToBuild == store.getState().towerTypes.mage_1.name) {
+          let tempGold = store.getState().activeGameState.battleMap1ActiveState.gold - store.getState().towerTypes.mage_1.cost;
+          battleMapTowerBuildStateChangeStarter(tempGold);
+        }
+      }
+      if (store.getState().towerTypes.bombard_1) {
+        if (store.getState().activeGameState.battleMap1ActiveState.gold >= store.getState().towerTypes.bombard_1.cost && store.getState().towerToBuild == store.getState().towerTypes.bombard_1.name) {
+          let tempGold = store.getState().activeGameState.battleMap1ActiveState.gold - store.getState().towerTypes.bombard_1.cost;
+          battleMapTowerBuildStateChangeStarter(tempGold);
+        }
+      }
+    }
   }
-
-
-  if (store.getState().lastAction == BUILDBUTTON_CLICKED) {
-    if (store.getState().towerTypes.archer_1) {
-      if (store.getState().activeGameState.battleMap1ActiveState.gold >= store.getState().towerTypes.archer_1.cost && store.getState().towerToBuild == store.getState().towerTypes.archer_1.name) {
-        let tempGold = store.getState().activeGameState.battleMap1ActiveState.gold - store.getState().towerTypes.archer_1.cost;
-        battleMapTowerBuildStateChangeStarter(tempGold);
-      }
-    }
-    if (store.getState().towerTypes.barracks_1) {
-      if (store.getState().activeGameState.battleMap1ActiveState.gold >= store.getState().towerTypes.barracks_1.cost && store.getState().towerToBuild == store.getState().towerTypes.barracks_1.name) {
-        let tempGold = store.getState().activeGameState.battleMap1ActiveState.gold - store.getState().towerTypes.barracks_1.cost;
-        battleMapTowerBuildStateChangeStarter(tempGold);
-      }
-    }
-    if (store.getState().towerTypes.mage_1) {
-      if (store.getState().activeGameState.battleMap1ActiveState.gold >= store.getState().towerTypes.mage_1.cost && store.getState().towerToBuild == store.getState().towerTypes.mage_1.name) {
-        let tempGold = store.getState().activeGameState.battleMap1ActiveState.gold - store.getState().towerTypes.mage_1.cost;
-        battleMapTowerBuildStateChangeStarter(tempGold);
-      }
-    }
-    if (store.getState().towerTypes.bombard_1) {
-      if (store.getState().activeGameState.battleMap1ActiveState.gold >= store.getState().towerTypes.bombard_1.cost && store.getState().towerToBuild == store.getState().towerTypes.bombard_1.name) {
-        let tempGold = store.getState().activeGameState.battleMap1ActiveState.gold - store.getState().towerTypes.bombard_1.cost;
-        battleMapTowerBuildStateChangeStarter(tempGold);
-      }
-    }
-  }
-
-
 
   // This function handles the battle map tower palce clicked display change
   function battleMapTowerPlaceClicked() {
-    if (store.getState().isBuildMenuOpen == true && store.getState().clickedTowerSlot.innerHTML == '<span></span>') {
+    if (store.getState().isBuildMenuOpen == true && store.getState().clickedTowerSlot.innerHTML == '<span></span>' && store.getState().clickedTowerSlot.classList[1] == 'battle-map-tower-build-place') {
+
       store.getState().clickedTowerSlot.classList.add('battle-map-tower-build-place-clicked');
       store.getState().clickedTowerSlot.removeEventListener('mouseover', mouseOverSfx);
       store.getState().clickedTowerSlot.appendChild(battleMapActiveBuildMenuid);
@@ -1808,7 +1808,7 @@ const GameLogic = (function() {
         battleMapActiveBuildMenuCloseid.classList.remove('battle-map-build-menu-disappear');
         activeSlotToClose.innerHTML = '<span></span>';
         activeSlotToClose.addEventListener('mouseover', mouseOverSfx);
-        activeSlotToClose.addEventListener('click', battleMapTowerPlaceClickInvoker, {
+        activeSlotToClose.addEventListener('click', function(event) { battleMapTowerPlaceClickInvoker(event) }, {
           once: true,
         });
       }, 150);
@@ -1816,8 +1816,7 @@ const GameLogic = (function() {
   }
 
   // This function handles the battle map build menu opening logic, it fires the state changes function
-  function battleMapTowerPlaceClickInvoker() {
-
+  function battleMapTowerPlaceClickInvoker(event) {
     if (store.getState().isBuildMenuOpen == false && event.target.innerHTML == '<span></span>'){
       let classParts = event.target.classList[0].split('-');
       let towerPlaceNumber = classParts[classParts.length - 1];
@@ -1891,6 +1890,8 @@ const GameLogic = (function() {
   function battleMapTowerBuildStarted() {
     tempGlobalTowerSlotToBuild = store.getState().towerSlotToBuild;
     tempGlobalTowerTypeToBuild = store.getState().towerToBuild;
+    mainSfxController(towerBuildingSfxSource);
+
     if(tempGlobalTowerSlotToBuild == 7) {
       battleMap1BuildHereTextid.classList.add('nodisplay');
     }
@@ -1904,14 +1905,15 @@ const GameLogic = (function() {
     let tempTowerSlotToBuild = parameters[0];
     let tempTowerTypeToBuild = parameters[1];
     let tempActualTower = ('tower_slot_' + tempTowerSlotToBuild);
-    
+
     battleMap1TowerPlaceList[tempTowerSlotToBuild - 1].classList.remove('battle-map-archer-tower-under-construction');
     battleMap1TowerPlaceList[tempTowerSlotToBuild - 1].classList.remove('battle-map-barracks-tower-under-construction');
     battleMap1TowerPlaceList[tempTowerSlotToBuild - 1].classList.remove('battle-map-mage-tower-under-construction');
     battleMap1TowerPlaceList[tempTowerSlotToBuild - 1].classList.remove('battle-map-bombard-tower-under-construction');
 
-    if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.mage_1) {
+    if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.archer_1) {
       if (tempTowerTypeToBuild == store.getState().towerTypes.archer_1.name) {
+        mainSfxController(archersReadySfxSource);
         battleMap1TowerPlaceList[tempTowerSlotToBuild - 1].classList.remove('battle-map-tower-build-place');
         battleMap1TowerPlaceList[tempTowerSlotToBuild - 1].classList.add('battle-map-archer-1-tower-built');
         battleMapTowerBuildFinishedStateChangeStarter(tempActualTower, tempTowerTypeToBuild);
@@ -1926,6 +1928,7 @@ const GameLogic = (function() {
     }
     if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.mage_1) {
       if (tempTowerTypeToBuild == store.getState().towerTypes.mage_1.name) {
+        mainSfxController(mageReadySfxSource);
         battleMap1TowerPlaceList[tempTowerSlotToBuild - 1].classList.remove('battle-map-tower-build-place');
         battleMap1TowerPlaceList[tempTowerSlotToBuild - 1].classList.add('battle-map-mage-1-tower-built');
         battleMapTowerBuildFinishedStateChangeStarter(tempActualTower, tempTowerTypeToBuild);
@@ -2011,7 +2014,9 @@ const GameLogic = (function() {
   addEvent(gameMenuBattleStartPanelChooseDifficultyNormalid, 'click', gameMenuBattlePanelDifficultyStateChangeStarter, 'NORMAL');
   addEvent(gameMenuBattleStartPanelChooseDifficultyVeteranid, 'click', gameMenuBattlePanelDifficultyStateChangeStarter, 'VETERAN');
   addEvent(battleMap1, 'click', closeTowerBuildMenuStateChangeStarter, undefined);
-  addEventtoTowerPlaces(battleMap1TowerPlaceList)
+  addEventtoTowerPlaces(battleMap1TowerPlaceList);
+  addEvent(battleMap1TowerPlaceList, 'click', mainSfxController, buildMenuOpenSfxSource);
+
 
   setInterval( checkFocus, 100 );
   setInterval(function () {console.log(store.getState())}, 1000);
