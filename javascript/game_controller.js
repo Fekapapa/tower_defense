@@ -2,6 +2,27 @@
 
 const GameLogic = (function() {
 
+	// Redux core light code
+	// https://gist.github.com/RryLee/5787c5adb3d3439c1063cb218bd734bd
+	const Redux = {};
+	Redux.createStore = (reducer) => {
+	  let state;
+	  let listeners = [];
+	  const getState = () => state;
+	  const dispatch = action => {
+	    state = reducer(state, action);
+	    listeners.forEach(l => l());
+	  }
+	  const subscribe = listener => {
+	    listeners.push(listener);
+	    return () => {
+	      listeners = listeners.filter(l => l !== listener);
+	    }
+	  }
+	  dispatch({});
+	  return {getState, dispatch, subscribe};
+	}
+
   // Redux and global variable declaration
   const store = Redux.createStore(reducer);
   store.subscribe(render);
@@ -287,7 +308,8 @@ const GameLogic = (function() {
         activeTowerSlot: false,
         isBuildMenuOpen: false,
         clickedTowerSlot: false,
-        battleState: 'BATTLE_OFF'
+        battleState: 'BATTLE_OFF',
+				pauseStatus: 'PAUSE_OFF'
       };
       return state
     }
@@ -380,7 +402,7 @@ const GameLogic = (function() {
       case 'PLAYPAUSE_CHANGE':
         return Object.assign({}, state, {
                 isGamePaused: action.payload.isGamePaused,
-                lastAction: PLAYPAUSE_CHANGE
+                lastAction: PLAYPAUSE_CHANGE,
               })
       case 'AUTOPAUSE_CHANGE':
         return Object.assign({}, state, {
@@ -806,7 +828,6 @@ const GameLogic = (function() {
       type: PLAYPAUSE_CHANGE,
       payload: {
         isGamePaused: true,
-        lastAction: PLAYPAUSE_CHANGE
       }
     });
   }
@@ -817,7 +838,6 @@ const GameLogic = (function() {
       type: PLAYPAUSE_CHANGE,
       payload: {
         isGamePaused: false,
-        lastAction: PLAYPAUSE_CHANGE
       }
     });
   }
@@ -1592,14 +1612,12 @@ const GameLogic = (function() {
         isUserFocusOnTheGame = false;
       }
 
-
-//This statement calls the whole store in every 100ms!!! Must fix it!!!
-
-
-      if(isUserFocusOnThePage == true && isUserFocusOnTheGame == true) {
+      if(isUserFocusOnThePage == true && isUserFocusOnTheGame == true && store.getState().isGamePaused == true) {
         resumeGameStateChangeStarter();
-      } else {
-        pauseGameStateChangeStarter();
+      } else if (store.getState().isGamePaused == false){
+        if (isUserFocusOnThePage == false || isUserFocusOnTheGame == false) {
+          pauseGameStateChangeStarter();
+        }
       }
     }
   }
