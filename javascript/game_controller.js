@@ -2,26 +2,89 @@
 
 const GameLogic = (function() {
 
-	// Redux core light code
-	// https://gist.github.com/RryLee/5787c5adb3d3439c1063cb218bd734bd
-	const Redux = {};
-	Redux.createStore = (reducer) => {
-	  let state;
-	  let listeners = [];
-	  const getState = () => state;
-	  const dispatch = action => {
-	    state = reducer(state, action);
-	    listeners.forEach(l => l());
-	  }
-	  const subscribe = listener => {
-	    listeners.push(listener);
-	    return () => {
-	      listeners = listeners.filter(l => l !== listener);
-	    }
-	  }
-	  dispatch({});
-	  return {getState, dispatch, subscribe};
-	}
+  // Redux core light code
+  // https://gist.github.com/RryLee/5787c5adb3d3439c1063cb218bd734bd
+  // const Redux = {};
+  // Redux.createStore = (reducer) => {
+  //   let state;
+  //   let listeners = [];
+  //   const getState = () => state;
+  //   const dispatch = action => {
+  //     state = reducer(state, action);
+  //     listeners.forEach(l => l());
+  //   }
+  //   const subscribe = listener => {
+  //     listeners.push(listener);
+  //     return () => {
+  //       listeners = listeners.filter(l => l !== listener);
+  //     }
+  //   }
+  //   dispatch({});
+  //   return {getState, dispatch, subscribe};
+  // }
+
+
+  // IE11 PLOYFILLS
+
+
+  //Redux core light (comverted from ES6 using babeljs.io)
+  const Redux = {};
+  Redux.createStore = function (reducer) {
+    let state = void 0;
+    let listeners = [];
+    const getState = function getState() {
+      return state;
+    };
+    const dispatch = function dispatch(action) {
+      state = reducer(state, action);
+      listeners.forEach(function (l) {
+        return l();
+      });
+    };
+    const subscribe = function subscribe(listener) {
+      listeners.push(listener);
+      return function () {
+        listeners = listeners.filter(function (l) {
+          return l !== listener;
+        });
+      };
+    };
+    dispatch({});
+    return { getState: getState, dispatch: dispatch, subscribe: subscribe };
+  };
+
+  // ES5 object.assign
+  if (!Object.assign) {
+    Object.defineProperty(Object, 'assign', {
+      enumerable: false,
+      configurable: true,
+      writable: true,
+      value: function(target) {
+        if (target === undefined || target === null) {
+          throw new TypeError('Cannot convert first argument to object');
+        }
+
+        let to = Object(target);
+        for (var i = 1; i < arguments.length; i++) {
+          let nextSource = arguments[i];
+          if (nextSource === undefined || nextSource === null) {
+            continue;
+          }
+          nextSource = Object(nextSource);
+
+          let keysArray = Object.keys(Object(nextSource));
+          for (let nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
+            let nextKey = keysArray[nextIndex];
+            let desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
+            if (desc !== undefined && desc.enumerable) {
+              to[nextKey] = nextSource[nextKey];
+            }
+          }
+        }
+        return to;
+      }
+    });
+  }
 
   // Redux and global variable declaration
   const store = Redux.createStore(reducer);

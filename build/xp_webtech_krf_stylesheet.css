@@ -340,7 +340,7 @@
   color: #0a0a0a;
   font-size: 18px;
   font-weight: bold;
-  line-height: 24px;
+  line-height: 23px;
   margin: auto;
   margin-top: 175px;
   max-width: 70%;
@@ -1552,9 +1552,9 @@
 .battle-map-tower-build-menu-innerbox-cost {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAATCAYAAACDW21BAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4gEfCgoBIj0jmgAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAACGUlEQVRIx+2STWgTURSFz3szSWoyk0zSNooNKiIiMStXzVZowUXoXiXLiqBUG7EgCLYSMbhwKXRThK6lNhAXLkRCI9gKrlz5A/1J4mQmmU7MYGYyMy7axCQgDdhkIZ7Ve/cezsd97xJ06czJEIFtCpZlwzAaqOs6LNbZbNtSSVLwF2K7C5bZGBKEQPkPfk0qSZ6g3+u3WCdoQz8RGgu96fLw+7mWopTHKCXa582C2myS5uF06JhomkQA4Bge9uPixCWMjI5AKkkAgHJFxseN95DlSkd6L16GsQtft4vHW8DI2VOjtdrPrcdPnroAIPXoId6uvYMsFiEWdsB5BciSiJlbs5i7d78D2Iv3bmI273E7zn36slkl4fMRV1UqalcuX6UrKy8AAG4Ph5kb17CdF+F0MPBxHuzk80i/eg2t9qMD2It3PpnCnds3a1vfJY5ciIRrkxOT7uXl59A0DUHei3K9DpfTCdsy996dMrAtE3rDRMDl6gAe5BWrKoLBo5hPppBceKCxslyhPO9pwQD8DmXadophO+/7Osgb5L0oKwp8gg+7uyqh7YszAP3jQMLQwQJNw9AHCqSUafxfmkMVS6FTAFqzIFbVQ4e0ZxqW/Y0k4lFfJicqU7EYFhef9WWy6enryGaz9trGB0oAIBGP8pmcqE7FYn0BvkynjfFwYGhpdd1q/V8iHj2SyYlaH3jGeDjALa2u6wDwCwVV/FURGJJuAAAAAElFTkSuQmCC");
   color: white;
-  font-size: 14px;
+  font-size: 12px;
   height: 18px;
-  line-height: 19px;
+  line-height: 20px;
   margin-left: 13px;
   margin-top: 35px;
   padding-top: 1px;
