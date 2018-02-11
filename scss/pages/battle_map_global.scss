@@ -267,19 +267,6 @@
     height: 47px;
     width: 61px;
   }
-  &::after {
-    animation: battle-map-tower-under-construction 1s forwards;
-    animation-timing-function: linear;
-    background-color: yellow;
-    border-radius: 2px;
-    box-shadow: inset 0 0 4px #000000, 0 0 3px #000000;
-    content: '';
-    height: 4px;
-    margin-left: 13px;
-    margin-top: 1px;
-    position: absolute;
-    width: 0;
-  }
 }
 
 .battle-map-mage-tower-under-construction {
@@ -294,19 +281,19 @@
     height: 47px;
     width: 61px;
   }
-  &::after {
-    animation: battle-map-tower-under-construction 1s forwards;
-    animation-timing-function: linear;
-    background-color: yellow;
-    border-radius: 2px;
-    box-shadow: inset 0 0 4px #000000, 0 0 3px #000000;
-    content: '';
-    height: 4px;
-    margin-left: 13px;
-    margin-top: 1px;
-    position: absolute;
-    width: 0;
-  }
+}
+
+.battle-map-tower-under-construction-bar {
+  animation: battle-map-tower-under-construction 1s forwards;
+  animation-timing-function: linear;
+  background-color: yellow;
+  border-radius: 2px;
+  box-shadow: inset 0 0 4px #000000, 0 0 3px #000000;
+  height: 4px;
+  margin-left: 13px;
+  margin-top: 1px;
+  position: absolute;
+  width: 0;
 }
 
 @keyframes battle-map-tower-under-construction {
