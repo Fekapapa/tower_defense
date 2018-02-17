@@ -1806,7 +1806,6 @@ const GameLogic = (function() {
   // This function handles the battle map build menu opened tower range indicating
   function towerBuildRangeIndicator(range) {
     let helper = store.getState().activeTowerSlot.split('_')[2] - 1;
-    console.log(range + 'px')
     battleMap1TowerPlaceRangeList[helper].style.height = range + 'px';
     battleMap1TowerPlaceRangeList[helper].style.width = range + 'px';
     battleMap1TowerPlaceRangeList[helper].classList.add('battle-map-tower-build-menu-innerbox-1-range-hover');
