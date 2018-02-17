@@ -41,11 +41,11 @@ body {
   animation-play-state: running !important; }
 
 .main-title-container {
-  height: 70px;
-  text-align: center; }
+  height: 70px; }
 
 .main-title {
-  line-height: 70px; }
+  line-height: 70px;
+  text-align: center; }
 
 .preloader-leftside {
   animation: preloader-leftside 1s;
@@ -127,6 +127,7 @@ body {
     z-index: -1; } }
 
 .landing_page_body {
+  min-height: 100vh;
   max-width: 100vw;
   overflow-x: hidden; }
 

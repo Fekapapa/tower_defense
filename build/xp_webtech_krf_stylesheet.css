@@ -1603,7 +1603,7 @@
     width: 61px; }
 
 .battle-map-tower-under-construction-bar {
-  animation: battle-map-tower-under-construction 100s forwards;
+  animation: battle-map-tower-under-construction 1s forwards;
   animation-timing-function: linear;
   background-color: yellow;
   border-radius: 2px;
@@ -1670,11 +1670,9 @@
   border-style: solid;
   border-width: 1px;
   box-shadow: inset 0px 0px 40px #39e600;
-  height: 200px;
   left: 50%;
   position: absolute;
   top: 50%;
-  width: 200px;
   transform: translateX(-50%) translateY(-50%);
   z-index: 2; }
 

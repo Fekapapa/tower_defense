@@ -5,7 +5,7 @@
     "min_damage": 4,
     "max_damage": 6,
     "name": "Archer Tower",
-    "range": 100,
+    "range": 200,
     "range_name": "short",
     "fire_rate": 750,
     "fire_rate_name": "average"
@@ -16,7 +16,7 @@
     "min_damage": 9,
     "max_damage": 17,
     "name": "Mages",
-    "range": 100,
+    "range": 200,
     "range_name": "short",
     "fire_rate": 1500,
     "fire_rate_name": "slow"
