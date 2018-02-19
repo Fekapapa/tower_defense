@@ -76,6 +76,7 @@ const GameLogic = (function() {
   let tempGlobalTowerTypeToBuild;
   let tempActiveTowerSlot;
 
+
   // Redux action types
   const MENU_CHANGE = 'MENU_CHANGE';
   const MUSIC_ON = 'MUSIC_ON';
@@ -380,7 +381,6 @@ const GameLogic = (function() {
         autoPause: 'ON',
         activeTowerSlot: false,
         isBuildMenuOpen: false,
-        clickedTowerSlot: false,
         battleState: 'BATTLE_OFF',
 				pauseStatus: 'PAUSE_OFF'
       };
@@ -487,13 +487,13 @@ const GameLogic = (function() {
                 activeTowerSlot: action.payload.activeTowerSlot,
                 // lastClickedTowerSlot: action.payload.activeTowerSlot,
                 clickedSlotHTML: action.payload.clickedSlotHTML,
-                // isBuildMenuOpen: action.payload.isBuildMenuOpen,
+                isBuildMenuOpen: action.payload.isBuildMenuOpen,
                 lastAction: TOWER_CLICKED
               })
       case 'TOWER_UNCLICKED':
         return Object.assign({}, state, {
                 activeTowerSlot: action.payload.activeTowerSlot,
-                isBuildMenuOpen: action.payload.isBuildMenuOpen,
+                // isBuildMenuOpen: action.payload.isBuildMenuOpen,
                 lastAction: TOWER_UNCLICKED
               })
       case 'BUILDBUTTON_CLICKED':
@@ -921,7 +921,8 @@ const GameLogic = (function() {
       type: TOWER_CLICKED,
       payload: {
         activeTowerSlot: towerPlaceNumber,
-        clickedSlotHTML: clickedSlotHTML
+        clickedSlotHTML: clickedSlotHTML,
+        isBuildMenuOpen: true
       }
     });
   }
@@ -931,8 +932,8 @@ const GameLogic = (function() {
     store.dispatch( {
       type: TOWER_UNCLICKED,
       payload: {
-        activeTowerSlot: false,
-        isBuildMenuOpen: false,
+        activeTowerSlot: false
+        // isBuildMenuOpen: false
       }
     });
   }
@@ -1726,17 +1727,19 @@ const GameLogic = (function() {
 
   // This function handles the battle map build menu opening logic, it fires the state changes function
   function battleMapTowerPlaceClicked(event) {
-    let classParts = event.target.classList[0].split('-');
-    let towerPlaceNumber = 'tower_slot_' + classParts[classParts.length - 1];
-    let clickedSlotHTML = event.target;
-    if (store.getState().isBuildMenuOpen == false){
+    if (store.getState().isBuildMenuOpen == false) {
+      let classParts = event.target.classList[0].split('-');
+      let towerPlaceNumber = 'tower_slot_' + classParts[classParts.length - 1];
+      let clickedSlotHTML = event.target;
       event.stopPropagation();
       battleMapTowerPlaceClickedStateChangeStarter(towerPlaceNumber, clickedSlotHTML);
-    }
-    if (store.getState().isBuildMenuOpen == true){
+    } else if (store.getState().isBuildMenuOpen == true) {
       closeTowerBuildMenuStateChangeStarter();
+      let classParts = event.target.classList[0].split('-');
+      let towerPlaceNumber = 'tower_slot_' + classParts[classParts.length - 1];
+      let clickedSlotHTML = event.target;
       setTimeout(function(){
-        battleMapTowerPlaceClickedStateChangeStarter(towerPlaceNumber);
+        battleMapTowerPlaceClickedStateChangeStarter(towerPlaceNumber, clickedSlotHTML);
       }, 150);
       event.stopPropagation();
     }
@@ -1750,7 +1753,7 @@ const GameLogic = (function() {
       let activeTowerSlotData = store.getState().activeGameState.battleMap1ActiveState.tower_slots[activeTowerSlot];
 
       if (activeTowerSlotData.towerType == 'undefined') {
-        battleMapBuildMenuOpen(activeTowerSlotData, clickedSlotHTML);
+        battleMapBuildMenuOpen(clickedSlotHTML);
       }
     }
   }
@@ -1802,21 +1805,11 @@ const GameLogic = (function() {
 
   }
 
-
-  // This function handles the battle map build menu opened tower range indicating
-  function towerBuildRangeIndicator(range) {
-    let helper = store.getState().activeTowerSlot.split('_')[2] - 1;
-    console.log(range + 'px')
-    battleMap1TowerPlaceRangeList[helper].style.height = range + 'px';
-    battleMap1TowerPlaceRangeList[helper].style.width = range + 'px';
-    battleMap1TowerPlaceRangeList[helper].classList.add('battle-map-tower-build-menu-innerbox-1-range-hover');
-  }
-
   // This function handles the battle map build menu opening
-  function battleMapBuildMenuOpen(activeTowerSlotData, clickedSlotHTML) {
-    store.getState().clickedSlotHTML.classList.add('battle-map-tower-build-place-clicked');
-    store.getState().clickedSlotHTML.removeEventListener('mouseover', mouseOverSfx);
-    store.getState().clickedSlotHTML.appendChild(battleMapActiveBuildMenuid);
+  function battleMapBuildMenuOpen(clickedSlotHTML) {
+    clickedSlotHTML.classList.add('battle-map-tower-build-place-clicked');
+    clickedSlotHTML.removeEventListener('mouseover', mouseOverSfx);
+    clickedSlotHTML.appendChild(battleMapActiveBuildMenuid);
     battleMapActiveBuildMenuid.classList.remove('nodisplay');
     battleMapTowerBuildMenuInnerbox1Imageid.addEventListener('mouseover', mouseOverSfx);
     battleMapTowerBuildMenuInnerbox2Imageid.addEventListener('mouseover', mouseOverSfx);
@@ -1829,75 +1822,42 @@ const GameLogic = (function() {
     }
   }
 
+  // This function handles the battle map build menu opened tower range indicating
+  function towerBuildRangeIndicator(range) {
+    let helper = store.getState().activeTowerSlot.split('_')[2] - 1;
+    battleMap1TowerPlaceRangeList[helper].style.height = range + 'px';
+    battleMap1TowerPlaceRangeList[helper].style.width = range + 'px';
+    battleMap1TowerPlaceRangeList[helper].classList.add('battle-map-tower-build-menu-innerbox-1-range-hover');
+  }
 
-
+  // This function handles the battle map build menu opened tower range indicator removing
   function towerBuildRangeIndicatorRemove() {
-    // battleMap1TowerPlaceList[tempActiveTowerSlot - 1].childNodes[0].classList.remove('battle-map-tower-build-menu-innerbox-1-range-hover');
-    //
-    // if (store.getState().lastAction == BUILDBUTTON_CLICKED) {
-    //   if (store.getState().towerTypes.archer_1) {
-    //     if (store.getState().activeGameState.battleMap1ActiveState.gold >= store.getState().towerTypes.archer_1.cost && store.getState().towerToBuild == store.getState().towerTypes.archer_1.name) {
-    //       let tempGold = store.getState().activeGameState.battleMap1ActiveState.gold - store.getState().towerTypes.archer_1.cost;
-    //       battleMapTowerBuildStateChangeStarter(tempGold);
-    //     }
-    //   }
-    //   if (store.getState().towerTypes.barracks_1) {
-    //     if (store.getState().activeGameState.battleMap1ActiveState.gold >= store.getState().towerTypes.barracks_1.cost && store.getState().towerToBuild == store.getState().towerTypes.barracks_1.name) {
-    //       let tempGold = store.getState().activeGameState.battleMap1ActiveState.gold - store.getState().towerTypes.barracks_1.cost;
-    //       battleMapTowerBuildStateChangeStarter(tempGold);
-    //     }
-    //   }
-    //   if (store.getState().towerTypes.mage_1) {
-    //     if (store.getState().activeGameState.battleMap1ActiveState.gold >= store.getState().towerTypes.mage_1.cost && store.getState().towerToBuild == store.getState().towerTypes.mage_1.name) {
-    //       let tempGold = store.getState().activeGameState.battleMap1ActiveState.gold - store.getState().towerTypes.mage_1.cost;
-    //       battleMapTowerBuildStateChangeStarter(tempGold);
-    //     }
-    //   }
-    //   if (store.getState().towerTypes.bombard_1) {
-    //     if (store.getState().activeGameState.battleMap1ActiveState.gold >= store.getState().towerTypes.bombard_1.cost && store.getState().towerToBuild == store.getState().towerTypes.bombard_1.name) {
-    //       let tempGold = store.getState().activeGameState.battleMap1ActiveState.gold - store.getState().towerTypes.bombard_1.cost;
-    //       battleMapTowerBuildStateChangeStarter(tempGold);
-    //     }
-    //   }
-    // }
+    let helper = store.getState().activeTowerSlot.split('_')[2] - 1;
+    battleMap1TowerPlaceRangeList[helper].classList.remove('battle-map-tower-build-menu-innerbox-1-range-hover');
   }
 
   // This function handles the battle map build menu closing display
-  // function closeTowerBuildMenu() {
-  //   if (store.getState().lastAction == TOWER_UNCLICKED && store.getState().clickedTowerSlot.children.length != 1 && store.getState().clickedTowerSlot != false) {
-  //     battleMapTowerBuildMenuInnerbox1id.classList.remove('battle-map-tower-build-menu-innerbox-hover');
-  //     battleMapTowerBuildMenuInnerbox2id.classList.remove('battle-map-tower-build-menu-innerbox-hover');
-  //     battleMapTowerBuildMenuInnerbox3id.classList.remove('battle-map-tower-build-menu-innerbox-hover');
-  //     battleMapTowerBuildMenuInnerbox4id.classList.remove('battle-map-tower-build-menu-innerbox-hover');
-  //     battleMapTowerBuildMenuInnerbox1Imageid.classList.remove('pointer');
-  //     battleMapTowerBuildMenuInnerbox1Costid.classList.remove('pointer');
-  //     battleMapTowerBuildMenuInnerbox2Imageid.classList.remove('pointer');
-  //     battleMapTowerBuildMenuInnerbox2Costid.classList.remove('pointer');
-  //     battleMapTowerBuildMenuInnerbox3Imageid.classList.remove('pointer');
-  //     battleMapTowerBuildMenuInnerbox3Costid.classList.remove('pointer');
-  //     battleMapTowerBuildMenuInnerbox4Imageid.classList.remove('pointer');
-  //     battleMapTowerBuildMenuInnerbox4Costid.classList.remove('pointer');
-  //
-  //     let activeSlotToClose = store.getState().clickedTowerSlot;
-  //     battleMapActiveBuildMenuCloseid.classList.add('battle-map-build-menu-disappear');
-  //     battleMapActiveBuildMenuid.classList.add('nodisplay');
-  //     setTimeout(function(){
-  //       activeSlotToClose.classList.remove('battle-map-tower-build-place-clicked');
-  //       battleMapActiveBuildMenuCloseid.classList.remove('battle-map-build-menu-disappear');
-  //
-  //       // activeSlotToClose.innerHTML = battleMap1TowerPlaceBarList[lastClickedTowerSlot - 1];
-  //       let tempInnerHTML = battleMap1TowerPlaceBarList[store.getState().lastClickedTowerSlot - 1];
-  //       activeSlotToClose.innerHTML = '';
-  //       activeSlotToClose.appendChild(tempInnerHTML);
-  //
-  //       activeSlotToClose.addEventListener('mouseover', mouseOverSfx);
-  //       activeSlotToClose.addEventListener('click', function(event) { battleMapTowerPlaceClicked(event) }, {
-  //         once: true,
-  //       });
-  //     }, 150);
-  //   }
-  // }
+  function closeTowerBuildMenu() {
+    if (store.getState().lastAction == TOWER_UNCLICKED && store.getState().isBuildMenuOpen == true) {
+      battleMapActiveBuildMenuid.classList.add('battle-map-build-menu-disappear');
 
+      setTimeout(function(){
+        store.getState().clickedSlotHTML.classList.remove('battle-map-tower-build-place-clicked');
+        store.getState().clickedSlotHTML.addEventListener('mouseover', mouseOverSfx);
+        battleMapActiveBuildMenuid.classList.remove('battle-map-build-menu-disappear');
+        battleMapActiveBuildMenuid.classList.add('nodisplay');
+        battleMapTowerBuildMenuInnerbox1Imageid.removeEventListener('mouseover', mouseOverSfx);
+        battleMapTowerBuildMenuInnerbox2Imageid.removeEventListener('mouseover', mouseOverSfx);
+        battleMapTowerBuildMenuInnerbox3Imageid.removeEventListener('mouseover', mouseOverSfx);
+        battleMapTowerBuildMenuInnerbox4Imageid.removeEventListener('mouseover', mouseOverSfx);
+        store.getState().clickedSlotHTML.addEventListener('mouseover', mouseOverSfx);
+        store.getState().clickedSlotHTML.addEventListener('click', function(event) { battleMapTowerPlaceClicked(event) }, {
+          once: true,
+        });
+      }, 150);
+    }
+  }
+EZ A FÜGGVÉNY JÖN!!!
   // This function handles the battle map tower build gold check statement and the new goldamount calculate
   function battleMapTowerBuildGoldCheck() {
     if (store.getState().lastAction == BUILDBUTTON_CLICKED) {
@@ -2040,7 +2000,7 @@ const GameLogic = (function() {
     pauseGame();
     resumeGame();
     // battleMapTowerPlaceClicked();
-    // closeTowerBuildMenu();
+    closeTowerBuildMenu();
     battleMapTowerBuildGoldCheck();
     battleMapTowerBuild();
     battleMapTowerPlaceCheck();
