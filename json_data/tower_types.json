@@ -2,6 +2,7 @@
   "archer_1": {
     "cost": 70,
     "damage_type": "physical",
+    "key_name": "archer_1",
     "min_damage": 4,
     "max_damage": 6,
     "name": "Archer Tower",
@@ -13,6 +14,7 @@
   "mage_1": {
     "cost": 100,
     "damage_type": "magic",
+    "key_name": "mage_1",
     "min_damage": 9,
     "max_damage": 17,
     "name": "Mages",
