@@ -1523,28 +1523,32 @@
   margin-left: -4px;
   margin-top: -3px;
   width: 53px;
-  position: absolute; }
+  position: absolute;
+  z-index: 3; }
 
 .battle-map-tower-build-menu-innerbox-2 {
   height: 58px;
   margin-left: 76px;
   margin-top: -3px;
   width: 53px;
-  position: absolute; }
+  position: absolute;
+  z-index: 3; }
 
 .battle-map-tower-build-menu-innerbox-3 {
   height: 58px;
   margin-left: -4px;
   margin-top: 73px;
   width: 53px;
-  position: absolute; }
+  position: absolute;
+  z-index: 3; }
 
 .battle-map-tower-build-menu-innerbox-4 {
   height: 58px;
   margin-left: 76px;
   margin-top: 73px;
   position: absolute;
-  width: 53px; }
+  width: 53px;
+  z-index: 3; }
 
 .battle-map-tower-build-menu-innerbox-hover:hover {
   background-image: url("data:image/png;base64,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"); }
@@ -1632,7 +1636,7 @@
 .battle-map-archer-1-tower-built span {
   display: none; }
 
-.battle-map-archer-1-tower-built:hover span {
+.battle-map-archer-1-tower-built:hover .battle-map-1-tower-slot-bar {
   box-shadow: 0px 0px 30px 25px #fff513;
   display: inherit;
   height: 8px;
@@ -1654,7 +1658,7 @@
 .battle-map-mage-1-tower-built span {
   display: none; }
 
-.battle-map-mage-1-tower-built:hover span {
+.battle-map-mage-1-tower-built:hover .battle-map-1-tower-slot-bar {
   box-shadow: 0px 0px 30px 25px #fff513;
   display: inherit;
   height: 10px;
@@ -1664,13 +1668,17 @@
   width: 15px;
   z-index: -1; }
 
-.battle-map-tower-build-menu-innerbox-1-range-hover, .battle-map-tower-build-menu-innerbox-3-range-hover {
+.battle-map-tower-build-menu-innerbox-1:hover + span,
+.battle-map-tower-build-menu-innerbox-2:hover + span,
+.battle-map-tower-build-menu-innerbox-3:hover + span,
+.battle-map-tower-build-menu-innerbox-4:hover + span {
   border-color: rgba(45, 179, 0, 0.8);
   border-radius: 50%;
   border-style: solid;
   border-width: 1px;
   box-shadow: inset 0px 0px 40px #39e600;
   left: 50%;
+  opacity: 0;
   position: absolute;
   top: 50%;
   transform: translateX(-50%) translateY(-50%);
