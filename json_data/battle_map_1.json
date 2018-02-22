@@ -43,15 +43,15 @@
     "tower_slot_1": {
       "isTowerBuilt": false,
       "towerType": "undefined",
-      "towerPositionX": 0,
-      "towerPositionY": 0,
+      "towerPositionX": 339,
+      "towerPositionY": 47,
       "isTowerReadytoFire": false
     },
     "tower_slot_2": {
       "isTowerBuilt": false,
       "towerType": "undefined",
-      "towerPositionX": 0,
-      "towerPositionY": 0,
+      "towerPositionX": 153,
+      "towerPositionY": 100,
       "isTowerReadytoFire": false
     },
     "tower_slot_3": {
