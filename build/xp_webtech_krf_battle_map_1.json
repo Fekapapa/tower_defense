@@ -43,7 +43,7 @@
     "tower_slot_1": {
       "isTowerBuilt": false,
       "towerType": "undefined",
-      "towerPositionX": 339,
+      "towerPositionX": 342,
       "towerPositionY": 47,
       "isTowerReadytoFire": false
     },
@@ -51,77 +51,77 @@
       "isTowerBuilt": false,
       "towerType": "undefined",
       "towerPositionX": 153,
-      "towerPositionY": 100,
+      "towerPositionY": 104,
       "isTowerReadytoFire": false
     },
     "tower_slot_3": {
       "isTowerBuilt": false,
       "towerType": "undefined",
-      "towerPositionX": 0,
-      "towerPositionY": 0,
+      "towerPositionX": 106,
+      "towerPositionY": 156,
       "isTowerReadytoFire": false
     },
     "tower_slot_4": {
       "isTowerBuilt": false,
       "towerType": "undefined",
-      "towerPositionX": 0,
-      "towerPositionY": 0,
+      "towerPositionX": 293,
+      "towerPositionY": 161,
       "isTowerReadytoFire": false
     },
     "tower_slot_5": {
       "isTowerBuilt": false,
       "towerType": "undefined",
-      "towerPositionX": 0,
-      "towerPositionY": 0,
+      "towerPositionX": 374,
+      "towerPositionY": 161,
       "isTowerReadytoFire": false
     },
     "tower_slot_6": {
       "isTowerBuilt": false,
       "towerType": "undefined",
-      "towerPositionX": 0,
-      "towerPositionY": 0,
+      "towerPositionX": 254,
+      "towerPositionY": 224,
       "isTowerReadytoFire": false
     },
     "tower_slot_7": {
       "isTowerBuilt": false,
       "towerType": "undefined",
-      "towerPositionX": 0,
-      "towerPositionY": 0,
+      "towerPositionX": 421,
+      "towerPositionY": 224,
       "isTowerReadytoFire": false
     },
     "tower_slot_8": {
       "isTowerBuilt": false,
       "towerType": "undefined",
-      "towerPositionX": 0,
-      "towerPositionY": 0,
+      "towerPositionX": 290,
+      "towerPositionY": 277,
       "isTowerReadytoFire": false
     },
     "tower_slot_9": {
       "isTowerBuilt": false,
       "towerType": "undefined",
-      "towerPositionX": 0,
-      "towerPositionY": 0,
+      "towerPositionX": 377,
+      "towerPositionY": 280,
       "isTowerReadytoFire": false
     },
     "tower_slot_10": {
       "isTowerBuilt": false,
       "towerType": "undefined",
-      "towerPositionX": 0,
-      "towerPositionY": 0,
+      "towerPositionX": 567,
+      "towerPositionY": 282,
       "isTowerReadytoFire": false
     },
     "tower_slot_11": {
       "isTowerBuilt": false,
       "towerType": "undefined",
-      "towerPositionX": 0,
-      "towerPositionY": 0,
+      "towerPositionX": 147,
+      "towerPositionY": 346,
       "isTowerReadytoFire": false
     },
     "tower_slot_12": {
       "isTowerBuilt": false,
       "towerType": "undefined",
-      "towerPositionX": 0,
-      "towerPositionY": 0,
+      "towerPositionX": 332,
+      "towerPositionY": 391,
       "isTowerReadytoFire": false
     }
   }

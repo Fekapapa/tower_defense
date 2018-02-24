@@ -93,11 +93,11 @@ const GameLogic = (function() {
   const AUTOPAUSE_CHANGE = 'AUTOPAUSE_CHANGE';
   const TOWER_CLICKED = 'TOWER_CLICKED';
   const TOWER_UNCLICKED = 'TOWER_UNCLICKED';
-  // const BUILDMENU_OPEN = 'BUILDMENU_OPEN';
-  // const BUILDMENU_CLOSE = 'BUILDMENU_CLOSE';
   const BUILDBUTTON_CLICKED = 'BUILDBUTTON_CLICKED';
   const BUILD_START = 'BUILD_START';
   const TOWERBUILD_FINISHED = 'TOWERBUILD_FINISHED';
+  const OPTIONS_OPEN = 'OPTIONS_OPEN';
+  const OPTIONS_CLOSE = 'OPTIONS_CLOSE';
 
   // Audio tags declaration and source declaration
   const mainAudioMusic = document.getElementById('main-audio-music');
@@ -247,8 +247,21 @@ const GameLogic = (function() {
   const battleMap1Wavestartid = document.getElementById('battle-map-1-wavestartid');
   const battleMap1BuildHereTextContainerid = document.getElementById('battle-map-1-build-here-text-containerid');
   const battleMap1StartHereTextContainerid = document.getElementById('battle-map-1-start-here-text-containerid');
+  const battleMap1TowerSlot1Barid = document.getElementById('battle-map-1-tower-slot-1-barid');
+  const battleMap1TowerSlot2Barid = document.getElementById('battle-map-1-tower-slot-2-barid');
+  const battleMap1TowerSlot3Barid = document.getElementById('battle-map-1-tower-slot-3-barid');
+  const battleMap1TowerSlot4Barid = document.getElementById('battle-map-1-tower-slot-4-barid');
+  const battleMap1TowerSlot5Barid = document.getElementById('battle-map-1-tower-slot-5-barid');
+  const battleMap1TowerSlot6Barid = document.getElementById('battle-map-1-tower-slot-6-barid');
+  const battleMap1TowerSlot7Barid = document.getElementById('battle-map-1-tower-slot-7-barid');
+  const battleMap1TowerSlot8Barid = document.getElementById('battle-map-1-tower-slot-8-barid');
+  const battleMap1TowerSlot9Barid = document.getElementById('battle-map-1-tower-slot-9-barid');
+  const battleMap1TowerSlot10Barid = document.getElementById('battle-map-1-tower-slot-10-barid');
+  const battleMap1TowerSlot11Barid = document.getElementById('battle-map-1-tower-slot-11-barid');
+  const battleMap1TowerSlot12Barid = document.getElementById('battle-map-1-tower-slot-12-barid');
+
+      // Battel map build menu elements
   const battleMapActiveBuildMenuid = document.getElementById('battle-map-active-build-menuid');
-  const battleMapActiveBuildMenuCloseid = document.getElementById('battle-map-active-build-menu-closeid');
   const battleMapTowerBuildMenuInnerbox1Costid = document.getElementById('battle-map-tower-build-menu-innerbox-1-costid');
   const battleMapTowerBuildMenuInnerbox2Costid = document.getElementById('battle-map-tower-build-menu-innerbox-2-costid');
   const battleMapTowerBuildMenuInnerbox3Costid = document.getElementById('battle-map-tower-build-menu-innerbox-3-costid');
@@ -273,23 +286,20 @@ const GameLogic = (function() {
   const battleMapTowerBuildMenuInnerbox2Closeid = document.getElementById('battle-map-tower-build-menu-innerbox-2-closeid');
   const battleMapTowerBuildMenuInnerbox3Closeid = document.getElementById('battle-map-tower-build-menu-innerbox-3-closeid');
   const battleMapTowerBuildMenuInnerbox4Closeid = document.getElementById('battle-map-tower-build-menu-innerbox-4-closeid');
-  const battleMap1TowerSlot1Barid = document.getElementById('battle-map-1-tower-slot-1-barid');
-  const battleMap1TowerSlot2Barid = document.getElementById('battle-map-1-tower-slot-2-barid');
-  const battleMap1TowerSlot3Barid = document.getElementById('battle-map-1-tower-slot-3-barid');
-  const battleMap1TowerSlot4Barid = document.getElementById('battle-map-1-tower-slot-4-barid');
-  const battleMap1TowerSlot5Barid = document.getElementById('battle-map-1-tower-slot-5-barid');
-  const battleMap1TowerSlot6Barid = document.getElementById('battle-map-1-tower-slot-6-barid');
-  const battleMap1TowerSlot7Barid = document.getElementById('battle-map-1-tower-slot-7-barid');
-  const battleMap1TowerSlot8Barid = document.getElementById('battle-map-1-tower-slot-8-barid');
-  const battleMap1TowerSlot9Barid = document.getElementById('battle-map-1-tower-slot-9-barid');
-  const battleMap1TowerSlot10Barid = document.getElementById('battle-map-1-tower-slot-10-barid');
-  const battleMap1TowerSlot11Barid = document.getElementById('battle-map-1-tower-slot-11-barid');
-  const battleMap1TowerSlot12Barid = document.getElementById('battle-map-1-tower-slot-12-barid');
-
   const battleMap1BuildMenuRangeid1 = document.getElementById('battle-map-1-build-menu-rangeid-1');
   const battleMap1BuildMenuRangeid2 = document.getElementById('battle-map-1-build-menu-rangeid-2');
   const battleMap1BuildMenuRangeid3 = document.getElementById('battle-map-1-build-menu-rangeid-3');
   const battleMap1BuildMenuRangeid4 = document.getElementById('battle-map-1-build-menu-rangeid-4');
+
+      // Battel map options menu elements
+  const battleMapOptionsPanelid = document.getElementById('battle-map-options-panelid');
+  const battleMapOptionsSoundOnid = document.getElementById('battle-map-options-sound-onid');
+  const battleMapOptionsSoundOffid = document.getElementById('battle-map-options-sound-offid');
+  const battleMapOptionsMusicOnid = document.getElementById('battle-map-options-music-onid');
+  const battleMapOptionsMusicOffid = document.getElementById('battle-map-options-music-offid');
+  const battleMapOptionsResumeid = document.getElementById('battle-map-options-resumeid');
+  const battleMapOptionsQuitid = document.getElementById('battle-map-options-quitid');
+  const battleMapOptionsRestartid = document.getElementById('battle-map-options-restartid');
 
   // Elements in this list have mouse over sound effect
   const mouseOverList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuCloseButtonid, loadSavedMenuLocalsaveHelpid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid, gameMenuBattlepointer1id, gameMenuBattleStartPanelCloseid, gameMenuBattleStartPanelTobattleid, gameMenuBattleStartPanelLockedModeShieldsid, gameMenuBattleStartPanelLockedModeStarsid, battleMapPauseButtonid, battleMapOptionsButtonid, battleMap1Wavestart1id, battleMap1Wavestart2id, battleMap1Startgameid];
@@ -297,7 +307,7 @@ const GameLogic = (function() {
   const mouseOverListTowerSlots = [battleMap1TowerSlot1id, battleMap1TowerSlot2id, battleMap1TowerSlot3id, battleMap1TowerSlot4id, battleMap1TowerSlot5id, battleMap1TowerSlot6id, battleMap1TowerSlot7id, battleMap1TowerSlot8id, battleMap1TowerSlot9id, battleMap1TowerSlot10id, battleMap1TowerSlot11id, battleMap1TowerSlot12id];
 
   // Elements in this list have mouse click sound effect
-  const mouseClickList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid, gameMenuBattlepointer1id, gameMenuBattleStartPanelCloseid, gameMenuBattleStartPanelTobattleid];
+  const mouseClickList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid, gameMenuBattlepointer1id, gameMenuBattleStartPanelCloseid, gameMenuBattleStartPanelTobattleid, battleMapOptionsButtonid];
 
   // Elements visibility in this list affected by gameslot used or not
   const gameslotElementList = [loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot1Usedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot2Usedid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot3Usedid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot3Deleteid];
@@ -372,7 +382,8 @@ const GameLogic = (function() {
         activeTowerSlot: false,
         isBuildMenuOpen: false,
         battleState: 'BATTLE_OFF',
-				pauseStatus: 'PAUSE_OFF'
+				pauseStatus: 'PAUSE_OFF',
+        isOptionsPanelOpened: false
       };
       return state
     }
@@ -496,6 +507,16 @@ const GameLogic = (function() {
                 activeGameState: action.payload.activeGameState,
                 lastAction: BUILD_START
               })
+      case 'OPTIONS_OPEN':
+        return Object.assign({}, state, {
+                isOptionsPanelOpened: action.payload.isOptionsPanelOpened,
+                lastAction: OPTIONS_OPEN
+              })
+      case 'OPTIONS_CLOSE':
+        return Object.assign({}, state, {
+                isOptionsPanelOpened: action.payload.isOptionsPanelOpened,
+                lastAction: OPTIONS_CLOSE
+              })
       case 'TOWERBUILD_FINISHED':
         return Object.assign({}, state, {
                 activeGameState: action.payload.activeGameState,
@@ -505,6 +526,7 @@ const GameLogic = (function() {
         return state
     }
   }
+
 
   // This function starts the music on/off states
   function musicButtonStateChangeStarter() {
@@ -962,6 +984,26 @@ const GameLogic = (function() {
       type: TOWERBUILD_FINISHED,
       payload: {
         activeGameState: activeGameState,
+      }
+    });
+  }
+
+  // This function handles the battle map options menu open state change
+  function battleMapOptionsMenuOpenStateChangeStarter() {
+    store.dispatch( {
+      type: OPTIONS_OPEN,
+      payload: {
+        isOptionsPanelOpened: true
+      }
+    });
+  }
+
+  // This function handles the battle map options menu close state change
+  function battleMapOptionsMenuCloseStateChangeStarter() {
+    store.dispatch( {
+      type: OPTIONS_CLOSE,
+      payload: {
+        isOptionsPanelOpened: false
       }
     });
   }
@@ -1604,7 +1646,6 @@ const GameLogic = (function() {
 
       battleMap1.appendChild(battleMapActiveBuildMenuid);
 
-
       if(store.getState().activeGameState.battleMap1ActiveState.allowed_towers.archer_1) {
         tempTowerName = store.getState().towerTypes.archer_1.key_name;
         addEvent(battleMapTowerBuildMenuInnerbox1Imageid, 'click', battleMapTowerBuildClickedStateChangeStarter, tempTowerName);
@@ -1829,9 +1870,9 @@ const GameLogic = (function() {
 
   // This function handles the battle map build menu closing display
   function closeTowerBuildMenu() {
-    if (store.getState().lastAction == TOWER_UNCLICKED && battleMapActiveBuildMenuid.classList.contains('battle-map-build-menu-disappear') == false) {
+    if (store.getState().lastAction == TOWER_UNCLICKED && battleMapActiveBuildMenuid.classList.contains('battle-map-build-menu-disappear') == false && store.getState().clickedSlotHTML) {
 
-      battleMapActiveBuildMenuid.classList.add('battle-map-build-menu-disappear');
+    battleMapActiveBuildMenuid.classList.add('battle-map-build-menu-disappear');
 
       setTimeout(function(){
         store.getState().clickedSlotHTML.classList.remove('battle-map-tower-build-place-clicked');
@@ -1937,6 +1978,31 @@ const GameLogic = (function() {
     battleMapTowerBuildFinishedStateChangeStarter(tempActualTower, tempTowerTypeToBuild);
   }
 
+  // This function handles the battle map options menu clicked event logic
+  function battleMapOptionsMenuClicked() {
+    if(store.getState().isOptionsPanelOpened) {
+      battleMapOptionsMenuCloseStateChangeStarter();
+    } else {
+      battleMapOptionsMenuOpenStateChangeStarter();
+    }
+  }
+
+  // This function handles the battle map options menu open display
+  function battleMapOptionsMenuOpen() {
+    if (store.getState().lastAction == OPTIONS_OPEN) {
+      battleMapOptionsPanelid.classList.remove('battle-map-options-menu-close');
+      battleMapOptionsPanelid.classList.add('battle-map-options-menu-open');
+    }
+  }
+
+  // This function handles the battle map options menu close display
+  function battleMapOptionsMenuClose() {
+    if (store.getState().lastAction == OPTIONS_CLOSE) {
+      battleMapOptionsPanelid.classList.remove('battle-map-options-menu-open');
+      battleMapOptionsPanelid.classList.add('battle-map-options-menu-close');
+    }
+  }
+
   // This function handles sound and display rendering according to the actual statement
   function render() {
     console.log(store.getState().lastAction);
@@ -1968,6 +2034,8 @@ const GameLogic = (function() {
     battleMapTowerBuild();
     closeTowerBuildMenu();
     battleMapTowerPlaceCheck();
+    battleMapOptionsMenuOpen();
+    battleMapOptionsMenuClose();
   }
 
   // cssInjectorFunction();
@@ -2016,10 +2084,13 @@ const GameLogic = (function() {
   addEvent(battleMapTowerBuildMenuInnerbox2Imageid, 'mouseover', mouseOverSfx, undefined);
   addEvent(battleMapTowerBuildMenuInnerbox3Imageid, 'mouseover', mouseOverSfx, undefined);
   addEvent(battleMapTowerBuildMenuInnerbox4Imageid, 'mouseover', mouseOverSfx, undefined);
+  addEvent(battleMapOptionsButtonid, 'click', battleMapOptionsMenuClicked, undefined);
+
 
 
   setInterval( checkFocus, 100 );
   // setInterval(function () {console.log(store.getState())}, 1000);
+  // battleMap1.addEventListener('click', function() { console.log((event.pageX - 63)); console.log((event.pageY - 64)) });
 
 return {}
 

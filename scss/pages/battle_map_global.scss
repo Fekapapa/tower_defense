@@ -403,3 +403,73 @@
   text-align: center;
   width: 28px;
 }
+
+.battle-map-options-menu {
+  background-image: $battle-map-options-panel-bg;
+  height: 440px;
+  left: 229px;
+  position: absolute;
+  transform: translateY(-440px);
+  width: 341px;
+  z-index: 3;
+}
+
+.battle-map-options-menu-open {
+  animation: battle-map-options-menu-open 0.3s forwards;
+  animation-timing-function: ease-out;
+}
+
+@keyframes battle-map-options-menu-open {
+  0% { transform: translateY(-440px); }
+  100% { transform: translateY(0); }
+}
+
+.battle-map-options-menu-close {
+  animation: battle-map-options-menu-close 0.3s forwards;
+  animation-timing-function: ease-out;
+}
+
+@keyframes battle-map-options-menu-close {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-440px); }
+}
+
+.battle-map-options-menu-onoff-button-1,
+.battle-map-options-menu-onoff-button-2,
+.battle-map-options-menu-onoff-button-3,
+.battle-map-options-menu-onoff-button-4 {
+  height: 22px;
+  left: 146px;
+  position: absolute;
+  top: 163px;
+  width: 46px;
+}
+
+.battle-map-options-menu-onoff-button-2 {
+  left: 205px;
+}
+
+.battle-map-options-menu-onoff-button-3 {
+  top: 195px;
+}
+
+.battle-map-options-menu-onoff-button-4 {
+  left: 205px;
+  top: 195px;
+}
+
+.battle-map-options-menu-on-on {
+  background-image: $battle-map-options-panel-on-on-bg;
+}
+
+.battle-map-options-menu-on-off {
+  background-image: $battle-map-options-panel-on-off-bg;
+}
+
+.battle-map-options-menu-off-on {
+  background-image: $battle-map-options-panel-off-on-bg;
+}
+
+.battle-map-options-menu-off-off {
+  background-image: $battle-map-options-panel-off-off-bg;
+}
