@@ -409,6 +409,7 @@
   height: 440px;
   left: 229px;
   position: absolute;
+  top: 0;
   transform: translateY(-440px);
   width: 341px;
   z-index: 3;
@@ -464,6 +465,7 @@
 
 .battle-map-options-menu-on-off {
   background-image: $battle-map-options-panel-on-off-bg;
+  cursor: pointer;
 }
 
 .battle-map-options-menu-off-on {
@@ -472,4 +474,5 @@
 
 .battle-map-options-menu-off-off {
   background-image: $battle-map-options-panel-off-off-bg;
+  cursor: pointer;
 }
