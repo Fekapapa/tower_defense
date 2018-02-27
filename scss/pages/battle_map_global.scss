@@ -476,3 +476,39 @@
   background-image: $battle-map-options-panel-off-off-bg;
   cursor: pointer;
 }
+
+.battle-map-options-resume {
+  cursor: pointer;
+  height: 53px;
+  left: 81px;
+  position: absolute;
+  top: 249px;
+  width: 178px;
+  &:hover {
+    background-image: $battle-map-options-panel-resume-hover-bg;
+  }
+}
+
+.battle-map-options-quit {
+  cursor: pointer;
+  height: 54px;
+  left: 77px;
+  position: absolute;
+  top: 308px;
+  width: 181px;
+  &:hover {
+    background-image: $battle-map-options-panel-quit-hover-bg;
+  }
+}
+
+.battle-map-options-restart {
+  cursor: pointer;
+  height: 54px;
+  left: 80px;
+  position: absolute;
+  top: 367px;
+  width: 179px;
+  &:hover {
+    background-image: $battle-map-options-panel-restart-hover-bg;
+  }
+}

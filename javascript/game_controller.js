@@ -98,6 +98,7 @@ const GameLogic = (function() {
   const TOWERBUILD_FINISHED = 'TOWERBUILD_FINISHED';
   const OPTIONS_OPEN = 'OPTIONS_OPEN';
   const OPTIONS_CLOSE = 'OPTIONS_CLOSE';
+  const MANUALPAUSE_OFF = 'MANUALPAUSE_OFF';
 
   // Audio tags declaration and source declaration
   const mainAudioMusic = document.getElementById('main-audio-music');
@@ -135,6 +136,7 @@ const GameLogic = (function() {
 
   // Game pause elements declaration
   const battleMapGamePauseid = document.getElementById('battle-map-game-pauseid');
+  const battleMapGamePauseImageid = document.getElementById('battle-map-game-pause-imageid');
   const landingPageBody = document.getElementById('landing_page_bodyid');
 
   // Main menu elements declaration
@@ -260,7 +262,7 @@ const GameLogic = (function() {
   const battleMap1TowerSlot11Barid = document.getElementById('battle-map-1-tower-slot-11-barid');
   const battleMap1TowerSlot12Barid = document.getElementById('battle-map-1-tower-slot-12-barid');
 
-      // Battel map build menu elements
+  // Battel map build menu elements
   const battleMapActiveBuildMenuid = document.getElementById('battle-map-active-build-menuid');
   const battleMapTowerBuildMenuInnerbox1Costid = document.getElementById('battle-map-tower-build-menu-innerbox-1-costid');
   const battleMapTowerBuildMenuInnerbox2Costid = document.getElementById('battle-map-tower-build-menu-innerbox-2-costid');
@@ -291,7 +293,7 @@ const GameLogic = (function() {
   const battleMap1BuildMenuRangeid3 = document.getElementById('battle-map-1-build-menu-rangeid-3');
   const battleMap1BuildMenuRangeid4 = document.getElementById('battle-map-1-build-menu-rangeid-4');
 
-      // Battel map options menu elements
+  // Battel map options menu elements
   const battleMapOptionsPanelid = document.getElementById('battle-map-options-panelid');
   const battleMapOptionsSoundOnid = document.getElementById('battle-map-options-sound-onid');
   const battleMapOptionsSoundOffid = document.getElementById('battle-map-options-sound-offid');
@@ -302,12 +304,12 @@ const GameLogic = (function() {
   const battleMapOptionsRestartid = document.getElementById('battle-map-options-restartid');
 
   // Elements in this list have mouse over sound effect
-  const mouseOverList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuCloseButtonid, loadSavedMenuLocalsaveHelpid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid, gameMenuBattlepointer1id, gameMenuBattleStartPanelCloseid, gameMenuBattleStartPanelTobattleid, gameMenuBattleStartPanelLockedModeShieldsid, gameMenuBattleStartPanelLockedModeStarsid, battleMapPauseButtonid, battleMapOptionsButtonid, battleMap1Wavestart1id, battleMap1Wavestart2id, battleMap1Startgameid];
+  const mouseOverList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuCloseButtonid, loadSavedMenuLocalsaveHelpid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid, gameMenuBattlepointer1id, gameMenuBattleStartPanelCloseid, gameMenuBattleStartPanelTobattleid, gameMenuBattleStartPanelLockedModeShieldsid, gameMenuBattleStartPanelLockedModeStarsid, battleMapPauseButtonid, battleMapOptionsButtonid, battleMap1Wavestart1id, battleMap1Wavestart2id, battleMap1Startgameid, battleMapOptionsResumeid, battleMapOptionsQuitid, battleMapOptionsRestartid];
 
   const mouseOverListTowerSlots = [battleMap1TowerSlot1id, battleMap1TowerSlot2id, battleMap1TowerSlot3id, battleMap1TowerSlot4id, battleMap1TowerSlot5id, battleMap1TowerSlot6id, battleMap1TowerSlot7id, battleMap1TowerSlot8id, battleMap1TowerSlot9id, battleMap1TowerSlot10id, battleMap1TowerSlot11id, battleMap1TowerSlot12id];
 
   // Elements in this list have mouse click sound effect
-  const mouseClickList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid, gameMenuBattlepointer1id, gameMenuBattleStartPanelCloseid, gameMenuBattleStartPanelTobattleid, battleMapOptionsButtonid, battleMapOptionsSoundOnid, battleMapOptionsSoundOffid, battleMapOptionsMusicOnid, battleMapOptionsMusicOffid];
+  const mouseClickList = [mainMenuStartButtonid, mainMenuCreditsButtonid, mainMenuPlayonmobileButtonid, mainMenuTwitterButtonid, mainMenuFacebookButtonid, mainMenuMusicButtonid, mainMenuSoundButtonid, loadSavedMenuCloseButtonid, loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Deleteid, loadSavedMenuGameslot1Delconfyesid, loadSavedMenuGameslot1Delconfnoid, loadSavedMenuGameslot2Delconfyesid, loadSavedMenuGameslot2Delconfnoid, loadSavedMenuGameslot3Delconfyesid, loadSavedMenuGameslot3Delconfnoid, creditsBackButtonid, gameMenuBackButtonid, gameMenuMusicButtonid, gameMenuSoundButtonid, gameMenuBattlepointer1id, gameMenuBattleStartPanelCloseid, gameMenuBattleStartPanelTobattleid, battleMapOptionsButtonid, battleMapOptionsSoundOnid, battleMapOptionsSoundOffid, battleMapOptionsMusicOnid, battleMapOptionsMusicOffid, battleMapOptionsResumeid, battleMapOptionsQuitid, battleMapOptionsRestartid];
 
   // Elements visibility in this list affected by gameslot used or not
   const gameslotElementList = [loadSavedMenuGameslot1Unusedid, loadSavedMenuGameslot1Usedid, loadSavedMenuGameslot1UsedHoverid, loadSavedMenuGameslot1Deleteid, loadSavedMenuGameslot2Unusedid, loadSavedMenuGameslot2Usedid, loadSavedMenuGameslot2UsedHoverid, loadSavedMenuGameslot2Deleteid, loadSavedMenuGameslot3Unusedid, loadSavedMenuGameslot3Usedid, loadSavedMenuGameslot3UsedHoverid, loadSavedMenuGameslot3Deleteid];
@@ -518,8 +520,12 @@ const GameLogic = (function() {
         return Object.assign({}, state, {
                 isOptionsPanelOpened: action.payload.isOptionsPanelOpened,
                 isGamePaused: action.payload.isGamePaused,
-                manualPaused: action.payload.manualPaused,
                 lastAction: OPTIONS_CLOSE
+              })
+      case 'MANUALPAUSE_OFF':
+        return Object.assign({}, state, {
+                manualPaused: action.payload.manualPaused,
+                lastAction: MANUALPAUSE_OFF
               })
       case 'TOWERBUILD_FINISHED':
         return Object.assign({}, state, {
@@ -1010,7 +1016,16 @@ const GameLogic = (function() {
       type: OPTIONS_CLOSE,
       payload: {
         isOptionsPanelOpened: false,
-        isGamePaused: false,
+        isGamePaused: false
+      }
+    });
+  }
+
+  // This function handles the battle map options menu close manual pause off state change. It restarts the autopause feature.
+  function battleMapOptionsMenuCloseManualpauseOffStateChangeStarter() {
+    store.dispatch( {
+      type: MANUALPAUSE_OFF,
+      payload: {
         manualPaused: false
       }
     });
@@ -2015,8 +2030,16 @@ const GameLogic = (function() {
   // This function handles the battle map options menu clicked event logic
   function battleMapOptionsMenuClicked() {
     if(store.getState().isOptionsPanelOpened) {
+      battleMapGamePauseImageid.classList.remove('nodisplay');
       battleMapOptionsMenuCloseStateChangeStarter();
+      setTimeout(function(){
+        isUserFocusOnThePage = true;
+        isUserFocusOnTheGame = true;
+        battleMapOptionsMenuCloseManualpauseOffStateChangeStarter();
+      }, 50);
+
     } else {
+      battleMapGamePauseImageid.classList.add('nodisplay');
       battleMapOptionsMenuOpenStateChangeStarter();
     }
   }
@@ -2148,7 +2171,7 @@ const GameLogic = (function() {
   addEvent(battleMapOptionsSoundOffid, 'click', battleMapOptionsMenuSoundMusicButtonsClick, 'soundoff');
   addEvent(battleMapOptionsMusicOnid, 'click', battleMapOptionsMenuSoundMusicButtonsClick, 'musicon');
   addEvent(battleMapOptionsMusicOffid, 'click', battleMapOptionsMenuSoundMusicButtonsClick, 'musicoff');
-
+  addEvent(battleMapOptionsResumeid, 'click', battleMapOptionsMenuClicked, undefined);
 
 
   setInterval( checkFocus, 100 );
