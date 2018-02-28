@@ -99,6 +99,7 @@ const GameLogic = (function() {
   const OPTIONS_OPEN = 'OPTIONS_OPEN';
   const OPTIONS_CLOSE = 'OPTIONS_CLOSE';
   const MANUALPAUSE_OFF = 'MANUALPAUSE_OFF';
+  const RESTART = 'RESTART';
 
   // Audio tags declaration and source declaration
   const mainAudioMusic = document.getElementById('main-audio-music');
@@ -531,6 +532,11 @@ const GameLogic = (function() {
         return Object.assign({}, state, {
                 activeGameState: action.payload.activeGameState,
                 lastAction: TOWERBUILD_FINISHED
+              })
+      case 'RESTART':
+        return Object.assign({}, state, {
+                activeGameState: action.payload.activeGameState,
+                lastAction: RESTART
               })
       default:
         return state
@@ -1018,6 +1024,21 @@ const GameLogic = (function() {
         isOptionsPanelOpened: false,
         isGamePaused: false
       }
+    });
+  }
+
+  // This function handles the battle map restart button state change
+  function battleMapRestartStateChangeStarter() {
+    getJsonData('xp_webtech_krf_battle_map_1.json', function(response) {
+      battleMap1ActiveState = response;
+      activeGameState.battleMap1ActiveState = battleMap1ActiveState;
+
+      store.dispatch( {
+        type: RESTART,
+        payload: {
+          activeGameState: activeGameState
+        }
+      });
     });
   }
 
@@ -2061,14 +2082,6 @@ const GameLogic = (function() {
     }
   }
 
-  // This function handles the battle map options menu sound and music buttons display
-  function battleMapOptionsMenuSoundButtons() {
-    if (store.getState().lastAction == OPTIONS_CLOSE) {
-      battleMapOptionsPanelid.classList.remove('battle-map-options-menu-open');
-      battleMapOptionsPanelid.classList.add('battle-map-options-menu-close');
-    }
-  }
-
   // This function handles the battle map options menu sound and music buttons functionality
   function battleMapOptionsMenuSoundMusicButtonsClick(value) {
     if (value == 'soundon' && store.getState().sfxStatus == 'OFF') {
@@ -2084,6 +2097,61 @@ const GameLogic = (function() {
       musicButtonStateChangeStarter()
     }
   }
+
+  // This function handles the battle map options menu restart display changes.
+  function battleMapOptionsMenuRestart() {
+    if (store.getState().lastAction == RESTART) {
+      battleMapOptionsMenuClicked();
+      currentGameDataLoaderStateChangeStarter();
+
+      battleMapInfoPanelHealthTextid.innerHTML = store.getState().activeGameState.battleMap1ActiveState.life;
+      battleMapInfoPanelGoldTextid.innerHTML = store.getState().activeGameState.battleMap1ActiveState.gold;
+      battleMapInfoPanelWaveTextid.innerHTML = 'wave ' + store.getState().activeGameState.battleMap1ActiveState.current_wave + '/'
+      + store.getState().activeGameState.battleMap1ActiveState.waves_quantity;
+
+      battleMap1.classList.remove('battle-map-1-fade-in');
+      battleMap1.classList.remove('battle-map-1-fade-in-restart');
+      battleMapInfoPanelid.classList.remove('battle-map-info-panel');
+      battleMapPauseButtonid.classList.remove('battle-map-pause-button');
+      battleMapOptionsButtonid.classList.remove('battle-map-options-button');
+      battleMapFooterid.classList.remove('battle-map-footer');
+      battleMap1Wavestartid.classList.remove('battle-map-1-wavestart-container');
+      battleMap1Wavestartid.classList.remove('delayed-animation');
+      battleMap1BuildHereTextContainerid.classList.remove('battle-map-1-build-here-text-container');
+      battleMap1BuildHereTextContainerid.classList.remove('delayed-animation');
+      battleMap1StartHereTextContainerid.classList.remove('battle-map-1-start-here-text-container');
+      battleMap1StartHereTextContainerid.classList.remove('delayed-animation');
+      battleMap1BuildHereTextid.classList.remove('nodisplay');
+      battleMap1StartHereTextid.classList.remove('nodisplay');
+      battleMapOptionsPanelid.classList.add('nodisplay');
+      battleMap1.classList.add('nodisplay');
+
+      for (let i = 0; i < battleMap1TowerPlaceList.length; i++) {
+        if (battleMap1TowerPlaceList[i].classList[1] !== 'battle-map-tower-build-place') {
+          let tempData = battleMap1TowerPlaceList[i].classList[1];
+          battleMap1TowerPlaceList[i].classList.remove(tempData);
+          battleMap1TowerPlaceList[i].classList.add('battle-map-tower-build-place');
+        }
+      }
+
+      setTimeout(function(){
+        battleMap1.classList.remove('nodisplay');
+        battleMap1.classList.add('battle-map-1-fade-in-restart');
+        battleMapInfoPanelid.classList.add('battle-map-info-panel');
+        battleMapPauseButtonid.classList.add('battle-map-pause-button');
+        battleMapOptionsButtonid.classList.add('battle-map-options-button');
+        battleMapFooterid.classList.add('battle-map-footer');
+        battleMap1Wavestartid.classList.add('battle-map-1-wavestart-container');
+        battleMap1Wavestartid.classList.add('delayed-animation');
+        battleMap1BuildHereTextContainerid.classList.add('battle-map-1-build-here-text-container');
+        battleMap1BuildHereTextContainerid.classList.add('delayed-animation');
+        battleMap1StartHereTextContainerid.classList.add('battle-map-1-start-here-text-container');
+        battleMap1StartHereTextContainerid.classList.add('delayed-animation');
+      }, 30);
+    }
+  }
+
+//Animationend always gets more and more eventListeners. Must remove them after adding it!!!
 
   // This function handles sound and display rendering according to the actual statement
   function render() {
@@ -2118,6 +2186,7 @@ const GameLogic = (function() {
     battleMapTowerPlaceCheck();
     battleMapOptionsMenuOpen();
     battleMapOptionsMenuClose();
+    battleMapOptionsMenuRestart();
   }
 
   // cssInjectorFunction();
@@ -2172,6 +2241,7 @@ const GameLogic = (function() {
   addEvent(battleMapOptionsMusicOnid, 'click', battleMapOptionsMenuSoundMusicButtonsClick, 'musicon');
   addEvent(battleMapOptionsMusicOffid, 'click', battleMapOptionsMenuSoundMusicButtonsClick, 'musicoff');
   addEvent(battleMapOptionsResumeid, 'click', battleMapOptionsMenuClicked, undefined);
+  addEvent(battleMapOptionsRestartid, 'click', battleMapRestartStateChangeStarter, undefined);
 
 
   setInterval( checkFocus, 100 );

@@ -1204,6 +1204,12 @@
   animation-fill-mode: forwards;
   opacity: 0; }
 
+.battle-map-1-fade-in-restart {
+  animation-name: battle-map-1-fade-in;
+  animation-duration: 0.6s;
+  animation-fill-mode: forwards;
+  opacity: 0; }
+
 @keyframes battle-map-1-fade-in {
   0% {
     opacity: 0; }
