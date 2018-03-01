@@ -63,6 +63,85 @@ const GameLogic = (function() {
     });
   }
 
+  // ES5 Array.from
+  if (!Array.from) {
+    Array.from = (function () {
+      var toStr = Object.prototype.toString;
+      var isCallable = function (fn) {
+        return typeof fn === 'function' || toStr.call(fn) === '[object Function]';
+      };
+      var toInteger = function (value) {
+        var number = Number(value);
+        if (isNaN(number)) { return 0; }
+        if (number === 0 || !isFinite(number)) { return number; }
+        return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number));
+      };
+      var maxSafeInteger = Math.pow(2, 53) - 1;
+      var toLength = function (value) {
+        var len = toInteger(value);
+        return Math.min(Math.max(len, 0), maxSafeInteger);
+      };
+
+      // The length property of the from method is 1.
+      return function from(arrayLike/*, mapFn, thisArg */) {
+        // 1. Let C be the this value.
+        var C = this;
+
+        // 2. Let items be ToObject(arrayLike).
+        var items = Object(arrayLike);
+
+        // 3. ReturnIfAbrupt(items).
+        if (arrayLike == null) {
+          throw new TypeError('Array.from requires an array-like object - not null or undefined');
+        }
+
+        // 4. If mapfn is undefined, then let mapping be false.
+        var mapFn = arguments.length > 1 ? arguments[1] : void undefined;
+        var T;
+        if (typeof mapFn !== 'undefined') {
+          // 5. else
+          // 5. a If IsCallable(mapfn) is false, throw a TypeError exception.
+          if (!isCallable(mapFn)) {
+            throw new TypeError('Array.from: when provided, the second argument must be a function');
+          }
+
+          // 5. b. If thisArg was supplied, let T be thisArg; else let T be undefined.
+          if (arguments.length > 2) {
+            T = arguments[2];
+          }
+        }
+
+        // 10. Let lenValue be Get(items, "length").
+        // 11. Let len be ToLength(lenValue).
+        var len = toLength(items.length);
+
+        // 13. If IsConstructor(C) is true, then
+        // 13. a. Let A be the result of calling the [[Construct]] internal method
+        // of C with an argument list containing the single item len.
+        // 14. a. Else, Let A be ArrayCreate(len).
+        var A = isCallable(C) ? Object(new C(len)) : new Array(len);
+
+        // 16. Let k be 0.
+        var k = 0;
+        // 17. Repeat, while k < len… (also steps a - h)
+        var kValue;
+        while (k < len) {
+          kValue = items[k];
+          if (mapFn) {
+            A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T, kValue, k);
+          } else {
+            A[k] = kValue;
+          }
+          k += 1;
+        }
+        // 18. Let putStatus be Put(A, "length", len, true).
+        A.length = len;
+        // 20. Return A.
+        return A;
+      };
+    }());
+  }
+
   // Redux and global variable declaration
   const store = Redux.createStore(reducer);
   store.subscribe(render);
@@ -100,6 +179,7 @@ const GameLogic = (function() {
   const OPTIONS_CLOSE = 'OPTIONS_CLOSE';
   const MANUALPAUSE_OFF = 'MANUALPAUSE_OFF';
   const RESTART = 'RESTART';
+  const EVENTLISTENER_CHANGE = 'EVENTLISTENER_CHANGE';
 
   // Audio tags declaration and source declaration
   const mainAudioMusic = document.getElementById('main-audio-music');
@@ -386,7 +466,8 @@ const GameLogic = (function() {
         isBuildMenuOpen: false,
         battleState: 'BATTLE_OFF',
 				pauseStatus: 'PAUSE_OFF',
-        isOptionsPanelOpened: false
+        isOptionsPanelOpened: false,
+        animationendListened: []
       };
       return state
     }
@@ -538,11 +619,15 @@ const GameLogic = (function() {
                 activeGameState: action.payload.activeGameState,
                 lastAction: RESTART
               })
+      case 'EVENTLISTENER_CHANGE':
+        return Object.assign({}, state, {
+                animationendListened: action.payload.animationendListened,
+                lastAction: EVENTLISTENER_CHANGE
+              })
       default:
         return state
     }
   }
-
 
   // This function starts the music on/off states
   function musicButtonStateChangeStarter() {
@@ -1048,6 +1133,19 @@ const GameLogic = (function() {
       type: MANUALPAUSE_OFF,
       payload: {
         manualPaused: false
+      }
+    });
+  }
+
+  // This function handles the battle map tower slots event listeners state change.
+  function towerSlotEventListenerWatcherStateChangeStarter(tempActualTower, event) {
+    let tempData = store.getState().animationendListened;
+    tempData.push([tempActualTower, event]);
+
+    store.dispatch( {
+      type: EVENTLISTENER_CHANGE,
+      payload: {
+        animationendListened: tempData
       }
     });
   }
@@ -1999,6 +2097,8 @@ const GameLogic = (function() {
   function battleMapTowerBuildStarted() {
     let tempTowerSlotToBuild = store.getState().towerSlotToBuild.split('_')[2];
     let tempTowerToBuild = store.getState().towerToBuild;
+    let tempActualTower = ('tower_slot_' + tempTowerSlotToBuild);
+    let tempData = 0;
     mainSfxController(towerBuildingSfxSource);
 
     if(tempTowerSlotToBuild == 7) {
@@ -2006,7 +2106,17 @@ const GameLogic = (function() {
     }
 
     let tempParameters = [tempTowerSlotToBuild, tempTowerToBuild];
-    addEvent(battleMap1TowerPlaceList[tempTowerSlotToBuild - 1], 'animationend', battleMapTowerBuildFinished, tempParameters);
+
+    for (let i = 0; i < store.getState().animationendListened.length; i++) {
+      if (store.getState().animationendListened[i][0] == tempActualTower && store.getState().animationendListened[i][1] == 'animationend') {
+        tempData = 1;
+      }
+    }
+
+    if (tempData !== 1){
+      towerSlotEventListenerWatcherStateChangeStarter(tempActualTower, 'animationend');
+      addEvent(battleMap1TowerPlaceList[tempTowerSlotToBuild - 1], 'animationend', battleMapTowerBuildFinished, tempParameters);
+    }
   }
 
   // This function handles the tower build end display and logical changes
@@ -2127,10 +2237,14 @@ const GameLogic = (function() {
       battleMap1.classList.add('nodisplay');
 
       for (let i = 0; i < battleMap1TowerPlaceList.length; i++) {
-        if (battleMap1TowerPlaceList[i].classList[1] !== 'battle-map-tower-build-place') {
-          let tempData = battleMap1TowerPlaceList[i].classList[1];
-          battleMap1TowerPlaceList[i].classList.remove(tempData);
-          battleMap1TowerPlaceList[i].classList.add('battle-map-tower-build-place');
+        let tempData = Array.from(battleMap1TowerPlaceList[i].classList);
+        if (tempData.indexOf('battle-map-tower-build-place') == -1) {
+          for (let j = 0; j < tempData.length; j++) {
+            if (battleMap1TowerPlaceList[i].classList[j].slice('-').indexOf('built') !== -1) {
+              battleMap1TowerPlaceList[i].classList.remove(battleMap1TowerPlaceList[i].classList[j]);
+              battleMap1TowerPlaceList[i].classList.add('battle-map-tower-build-place');
+            }
+          }
         }
       }
 
@@ -2150,8 +2264,6 @@ const GameLogic = (function() {
       }, 30);
     }
   }
-
-//Animationend always gets more and more eventListeners. Must remove them after adding it!!!
 
   // This function handles sound and display rendering according to the actual statement
   function render() {
