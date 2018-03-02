@@ -320,14 +320,17 @@
 }
 
 .battle-map-archer-1-tower-built:hover .battle-map-1-tower-slot-bar {
-  box-shadow: 0px 0px 30px 25px #fff513;
   display: inherit;
-  height: 8px;
-  left: 23px;
-  top: 22px;
+  height: 60px;
+  left: -2px;
+  top: -4px;
   position: absolute;
-  width: 12px;
-  z-index: -1;
+  width: 60px;
+  border-radius: 50%;
+  border-color: rgba(255, 245, 19, 0.4);
+  border-width: 2px;
+  border-style: solid;
+  box-shadow: 0px 0px 20px 0px rgba(255,245,19,0.75), inset 0px 0px 25px 0px rgba(255,245,19,0.75);
 }
 
 .battle-map-mage-1-tower-built {
@@ -345,14 +348,17 @@
 }
 
 .battle-map-mage-1-tower-built:hover .battle-map-1-tower-slot-bar {
-  box-shadow: 0px 0px 30px 25px #fff513;
   display: inherit;
-  height: 10px;
-  left: 25px;
-  top: 23px;
+  height: 60px;
+  left: 1px;
+  top: -2px;
   position: absolute;
-  width: 15px;
-  z-index: -1;
+  width: 60px;
+  border-radius: 50%;
+  border-color: rgba(255, 245, 19, 0.4);
+  border-width: 2px;
+  border-style: solid;
+  box-shadow: 0px 0px 20px 0px rgba(255,245,19,0.75), inset 0px 0px 25px 0px rgba(255,245,19,0.75);
 }
 
 .battle-map-tower-build-menu-innerbox-1:hover + span,
