@@ -1805,12 +1805,11 @@ const GameLogic = (function() {
       battleMapPauseButtonid.classList.add('battle-map-pause-button');
       battleMapOptionsButtonid.classList.add('battle-map-options-button');
       battleMapFooterid.classList.add('battle-map-footer');
-      battleMap1Wavestartid.classList.add('battle-map-1-wavestart-container');
       battleMap1BuildHereTextContainerid.classList.add('battle-map-1-build-here-text-container');
       battleMap1StartHereTextContainerid.classList.add('battle-map-1-start-here-text-container');
-      battleMap1StartHereTextContainerid.classList.add('delayed-animation');
       battleMap1StartHereTextid.classList.add('battle-map-1-start-here-text');
       battleMap1BuildHereTextid.classList.add('battle-map-1-build-here-text');
+      battleMap1Wavestartid.classList.add('battle-map-1-wavestart-container');
       battleMap1Wavestart1id.classList.add('battle-map-1-wavestart-1');
       battleMap1Wavestart2id.classList.add('battle-map-1-wavestart-2');
       battleMap1.appendChild(battleMapActiveBuildMenuid);
@@ -2226,18 +2225,21 @@ const GameLogic = (function() {
       battleMapPauseButtonid.classList.remove('battle-map-pause-button');
       battleMapOptionsButtonid.classList.remove('battle-map-options-button');
       battleMapFooterid.classList.remove('battle-map-footer');
-      battleMap1Wavestartid.classList.remove('battle-map-1-wavestart-container');
       battleMap1BuildHereTextContainerid.classList.remove('battle-map-1-build-here-text-container');
       battleMap1StartHereTextContainerid.classList.remove('battle-map-1-start-here-text-container');
-      battleMap1StartHereTextContainerid.classList.remove('delayed-animation');
       battleMap1BuildHereTextid.classList.remove('battle-map-1-build-here-text');
       battleMap1StartHereTextid.classList.remove('battle-map-1-start-here-text');
       battleMap1BuildHereTextid.classList.remove('nodisplay');
       battleMap1StartHereTextid.classList.remove('nodisplay');
       battleMapOptionsPanelid.classList.add('nodisplay');
       battleMap1.classList.add('nodisplay');
+      battleMap1Wavestartid.classList.remove('battle-map-1-wavestart-container');
       battleMap1Wavestart1id.classList.remove('battle-map-1-wavestart-1');
       battleMap1Wavestart2id.classList.remove('battle-map-1-wavestart-2');
+
+      // battleMap1Wavestartid.classList.add('hidden');
+      // battleMap1Wavestart1id.classList.add('hidden');
+      // battleMap1Wavestart2id.classList.add('hidden');
 
       for (let i = 0; i < battleMap1TowerPlaceList.length; i++) {
         let tempData = Array.from(battleMap1TowerPlaceList[i].classList);
@@ -2250,6 +2252,7 @@ const GameLogic = (function() {
           }
         }
       }
+
       void battleMapInfoPanelid.offsetWidth;
       void battleMapFooterid.offsetWidth;
       void battleMapPauseButtonid.offsetWidth;
@@ -2263,16 +2266,19 @@ const GameLogic = (function() {
       void battleMap1StartHereTextid.offsetWidth;
 
       setTimeout(function(){
+        // battleMap1Wavestartid.classList.remove('hidden');
+        // battleMap1Wavestart1id.classList.remove('hidden');
+        // battleMap1Wavestart2id.classList.remove('hidden');
+
         battleMapFooterid.classList.add('battle-map-footer');
         battleMapPauseButtonid.classList.add('battle-map-pause-button');
         battleMapOptionsButtonid.classList.add('battle-map-options-button');
         battleMapInfoPanelid.classList.add('battle-map-info-panel');
-        battleMap1Wavestartid.classList.add('battle-map-1-wavestart-container');
         battleMap1BuildHereTextContainerid.classList.add('battle-map-1-build-here-text-container');
         battleMap1StartHereTextContainerid.classList.add('battle-map-1-start-here-text-container');
-        battleMap1StartHereTextContainerid.classList.add('delayed-animation');
         battleMap1.classList.remove('nodisplay');
         battleMap1.classList.add('battle-map-1-fade-in-restart');
+        battleMap1Wavestartid.classList.add('battle-map-1-wavestart-container');
         battleMap1Wavestart1id.classList.add('battle-map-1-wavestart-1');
         battleMap1Wavestart2id.classList.add('battle-map-1-wavestart-2');
         battleMap1BuildHereTextid.classList.add('battle-map-1-build-here-text');
