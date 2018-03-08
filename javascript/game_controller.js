@@ -180,6 +180,7 @@ const GameLogic = (function() {
   const MANUALPAUSE_OFF = 'MANUALPAUSE_OFF';
   const RESTART = 'RESTART';
   const EVENTLISTENER_CHANGE = 'EVENTLISTENER_CHANGE';
+  const QUITBATTLE = 'QUITBATTLE';
 
   // Audio tags declaration and source declaration
   const mainAudioMusic = document.getElementById('main-audio-music');
@@ -465,7 +466,7 @@ const GameLogic = (function() {
         activeTowerSlot: false,
         isBuildMenuOpen: false,
         battleState: 'BATTLE_OFF',
-				pauseStatus: 'PAUSE_OFF',
+        pauseStatus: 'PAUSE_OFF',
         isOptionsPanelOpened: false,
         animationendListened: []
       };
@@ -618,6 +619,12 @@ const GameLogic = (function() {
         return Object.assign({}, state, {
                 activeGameState: action.payload.activeGameState,
                 lastAction: RESTART
+              })
+      case 'QUITBATTLE':
+        return Object.assign({}, state, {
+                activeGameState: action.payload.activeGameState,
+                battleState: action.payload.battleState,
+                lastAction: QUITBATTLE
               })
       case 'EVENTLISTENER_CHANGE':
         return Object.assign({}, state, {
@@ -983,28 +990,30 @@ const GameLogic = (function() {
   function prologuetoBattleMapStateChangeStarter() {
     activeGameState.battleMap1ActiveState = battleMap1ActiveState;
 
-    store.dispatch( {
-      type: DIFFICULTY_CHANGE,
-      payload: {
-        activeGameState: activeGameState,
-        towerTypes: towerTypes
-      }
-    });
-
-    store.dispatch( {
-      type: MENU_CHANGE,
-      payload: {
-        currentPage: 'BATTLE_MAP',
-        previousPage: 'PROLOGUE'
-      }
-    });
-    store.dispatch( {
-      type: BATTLE_ON,
-      payload: {
-        battleState: 'BATTLE_ON',
-        activeGameState: activeGameState
-      }
-    });
+    // Timeout needed to avoid the instant pause when battle_on fired.
+    setTimeout(function(){
+      store.dispatch( {
+        type: DIFFICULTY_CHANGE,
+        payload: {
+          activeGameState: activeGameState,
+          towerTypes: towerTypes
+        }
+      });
+      store.dispatch( {
+        type: MENU_CHANGE,
+        payload: {
+          currentPage: 'BATTLE_MAP',
+          previousPage: 'PROLOGUE'
+        }
+      });
+      store.dispatch( {
+        type: BATTLE_ON,
+        payload: {
+          battleState: 'BATTLE_ON',
+          activeGameState: activeGameState
+        }
+      });
+    }, 100);
   }
 
   // This function handles the autopause game state change
@@ -1124,6 +1133,46 @@ const GameLogic = (function() {
           activeGameState: activeGameState
         }
       });
+    });
+  }
+
+  // This function handles the battle map restart button state change
+  function battleMapQuitStateChangeStarter() {
+    getJsonData('xp_webtech_krf_battle_map_1.json', function(response) {
+      battleMap1ActiveState = response;
+      activeGameState.battleMap1ActiveState = battleMap1ActiveState;
+
+      store.dispatch( {
+        type: QUITBATTLE,
+        payload: {
+          activeGameState: activeGameState,
+          battleState: 'BATTLE_OFF'
+        }
+      });
+      store.dispatch( {
+        type: MENU_CHANGE,
+        payload: {
+          currentPage: 'MAIN_MENU',
+          previousPage: 'BATTLE_MAP'
+        }
+      });
+      if (store.getState().musicStatus == 'ON') {
+        store.dispatch( {
+          type: MUSIC_ON,
+          payload: {
+            status: 'ON',
+            src: mainMenuMusicSource
+          }
+        });
+      } else {
+        store.dispatch( {
+          type: MUSIC_OFF,
+          payload: {
+            status: 'OFF',
+            src: mainMenuMusicSource
+          }
+        });
+      }
     });
   }
 
@@ -1532,6 +1581,7 @@ const GameLogic = (function() {
         mainMenuIronhideImageid.classList.remove('main-menu-ironhide-image-reverse');
         mainMenuStartImageid.classList.remove('main-menu-start-image-reverse');
         mainMenuCreditsImageid.classList.remove('main-menu-credits-image-reverse');
+        loadSavedMenuActionsContainerid.classList.add('nodisplay');
       }, 600);
 
       if (store.getState().activeGameState.isMap1Completed != true) {
@@ -1733,6 +1783,10 @@ const GameLogic = (function() {
         gameMenu.classList.add('pagehide');
         battleMap1.classList.remove('pagehide');
       }, 600);
+
+      isUserFocusOnThePage = true;
+      isUserFocusOnTheGame = true;
+
     }
   }
 
@@ -1771,7 +1825,7 @@ const GameLogic = (function() {
       preloaderStarter();
 
       setTimeout(function(){
-        gameMenuBattlePanelDeleter();
+        gameMenuBattlePanelOffStateChangeStarter();
         gameMenu.classList.add('pagehide');
         prologue.classList.remove('pagehide');
         prologueComic1id.classList.add('prologue-comic-1');
@@ -1783,7 +1837,7 @@ const GameLogic = (function() {
       }, 600);
 
       setTimeout(function(){
-        addEvent(prologue, 'click', prologuetoBattleMapStateChangeStarter, undefined);
+        prologue.addEventListener('click', prologuetoBattleMapStateChangeStarter);
         prologue.classList.add('pointer');
       }, 8600);
     }
@@ -1841,20 +1895,43 @@ const GameLogic = (function() {
         mainSfxController(battlemapLoadedSfxSource);
       }, 1700);
 
+      prologueComic1id.classList.remove('prologue-comic-1');
+      prologueComic2id.classList.remove('prologue-comic-2');
+      prologueComic3id.classList.remove('prologue-comic-3');
+      prologueComic4id.classList.remove('prologue-comic-4');
+      prologueComic5id.classList.remove('prologue-comic-5');
+      prologueComicClickid.classList.remove('prologue-comic-click');
+
+      void prologueComic1id.offsetWidth;
+      void prologueComic2id.offsetWidth;
+      void prologueComic3id.offsetWidth;
+      void prologueComic4id.offsetWidth;
+      void prologueComic5id.offsetWidth;
+      void prologueComicClickid.offsetWidth;
+
+      prologue.removeEventListener('click', prologuetoBattleMapStateChangeStarter);
+      prologue.classList.remove('pointer');
+
+      isUserFocusOnThePage = true;
+      isUserFocusOnTheGame = true;
     }
   }
 
   // This function handles the click outside the game -> pause the game event
   function pageBodyClicked(value) {
-    isUserFocusOnTheGame = false;
-    if ( value == 'stop') {
-      event.stopPropagation();
+    if (store.getState().battleState == 'BATTLE_ON') {
+      isUserFocusOnTheGame = false;
+      if ( value == 'stop') {
+        event.stopPropagation();
+      }
     }
   }
 
   // This function handles the click inside the game -> continue the game event
   function pauseElementClicked(event) {
-    isUserFocusOnTheGame = true;
+    if (store.getState().battleState == 'BATTLE_ON') {
+      isUserFocusOnTheGame = true;
+    }
     event.stopPropagation();
   }
 
@@ -1904,18 +1981,6 @@ const GameLogic = (function() {
           battleMap1TowerPlaceList[tempTowerSlotToBuild - 1].classList.remove('stopAfterAnimation');
         }
       }
-    }
-  }
-
-  // This function adds event listeners at battle start
-  function battleStartEventAdding() {
-    if (store.getState().lastAction == 'BATTLE_ON') {
-      setTimeout(function(){
-        addEvent(battleMap1, 'click', preventGamePause, 'event');
-        addEvent(landingPageBody, 'click', pageBodyClicked, undefined);
-        addEvent(battleMapGamePauseid, 'click', pauseElementClicked, 'event');
-        addEvent(battleMapPauseButtonid, 'click', pageBodyClicked, 'stop');
-      }, 600);
     }
   }
 
@@ -2237,10 +2302,6 @@ const GameLogic = (function() {
       battleMap1Wavestart1id.classList.remove('battle-map-1-wavestart-1');
       battleMap1Wavestart2id.classList.remove('battle-map-1-wavestart-2');
 
-      // battleMap1Wavestartid.classList.add('hidden');
-      // battleMap1Wavestart1id.classList.add('hidden');
-      // battleMap1Wavestart2id.classList.add('hidden');
-
       for (let i = 0; i < battleMap1TowerPlaceList.length; i++) {
         let tempData = Array.from(battleMap1TowerPlaceList[i].classList);
         if (tempData.indexOf('battle-map-tower-build-place') == -1) {
@@ -2266,10 +2327,6 @@ const GameLogic = (function() {
       void battleMap1StartHereTextid.offsetWidth;
 
       setTimeout(function(){
-        // battleMap1Wavestartid.classList.remove('hidden');
-        // battleMap1Wavestart1id.classList.remove('hidden');
-        // battleMap1Wavestart2id.classList.remove('hidden');
-
         battleMapFooterid.classList.add('battle-map-footer');
         battleMapPauseButtonid.classList.add('battle-map-pause-button');
         battleMapOptionsButtonid.classList.add('battle-map-options-button');
@@ -2284,6 +2341,104 @@ const GameLogic = (function() {
         battleMap1BuildHereTextid.classList.add('battle-map-1-build-here-text');
         battleMap1StartHereTextid.classList.add('battle-map-1-start-here-text');
       }, 100);
+    }
+  }
+
+  // This function handles the battle map options menu restart display changes.
+  function battleMapOptionsMenuQuit() {
+    if (store.getState().lastAction == QUITBATTLE) {
+
+      battleMapGamePauseImageid.classList.add('nodisplay');
+      battleMapOptionsPanelid.classList.add('pagehide');
+
+      mainSfxController(preloaderSfxSource);
+      preloaderStarter();
+
+      setTimeout(function(){
+
+        battleMapOptionsPanelid.classList.remove('battle-map-options-menu-open');
+        battleMapOptionsPanelid.classList.add('battle-map-options-menu-close');
+        battleMapOptionsMenuClicked();
+        battleMapGamePauseid.classList.add('pagehide');
+
+        prologue.classList.remove('prologue-fade-out');
+        currentGameDataLoaderStateChangeStarter();
+
+        setTimeout(function(){
+          battleMapOptionsPanelid.classList.remove('pagehide');
+        }, 600);
+
+        battleMapInfoPanelHealthTextid.innerHTML = store.getState().activeGameState.battleMap1ActiveState.life;
+        battleMapInfoPanelGoldTextid.innerHTML = store.getState().activeGameState.battleMap1ActiveState.gold;
+        battleMapInfoPanelWaveTextid.innerHTML = 'wave ' + store.getState().activeGameState.battleMap1ActiveState.current_wave + '/'
+        + store.getState().activeGameState.battleMap1ActiveState.waves_quantity;
+
+        battleMap1.classList.remove('battle-map-1-fade-in');
+        battleMap1.classList.remove('battle-map-1-fade-in-restart');
+        battleMapInfoPanelid.classList.remove('battle-map-info-panel');
+        battleMapPauseButtonid.classList.remove('battle-map-pause-button');
+        battleMapOptionsButtonid.classList.remove('battle-map-options-button');
+        battleMapFooterid.classList.remove('battle-map-footer');
+        battleMap1BuildHereTextContainerid.classList.remove('battle-map-1-build-here-text-container');
+        battleMap1StartHereTextContainerid.classList.remove('battle-map-1-start-here-text-container');
+        battleMap1BuildHereTextid.classList.remove('battle-map-1-build-here-text');
+        battleMap1StartHereTextid.classList.remove('battle-map-1-start-here-text');
+        battleMap1BuildHereTextid.classList.remove('nodisplay');
+        battleMap1StartHereTextid.classList.remove('nodisplay');
+        battleMapOptionsPanelid.classList.add('nodisplay');
+        battleMap1.classList.add('pagehide');
+        battleMap1Wavestartid.classList.remove('battle-map-1-wavestart-container');
+        battleMap1Wavestart1id.classList.remove('battle-map-1-wavestart-1');
+        battleMap1Wavestart2id.classList.remove('battle-map-1-wavestart-2');
+
+        battleMapOptionsPanelid.classList.remove('nodisplay');
+
+        for (let i = 0; i < battleMap1TowerPlaceList.length; i++) {
+          let tempData = Array.from(battleMap1TowerPlaceList[i].classList);
+          if (tempData.indexOf('battle-map-tower-build-place') == -1) {
+            for (let j = 0; j < tempData.length; j++) {
+              if (battleMap1TowerPlaceList[i].classList[j].slice('-').indexOf('built') !== -1) {
+                battleMap1TowerPlaceList[i].classList.remove(battleMap1TowerPlaceList[i].classList[j]);
+                battleMap1TowerPlaceList[i].classList.add('battle-map-tower-build-place');
+              }
+            }
+          }
+        }
+
+        void battleMapInfoPanelid.offsetWidth;
+        void battleMapFooterid.offsetWidth;
+        void battleMapPauseButtonid.offsetWidth;
+        void battleMapOptionsButtonid.offsetWidth;
+        void battleMap1Wavestartid.offsetWidth;
+        void battleMap1BuildHereTextContainerid.offsetWidth;
+        void battleMap1StartHereTextContainerid.offsetWidth;
+        void battleMap1Wavestart1id.offsetWidth;
+        void battleMap1Wavestart2id.offsetWidth;
+        void battleMap1BuildHereTextid.offsetWidth;
+        void battleMap1StartHereTextid.offsetWidth;
+
+        battleMap1.classList.add('pagehide');
+        mainMenu.classList.remove('pagehide');
+        gameMenuStartableid.classList.remove('game-menu-startable');
+        gameMenuBattlepointer1id.classList.remove('game-menu-battlepointer');
+        if (store.getState().activeGameState.isMap1Completed != true) {
+          gameMenuStarthereTextid.classList.add('nodisplay');
+        }
+      }, 600);
+
+      setTimeout(function(){
+        mainMenuCreditsButtonid.classList.remove('nodisplay');
+        mainMenuStartButtonid.classList.remove('nodisplay');
+      }, 1400);
+
+      mainMenuPlayonmobileButtonid.classList.add('main-menu-playonmobile-button');
+
+      loadSavedMenuid.classList.remove('load-saved-menu');
+      loadSavedMenuid.classList.add('load-saved-menu-reverse');
+      mainMenuArmorgamesImageid.classList.add('main-menu-armorgames-image');
+      mainMenuIronhideImageid.classList.add('main-menu-ironhide-image');
+      mainMenuStartImageid.classList.add('main-menu-start-image');
+      mainMenuCreditsImageid.classList.add('main-menu-credits-image');
     }
   }
 
@@ -2311,7 +2466,7 @@ const GameLogic = (function() {
     gameMenuBattlePanelDifficultyChoose();
     gameMenutoPrologue();
     prologuetoBattleMap();
-    battleStartEventAdding();
+    // battleStartEventAdding();
     pauseGame();
     resumeGame();
     battleMapTowerBuildGoldCalculator();
@@ -2321,6 +2476,7 @@ const GameLogic = (function() {
     battleMapOptionsMenuOpen();
     battleMapOptionsMenuClose();
     battleMapOptionsMenuRestart();
+    battleMapOptionsMenuQuit();
   }
 
   // cssInjectorFunction();
@@ -2376,6 +2532,7 @@ const GameLogic = (function() {
   addEvent(battleMapOptionsMusicOffid, 'click', battleMapOptionsMenuSoundMusicButtonsClick, 'musicoff');
   addEvent(battleMapOptionsResumeid, 'click', battleMapOptionsMenuClicked, undefined);
   addEvent(battleMapOptionsRestartid, 'click', battleMapRestartStateChangeStarter, undefined);
+  addEvent(battleMapOptionsQuitid, 'click', battleMapQuitStateChangeStarter, undefined);
 
 
   setInterval( checkFocus, 100 );
